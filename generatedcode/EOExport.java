@@ -1,5 +1,5 @@
 public interface EOExport {
 
-	void exportCSV();
+	String exportCSV();
 
 }

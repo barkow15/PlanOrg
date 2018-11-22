@@ -16,8 +16,8 @@ public class ExternalContactInfo extends ContactInfo {
 	 * @param company
 	 */
 	public ExternalContactInfo(int id, String name, String phone, String email, String info, String company) {
-		// TODO - implement ExternalContactInfo.ExternalContactInfo
-		throw new UnsupportedOperationException();
+      super(id, name, phone, email, info);
+		this.company = company;
 	}
 
 }

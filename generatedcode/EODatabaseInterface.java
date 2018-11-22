@@ -1,5 +1,50 @@
-public class EODatabaseInterface {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
+public class EODatabaseInterface {
+   Connection conn = null;
+
+   private void closenConnection(ResultSet rs)
+   {
+      try
+      {
+         if(conn != null)
+         {
+            rs.close();
+            conn.close();
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+   }
+
+   public void test()
+   {
+      ResultSet rs = querySql("SELECT * FROM purchases LIMIT 100");
+   
+      try
+      {
+         while(rs.next())
+         {
+            System.out.println("id: " +  rs.getInt("id") + " Washtype: " + rs.getString("washtype") + " washtimestamp" + rs.getString("washtimestamp"));
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }      
+   }
 	/**
 	 * 
 	 * @param arrangementid
@@ -130,7 +175,7 @@ public class EODatabaseInterface {
 	 * @param price
 	 * @param description
 	 */
-	public void createEOEvent(EUEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
+	public void createEOEvent(EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
 		// TODO - implement EODatabaseInterface.createEOEvent
 		throw new UnsupportedOperationException();
 	}
@@ -144,7 +189,7 @@ public class EODatabaseInterface {
 	 * @param price
 	 * @param description
 	 */
-	public void updateEOEvent(int eventid, EUEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
+	public void updateEOEvent(int eventid, EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
 		// TODO - implement EODatabaseInterface.updateEOEvent
 		throw new UnsupportedOperationException();
 	}
@@ -297,5 +342,49 @@ public class EODatabaseInterface {
 		// TODO - implement EODatabaseInterface.updateCustomerContactInfo
 		throw new UnsupportedOperationException();
 	}
+
+   private int executeSql(String sql)
+   {
+      int returnvalue = -1;
+      PreparedStatement pstmt = null;
+   
+      try
+      {
+         conn = DriverManager.getConnection("jdbc:sqlite:database.db");
+         System.out.println("succesfully opened database");
+      
+         pstmt = conn.prepareStatement(sql);
+         returnvalue = pstmt.executeUpdate();
+      }
+      catch (Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      return(returnvalue);
+   }
+
+   private ResultSet querySql(String sql)
+   {
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+   
+      try
+      {
+         conn = DriverManager.getConnection("jdbc:sqlite:database.db");
+         System.out.println("succesfully opened database");
+      
+         pstmt = conn.prepareStatement(sql);
+         rs = pstmt.executeQuery();
+      
+         return rs;
+      }
+      catch (Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      return rs;
+   }
 
 }

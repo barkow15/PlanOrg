@@ -16,8 +16,8 @@ public class CustomerContactInfo extends ContactInfo {
 	 * @param company
 	 */
 	public CustomerContactInfo(int id, String name, String phone, String email, String info, String company) {
-		// TODO - implement CustomerContactInfo.CustomerContactInfo
-		throw new UnsupportedOperationException();
+      super(id, name, phone, email, info);
+		this.company = company;
 	}
 
 }

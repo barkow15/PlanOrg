@@ -1,7 +1,9 @@
-public enum EOOPERATION {
-	START;
+public enum EOOperation {
+	START (null, EODisplayType.START),
+	CREATEARRANGEMENT (null, EODisplayType.CREATEARRANGEMENT);
 
-	private Object data;
+	private Object data = null;
+	private EODisplayType displaytype;
 
 	/**
 	 * 
@@ -12,11 +14,34 @@ public enum EOOPERATION {
 	}
 
 	public Object getData() {
-		return this.data;
+		return(this.data);
 	}
 
-	EOOPERATION() {
-		// TODO - implement OPERATION.OPERATION
+	/**
+	 * 
+	 * @param data
+	 * @param displaytype
+	 */
+	EOOperation(Object data, EODisplayType displaytype) {
+		this.data = data;
+      this.displaytype = displaytype;
+	}
+
+	public void reset() {
+		// TODO - implement EOOPERATION.reset
+		throw new UnsupportedOperationException();
+	}
+
+	public EODisplayType getDisplayType() {
+		return(displaytype);
+	}
+
+	/**
+	 * 
+	 * @param displaytype
+	 */
+	public void setDisplayType(EODisplayType displaytype) {
+		// TODO - implement EOOPERATION.setDisplayType
 		throw new UnsupportedOperationException();
 	}
 

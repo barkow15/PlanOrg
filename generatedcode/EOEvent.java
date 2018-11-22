@@ -1,8 +1,10 @@
+import java.time.LocalDateTime;
+
 public class EOEvent {
 
 	private EOEventType[] eventtypes;
 	private LocalDateTime datetimestart;
-	private LocalDataTime datetimeend;
+	private LocalDateTime datetimeend;
 	private double price;
 	private String description;
 

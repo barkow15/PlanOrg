@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+
 public class EOEventType implements EOExport {
 
 	private String locationstart;
@@ -30,6 +32,8 @@ public class EOEventType implements EOExport {
 		// TODO - implement EOEventType.getExternalContactInfo
 		throw new UnsupportedOperationException();
 	}
+   
+   public String exportCSV(){ return(""); }
 
 	public String getDescription() {
 		return this.description;
