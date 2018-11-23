@@ -37,7 +37,7 @@ public class EOPanelStartMenu extends EOPanel {
               {
                  public void actionPerformed(ActionEvent e)
                  {
-                    //gui.runCommand(EOOperation.EXPORT);
+                    gui.runCommand(EOOperation.EXPORT);
                  }
               });
       this.add(exportButton);
@@ -72,7 +72,7 @@ public class EOPanelStartMenu extends EOPanel {
       this.add(arrangementLabel);
 
       JCheckBox sortCheckBox = new JCheckBox ();
-      sortCheckBox.setBounds(borderLeft+750,fromTop+60,50,50);
+      sortCheckBox.setBounds(borderLeft+750,fromTop+50,50,50);
       sortCheckBox.setMnemonic(KeyEvent.VK_C);
       sortCheckBox.setSelected(true);
       sortCheckBox.addItemListener(
@@ -82,7 +82,7 @@ public class EOPanelStartMenu extends EOPanel {
                  {
                     if (e.getStateChange()==ItemEvent.SELECTED)
                     {
-                     //gui.runCommand(EOOperation.SORT);
+                     //gui.runCommand(EOOperation.SHOWONLYPASTEVENT);
                     }
                  }
 

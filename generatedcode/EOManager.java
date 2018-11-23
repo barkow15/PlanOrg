@@ -6,6 +6,7 @@ public class EOManager {
 	 */
    public EOOperation runCommand(EOOperation operation) {
    	// TODO - implement EOManager.runCommand
+	   System.out.println("Current: "+operation);
       return(operation);
    }
 

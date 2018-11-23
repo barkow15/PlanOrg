@@ -50,7 +50,7 @@ public class EOGUI {
       screens = new HashMap<EODisplayType, EOPanel>();
       screens.put(EODisplayType.START, new EOPanelStartMenu(this));      
       screens.put(EODisplayType.CREATEARRANGEMENT, new EOPanelCreateArrangement(this)); 
-         
+
       DisableAllScreen();
       screens.get(EODisplayType.START).setVisible(true);   
    }
