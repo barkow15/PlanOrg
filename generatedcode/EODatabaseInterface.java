@@ -85,7 +85,7 @@ public class EODatabaseInterface {
 	 * 
 	 * @param externalcontactid
 	 */
-   public ExternalContactInfo getExternalContantInfo(int externalcontactid) {
+   public ExternalContactInfo getExternalContactInfo(int externalcontactid) {
    	// TODO - implement EODatabaseInterface.getExternalContantInfo
       throw new UnsupportedOperationException();
    }
