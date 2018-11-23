@@ -15,7 +15,10 @@ public class EOPanelStartMenu extends EOPanel {
    {
       this.gui = gui;
       this.setLayout(null);
-
+   
+      JLabel mylabel = new JLabel("Det her er en label");
+      mylabel.setBounds(200, 200, 200, 30);
+      this.add(mylabel);
       String simbuttonlabel = "CreateArrangement";
       JButton simbutton=new JButton(simbuttonlabel);
       simbutton.setBounds(100, 100, 300, 30);
@@ -34,8 +37,8 @@ public class EOPanelStartMenu extends EOPanel {
 	 * @param visible
 	 * @param data
 	 */
-	public void setVisible(boolean visible, Object data) {
-		// TODO - implement PanelStartMenu.setVisible
-		super.setVisible(visible);
-	}
+   public void setVisible(boolean visible, Object data) {
+   	// TODO - implement PanelStartMenu.setVisible
+      super.setVisible(visible);
+   }
 }

@@ -1,10 +1,10 @@
 public class CustomerContactInfo extends ContactInfo {
 
-	private String company;
+   private String company;
 
-	public String getCompany() {
-		return this.company;
-	}
+   public String getCompany() {
+      return this.company;
+   }
 
 	/**
 	 * 
@@ -15,9 +15,9 @@ public class CustomerContactInfo extends ContactInfo {
 	 * @param info
 	 * @param company
 	 */
-	public CustomerContactInfo(int id, String name, String phone, String email, String info, String company) {
+   public CustomerContactInfo(int id, String name, String phone, String email, String info, String company) {
       super(id, name, phone, email, info);
-		this.company = company;
-	}
+      this.company = company;
+   }
 
 }

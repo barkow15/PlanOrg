@@ -69,8 +69,8 @@ public class EOGUI {
 	 * 
 	 * @param operation
 	 */
-	public void runCommand(EOOperation operation) {
-		EOOperation coperation = eomanager.runCommand(operation);
+   public void runCommand(EOOperation operation) {
+      EOOperation coperation = eomanager.runCommand(operation);
       DisableAllScreen();   
       if(coperation.getDisplayType() == null)
       {
@@ -82,6 +82,6 @@ public class EOGUI {
       }      
       System.out.println("Viser: " + coperation.getDisplayType());
       screens.get(coperation.getDisplayType()).setVisible(true, coperation.getData()); 
-	}
+   }
 
 }
