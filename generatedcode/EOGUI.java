@@ -54,6 +54,15 @@ public class EOGUI {
       DisableAllScreen();
       screens.get(EODisplayType.START).setVisible(true);   
    }
+   public Font getFontbig (){
+      return (new Font ("Arial", Font.PLAIN,40));
+   }
+   public Font getFontmedium (){
+      return (new Font ("Arial", Font.PLAIN,20));
+   }
+   public Font getFontsmall (){
+      return (new Font ("Arial", Font.PLAIN,12));
+   }
 
    void DisableAllScreen()
    {
