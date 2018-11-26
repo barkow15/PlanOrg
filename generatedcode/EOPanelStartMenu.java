@@ -106,6 +106,156 @@ public class EOPanelStartMenu extends EOPanel {
               });
       this.add(resetSortingButton);
 
+      JButton dateStartLabel = new JButton("Dato Start:");
+      dateStartLabel.setBounds (borderLeft,fromTop+100,100,50);
+      dateStartLabel.setFont (gui.getFontsmall());
+      dateStartLabel.setBorderPainted (false);
+      dateStartLabel.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //gui.runCommand(EOOperation.SORTSTARTDATE);
+                 }
+              });
+
+      //this.add(dateStartLabel);
+
+      JButton dateEndLabel = new JButton("Dato Slut");
+      dateEndLabel.setBounds (borderLeft+100,fromTop+100,100,50);
+      dateEndLabel.setFont (gui.getFontsmall());
+      dateEndLabel.setBorderPainted (false);
+      dateEndLabel.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //guirunComman(EOOperation.SORTENDDATE);
+                 }
+              });
+      //this.add(dateEndLabel);
+
+      JLabel nameLabel = new JLabel ("Navn:");
+      nameLabel.setBounds (borderLeft+260,fromTop+100,100,50);
+      dateEndLabel.setFont (gui.getFontsmall());
+      //this.add(nameLabel);
+
+      JButton facilitatorLabel = new JButton ("Facilitator:");
+      facilitatorLabel.setBounds (borderLeft+375,fromTop+100,100,50);
+      facilitatorLabel.setFont (gui.getFontsmall());
+      facilitatorLabel.setBorderPainted (false);
+      facilitatorLabel.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //guirunComman(EOOperation.SORTBYFACILITATOR);
+                 }
+              });
+      //this.add(facilitatorLabel);
+
+      JLabel hasBeenPaidLabel = new JLabel ("Er Betalt:");
+      hasBeenPaidLabel.setBounds (borderLeft+550,fromTop+50,250,150);
+      hasBeenPaidLabel.setFont (gui.getFontsmall());
+      //this.add(hasBeenPaidLabel);
+
+      JLabel hasBeenHeldLabel = new JLabel ("Er afholdt:");
+      hasBeenHeldLabel.setBounds(borderLeft+650,fromTop+50,250,150);
+      hasBeenHeldLabel.setFont (gui.getFontsmall());
+      //this.add(hasBeenHeldLabel);
+
+      JCheckBox hasBeenPaidCheckBox = new JCheckBox ();
+      hasBeenPaidCheckBox.setBounds(borderLeft+750,fromTop+50,50,50);
+      hasBeenPaidCheckBox.setMnemonic(KeyEvent.VK_C);
+      hasBeenPaidCheckBox.setSelected(true);
+      hasBeenPaidCheckBox.addItemListener(
+              new ItemListener()
+              {
+                 public void itemStateChanged(ItemEvent e)
+                 {
+                    if (e.getStateChange()==ItemEvent.SELECTED)
+                    {
+                       //gui.runCommand(EOOperation.SHOWONLYPASTEVENT);
+                    }
+                 }
+
+              });
+      //this.add(hasBeenPaidCheckBox);
+
+      JCheckBox hasBeenHeldCheckBox = new JCheckBox ();
+      hasBeenHeldCheckBox.setBounds(borderLeft+750,fromTop+50,50,50);
+      hasBeenHeldCheckBox.setMnemonic(KeyEvent.VK_C);
+      hasBeenHeldCheckBox.setSelected(true);
+      hasBeenHeldCheckBox.addItemListener(
+              new ItemListener()
+              {
+                 public void itemStateChanged(ItemEvent e)
+                 {
+                    if (e.getStateChange()==ItemEvent.SELECTED)
+                    {
+                       //gui.runCommand(EOOperation.SHOWONLYPASTEVENT);
+                    }
+                 }
+
+              });
+      //this.add(hasBeenHeldCheckBox);
+
+      JButton openButton = new JButton ("Åben");
+      openButton.setBounds(borderLeft,fromTop,100,50);
+      openButton.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //guirunComman(EOOperation.OPENEVENTDATA);
+                 }
+              });
+      //this.add(openButton);
+
+      JButton editButton = new JButton ("Rediger");
+      editButton.setBounds(borderLeft,fromTop,250,50);
+      editButton.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //guirunComman(EOOperation.EDITEVENTDATA);
+                 }
+              });
+      //this.add(editButton);
+
+      JButton deleteButton = new JButton ("Slet");
+      deleteButton.setBounds(borderLeft,fromTop,100,50);
+      deleteButton.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //guirunComman(EOOperation.DELETEEVENTDATA);
+                 }
+              });
+      //this.add(deleteButton);
+      String[] columnNames = {"DatoStart", "DatoSlut", "Navn", "Facilitator","Er Betalt","Er Afholdt","Åben","Rediger","Slet"};
+      Object[][] data = {{"1/9/2018","2/9/2018","KEA", "Allan Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Fred Skou",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "John Mogensen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Kasper Østergaard",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"}};
+      JTable eventDataTable = new JTable (data,columnNames);
+      JScrollPane scrollPanel = new JScrollPane(eventDataTable);
+      eventDataTable.setFillsViewportHeight(true);
+      eventDataTable.setAutoCreateRowSorter(true);
+      eventDataTable.setBounds(borderLeft,fromTop+150,1000,400);
+      eventDataTable.setLayout(new BorderLayout());
+      eventDataTable.add(eventDataTable.getTableHeader(), BorderLayout.PAGE_START);
+      scrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+      this.add(eventDataTable);
+
+      //JScrollPane scrollPane = new JScrollPane(eventDataTable);
+      //eventDataTable.add(new JScrollPane(eventDataTable));
+      //eventDataTable.add(eventDataTable, BorderLayout.CENTER);
+      //scrollPanel.setBounds(borderLeft,fromTop+150,1150,400);
+      //eventDataTable.setFillsViewportHeight(true);
+
+      //this.add(scrollPanel);
+
 
    }
 	/**
