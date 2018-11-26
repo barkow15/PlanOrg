@@ -30,13 +30,13 @@ public class EODatabaseInterface {
 
    public void test()
    {
-      ResultSet rs = querySql("SELECT * FROM purchases LIMIT 100");
+      ResultSet rs = querySql("SELECT * FROM EOCustomerContactInfo LIMIT 100");
    
       try
       {
          while(rs.next())
          {
-            System.out.println("id: " +  rs.getInt("id") + " Washtype: " + rs.getString("washtype") + " washtimestamp" + rs.getString("washtimestamp"));
+            System.out.println("id: " +  rs.getInt("idEOContactInfo") + " Deleted: " + rs.getString("deletedStatus") + " Name: " + rs.getString("name"));
          }
       }
       catch(Exception e)
