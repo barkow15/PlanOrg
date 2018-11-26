@@ -50,7 +50,7 @@ public class EOPanelStartMenu extends EOPanel {
               {
                  public void actionPerformed(ActionEvent e)
                  {
-                    //gui.runCommand(EOOperation.ADMFACILITATOR);
+                    gui.runCommand(EOOperation.ADMFACILITATOR);
                  }
               });
       this.add(admFacilitatorButton);
@@ -62,7 +62,7 @@ public class EOPanelStartMenu extends EOPanel {
               {
                  public void actionPerformed(ActionEvent e)
                  {
-                    //gui.runCommand(EOOperation.ADMEVENTTYPE);
+                    gui.runCommand(EOOperation.ADMEVENTTYPE);
                  }
               });
       this.add(admEventType);
@@ -262,8 +262,8 @@ class EOTable extends JPanel
       int fromTop = 50;
       int borderLeft = 10;
       this.setLayout(new GridLayout(1,0));
-      String[] columnNames = {"DatoStart", "DatoSlut", "Navn", "Facilitator","Er Betalt","Er Afholdt","Åben","Rediger","Slet"};
-      Object[][] data = {{"1/9/2018","2/9/2018","KEA", "Allan Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Fred Skou",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "John Mogensen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Kasper Østergaard",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"}};
+      String[] columnNames = {"DatoStart", "DatoSlut", "Navn", "Facilitator","Er Betalt","Er Afholdt","Vis","Rediger","Slet"};
+      Object[][] data = {{"1/9/2018","2/9/2018","KEA", "Allan Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Fred Skou",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "John Mogensen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Kasper Østergaard",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"}};
       JTable eventDataTable = new JTable (data,columnNames);
       JScrollPane scrollPanel = new JScrollPane(eventDataTable);
       eventDataTable.setPreferredScrollableViewportSize(new Dimension(1000, 400));
@@ -282,14 +282,15 @@ class EOTable extends JPanel
    
       //this.add(scrollPanel);
       */
-      String[] columnNames = {"DatoStart", "DatoSlut", "Navn", "Facilitator","Er Betalt","Er Afholdt","Åben","Rediger","Slet"};
-      Object[][] data = {{"1/9/2018","2/9/2018","KEA", "Allan Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Fred Skou",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "John Mogensen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Kasper Østergaard",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Åben","Rediger","Slet"}};
+      String[] columnNames = {"DatoStart", "DatoSlut", "Navn", "Facilitator","Er Betalt","Er Afholdt","Vis","Rediger","Slet"};
+      Object[][] data = {{"1/9/2018","2/9/2018","KEA", "Allan Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Fred Skou",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "John Mogensen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Kasper Troelsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"},{"1/9/2018","2/9/2018","KEA", "Brian Nielsen",new Boolean(true),new Boolean(true),"Vis","Rediger","Slet"}};
    
       final JTable table = new JTable(data, columnNames);
-      table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+      table.setPreferredScrollableViewportSize(new Dimension(1000, 800));
       table.setFillsViewportHeight(true);
-   
-   
+
+
+
       //Create the scroll pane and add the table to it.
       JScrollPane scrollPane = new JScrollPane(table);
    
