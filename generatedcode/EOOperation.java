@@ -6,7 +6,7 @@ public enum EOOperation {
    CREATEEVENT (null, EODisplayType.CREATEEVENT),
    UPDATEEVENT (null, EODisplayType.UPDATEEVENT),
    DELETEEVENT (null, EODisplayType.DELETEEVENT),   
-   EXPORT (null,EODisplayType.START),
+   EXPORT (null,EODisplayType.EXPORT),
    ADMFACILITATOR (null, EODisplayType.ADMFACILITATOR),
    ADMEVENTTYPE (null, EODisplayType.ADMEVENTTYPE);
 

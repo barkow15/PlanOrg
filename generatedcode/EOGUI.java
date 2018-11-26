@@ -81,6 +81,16 @@ public class EOGUI {
          frame.add((JPanel)m.getValue());
       }
    }
+   
+   public int getWidth()
+   {
+      return(screenwidth);
+   }
+   
+   public int getHeight()
+   {
+      return(screenheight);
+   }
 
 	/**
 	 * 
