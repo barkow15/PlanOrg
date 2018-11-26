@@ -5,7 +5,7 @@ public enum EOOperation {
     ADMFACILITATOR (null, EODisplayType.ADMFACILITATOR),
     ADMEVENTTYPE (null, EODisplayType.ADMEVENTTYPE),
     SHOWONLYPASTEVENT (null, EODisplayType.SHOWONLYPASTEVENT),
-    RESETSORTING (null, EODisplayType.RESETSORTING)
+    RESETSORTING (null, EODisplayType.RESETSORTING);
 
    private Object data = null;
    private EODisplayType displaytype;
