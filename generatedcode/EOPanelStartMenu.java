@@ -288,7 +288,7 @@ class EOTable extends JPanel
       final JTable table = new JTable(data, columnNames);
       table.setPreferredScrollableViewportSize(new Dimension(1000, 800));
       table.setFillsViewportHeight(true);
-
+      
 
 
       //Create the scroll pane and add the table to it.
