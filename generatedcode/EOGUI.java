@@ -50,7 +50,15 @@ public class EOGUI {
       screens = new HashMap<EODisplayType, EOPanel>();
       screens.put(EODisplayType.START, new EOPanelStartMenu(this));      
       screens.put(EODisplayType.CREATEARRANGEMENT, new EOPanelCreateArrangement(this)); 
-
+      screens.put(EODisplayType.UPDATEARRANGEMENT, new EOPanelUpdateArrangement(this)); 
+      screens.put(EODisplayType.DELETEARRANGEMENT, new EOPanelDeleteArrangement(this)); 
+      //screens.put(EODisplayType.CREATEEVENT, new EOPanelCreateEvent(this)); 
+      screens.put(EODisplayType.UPDATEEVENT, new EOPanelUpdateEvent(this)); 
+      screens.put(EODisplayType.DELETEEVENT, new EOPanelDeleteEvent(this));  
+      screens.put(EODisplayType.ADMEVENTTYPE, new EOPanelADMEventType(this)); 
+      screens.put(EODisplayType.ADMFACILITATOR, new EOPanelADMFacilitator(this)); 
+      screens.put(EODisplayType.EXPORT, new EOPanelExport(this));
+                      
       DisableAllScreen();
       screens.get(EODisplayType.START).setVisible(true);   
    }
