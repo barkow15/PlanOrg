@@ -9,7 +9,7 @@ public enum EOOperation {
    EXPORT (null, "Exporter", EODisplayType.EXPORT),
    ADMFACILITATOR (null, "Administrer Facilitatorer", EODisplayType.ADMFACILITATOR),
    ADMEVENTTYPE (null, "Administrer Begivenhedstyper", EODisplayType.ADMEVENTTYPE),
-   ERROR (null, "Fejl skærm", EODisplayType.ERROR),
+   ERROR (null, "Fejl skï¿½rm", EODisplayType.ERROR),
    SAVECSV (null, "Gem CSV", EODisplayType.START);
    
    private Object data = null;

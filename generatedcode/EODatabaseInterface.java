@@ -22,6 +22,7 @@ public class EODatabaseInterface {
          {
             rs.close();
             conn.close();
+            System.out.println("DB connection closed");
          }
       }
       catch(Exception e)
@@ -43,7 +44,6 @@ public class EODatabaseInterface {
          {
             System.out.println("id: " +  rs.getInt("idEOContactInfo") + " Deleted: " + rs.getString("deletedStatus") + " Name: " + rs.getString("name"));
          }
-         this.closeConnection(rs);
       }
       catch(Exception e)
       {
@@ -85,7 +85,7 @@ public class EODatabaseInterface {
    public CustomerContactInfo getCustomerContactInfo(int customercontactid) {
    	// TODO - implement EODatabaseInterface.getCustomerContactInfo
 	   String sql = "SELECT * FROM EOCustomerContactInfo WHERE idEOContactInfo =" + customercontactid + " AND deletedStatus = 2";
-	   ResultSet rs = querySql(sql);
+	   ResultSet rs = this.querySql(sql);
 	   CustomerContactInfo contactInfo = null;
 
 	   try
@@ -93,11 +93,9 @@ public class EODatabaseInterface {
 	   		//Iterate through ResultSet
 		   while(rs.next())
 		   {
-			   System.out.println("id: " +  rs.getInt("idEOContactInfo") + " Deleted: " + rs.getString("deletedStatus") + " Name: " + rs.getString("name"));
+			   System.out.println(rs);
 			   contactInfo = new CustomerContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
 		   }
-		   //Close the db connection
-		   this.closeConnection(rs);
 	   }
 	   catch(Exception e)
 	   {
@@ -105,7 +103,10 @@ public class EODatabaseInterface {
 		   System.exit(0);
 	   }
 
-	   // Return the CustomerContactInfo
+	   // Luk DB forbindelse
+	   this.closeConnection(rs);
+
+	   // Return CustomerContactInfo
 	   return contactInfo;
 	   //throw new UnsupportedOperationException();
    }
@@ -390,7 +391,8 @@ public class EODatabaseInterface {
 	 */
    public void updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String comapny) {
    	// TODO - implement EODatabaseInterface.updateCustomerContactInfo
-      throw new UnsupportedOperationException();
+
+      //throw new UnsupportedOperationException();
    }
 
    private int executeSql(String sql)
@@ -401,7 +403,7 @@ public class EODatabaseInterface {
       try
       {
          conn = DriverManager.getConnection(this.dbPathAbsolute);
-         System.out.println("succesfully opened database");
+         System.out.println("DB connection opened");
       
          pstmt = conn.prepareStatement(sql);
          returnvalue = pstmt.executeUpdate();
@@ -426,7 +428,7 @@ public class EODatabaseInterface {
       {
          //conn = DriverManager.getConnection("jdbc:sqlite:database.db");
 		  conn = DriverManager.getConnection(this.dbPathAbsolute);
-         System.out.println("succesfully opened database");
+         System.out.println("DB connection opened");
       
          pstmt = conn.prepareStatement(sql);
          rs = pstmt.executeQuery();

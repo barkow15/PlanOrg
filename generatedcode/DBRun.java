@@ -7,16 +7,16 @@ public class DBRun {
         /** CustomerContactInfo DB TESTS START **/
         /****************************************/
 
-
         // <-- CREATE -->
+        /*
         if(db.createCustomerContactInfo("Phil", "23232949", "philip@test.dk", "Test Firma", "Test info lorem ipsum ")){
             System.out.println("Created customer");
         }else{
             System.out.println("Error");
-        }
+        }*/
 
         // <-- DELETE -->
-        db.deleteCustomerContactInfo(1);
+        //db.deleteCustomerContactInfo(1);
 
         // <-- GET -->
         CustomerContactInfo customer = db.getCustomerContactInfo(1);
