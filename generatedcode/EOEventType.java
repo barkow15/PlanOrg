@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class EOEventType implements EOExport {
+public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 
 	private String locationstart;
 	private String locationend;
@@ -42,5 +42,10 @@ public class EOEventType implements EOExport {
 	public double getPrice() {
 		return this.price;
 	}
+   
+   public String getDisplayName()
+   {
+      return(this.name);
+   }   
 
 }

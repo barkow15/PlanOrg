@@ -13,13 +13,14 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.*;
-
+//Expected width: 300
+//Expected Height: 400
 class EOGUIDateTimePicker extends JPanel
 {
 	//The current datetime
 	private LocalDateTime datetime;
-	private LocalDate selecteddate;
-   private LocalTime selectedtime;
+	private LocalDate selecteddate=null;
+   private LocalTime selectedtime=null;
    
    private String[] monthnames = {"Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"};
 	private JLabel cmonth = null;
@@ -46,6 +47,11 @@ class EOGUIDateTimePicker extends JPanel
       this.setVisible(true);
       this.setLayout(null);
 		this.datetime = datetime;
+      if(datetime != null)
+      {
+         this.selecteddate = datetime.toLocalDate();
+         this.selectedtime = datetime.toLocalTime();      
+      }
 
       this.setBackground(Color.WHITE);
 		//1 month back button 
@@ -63,7 +69,7 @@ class EOGUIDateTimePicker extends JPanel
       this.add(lastmonth);
 
 		//Month label
-		cmonth = new JLabel(monthnames[datetime.getMonthValue()-1] + " " + datetime.getYear());
+		cmonth = new JLabel(monthnames[this.datetime.getMonthValue()-1] + " " + this.datetime.getYear());
       cmonth.setFont(this.font);         
       cmonth.setBounds(70, 10, 160, 25);
       cmonth.setHorizontalAlignment(SwingConstants.CENTER);
@@ -179,6 +185,10 @@ class EOGUIDateTimePicker extends JPanel
       
       datetext = new JTextField();
       datetext.setBounds(120, 345, 100, 20);
+      if(selecteddate != null)
+      {
+         datetext.setText(selecteddate.getDayOfMonth() + "/" + selecteddate.getMonthValue() + " " + selecteddate.getYear());
+      }
       datetext.setFont(this.font);
       datetext.setEditable(false);
       this.add(datetext);
@@ -190,10 +200,14 @@ class EOGUIDateTimePicker extends JPanel
 
       timetext = new JTextField();
       timetext.setBounds(120, 370, 100, 20);
+      if(selectedtime != null)
+      {
+         timetext.setText(selectedtime.format(DateTimeFormatter.ofPattern("k:mm")));      
+      }
       timetext.setFont(this.font);
       this.add(timetext);          
 	}
-   
+
    private void setDate(int buttonnr)
    {
       System.out.println(buttonnr);
@@ -201,6 +215,7 @@ class EOGUIDateTimePicker extends JPanel
       mdaysbutton[buttonnr].setFocusable(false);
       mdaysbutton[buttonnr].setSelected(false);
       datetext.setText(selecteddate.getDayOfMonth() + "/" + selecteddate.getMonthValue() + " " + selecteddate.getYear());
+      paint(this.datetime);
    }
 	
    private void hideAllDayButtons()
@@ -255,6 +270,14 @@ class EOGUIDateTimePicker extends JPanel
             {
                mdaysbutton[i].setText(Integer.toString(daynum));
                mdaysbutton[i].setVisible(true);
+               if(datetime.getMonthValue() == selecteddate.getMonthValue() && datetime.getYear() == selecteddate.getYear() && selecteddate.getDayOfMonth() == daynum)
+               {
+                  mdaysbutton[i].setBackground(Color.GREEN);
+               } 
+               else
+               {
+                  mdaysbutton[i].setBackground(Color.WHITE);
+               }
                daynum++;
             }
          }
@@ -281,7 +304,7 @@ class EOGUIDateTimePicker extends JPanel
       LocalTime t = null;
       try
       {
-         t = LocalTime.parse(timetext.getText(), DateTimeFormatter.ofPattern("k:m")); 
+         t = LocalTime.parse(timetext.getText(), DateTimeFormatter.ofPattern("k:mm")); 
       }
       catch(Exception e)
       {

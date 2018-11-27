@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class EOArrangement {
+public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface {
 
 	private EOEvent[] events;
 	private CustomerContactInfo customer;
@@ -46,5 +46,10 @@ public class EOArrangement {
 	public double getPrice() {
 		return this.price;
 	}
+   
+   public String getDisplayName()
+   {
+      return(this.name);
+   }   
 
 }
