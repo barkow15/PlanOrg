@@ -14,24 +14,6 @@ public class EODatabaseInterface {
    String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/database.db";
    String dbPathRelative = "jdbc:sqlite:database.db";
 
-   private void closeConnection(ResultSet rs)
-   {
-      try
-      {
-         if(conn != null)
-         {
-            rs.close();
-            conn.close();
-            System.out.println("DB CONNECTION CLOSED");
-         }
-      }
-      catch(Exception e)
-      {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-         System.exit(0);
-      }
-   }
-
    public void test()
    {
    	  System.out.println("DB method \"Test\" running...");
@@ -392,9 +374,9 @@ public class EODatabaseInterface {
    public boolean updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String company, String info) {
    	// TODO - implement EODatabaseInterface.updateCustomerContactInfo
        boolean returnvalue = false;
-       String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + name + "', phone = '" + phone + "', email = '" + email + "', company = '" + company + "', info = '" + info + "'";
+       String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + name + "', phone = '" + phone + "', email = '" + email + "', company = '" + company + "', info = '" + info + "' WHERE idEOContactInfo =" + customercontactid;
 
-       if(this.executeSql(sql) == 4){
+       if(this.executeSql(sql) == 1){
            returnvalue = true;
        }else{
            returnvalue = false;
@@ -422,6 +404,14 @@ public class EODatabaseInterface {
 
          System.out.println("SQL SUCCESS: " + returnvalue);
          //System.out.println(returnvalue);
+		  System.out.println("CLOSING DB CONNECTION ...");
+
+		  if(conn != null)
+		  {
+			  conn.close();
+			  System.out.println("DB CONNECTION CLOSED");
+		  }
+
       }
       catch (Exception e)
       {
@@ -458,5 +448,23 @@ public class EODatabaseInterface {
       }
       return rs;
    }
+
+	private void closeConnection(ResultSet rs)
+	{
+		try
+		{
+			if(conn != null)
+			{
+				rs.close();
+				conn.close();
+				System.out.println("DB CONNECTION CLOSED");
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+	}
 
 }
