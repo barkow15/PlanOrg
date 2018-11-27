@@ -29,7 +29,7 @@ public class EOPanelExport extends EOPanel {
       this.add(breadcrumb);
       
       JButton exportbutton = new JButton("Export");
-      exportbutton.setBounds(this.gui.getWidth()-120, 5, 100, 30);
+      exportbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
       exportbutton.addActionListener(
                new ActionListener()
                {
@@ -62,25 +62,25 @@ public class EOPanelExport extends EOPanel {
                               }
                            }
                            EOOperation.SAVECSV.setData(new EOCSV(sdatetime, edatetime, fci, exportprice.isSelected(), file));
-   
+                        
                            exportprice.setSelected(false);
                            //We leave the page by calling SAVECSV
                            gui.runCommand(EOOperation.SAVECSV);
                         }
-
-                    }
-                    catch(Exception er)
-                    {
+                     
+                     }
+                     catch(Exception er)
+                     {
                         System.out.println("Der er sket en fejl" + er.getMessage());
                         EOOperation.SAVECSV.setData(null);
                         gui.runCommand(EOOperation.ERROR);
-                    }
+                     }
                   }
                });
       this.add(exportbutton);
       
       JButton cancelbutton=new JButton("Annuller");
-      cancelbutton.setBounds(this.gui.getWidth()-225, 5, 100, 30);
+      cancelbutton.setBounds(this.gui.getWidth()-230, 5, 100, 30);
       cancelbutton.addActionListener(
                new ActionListener()
                {
@@ -100,7 +100,7 @@ public class EOPanelExport extends EOPanel {
       startdatetime = new EOGUIDateTimePicker(LocalDateTime.now());
       startdatetime.setBounds(65, 60, 300, 400);
       this.add(startdatetime);
-
+   
       JLabel enddatetimelabel = new JLabel("Slut dato/tid");
       enddatetimelabel.setBounds(65, 460, 100, 20);
       enddatetimelabel.setFont(this.gui.getFontsmall());
@@ -109,7 +109,7 @@ public class EOPanelExport extends EOPanel {
       enddatetime = new EOGUIDateTimePicker(LocalDateTime.now().plusDays(7));
       enddatetime.setBounds(65, 480, 300, 400);
       this.add(enddatetime);
-
+   
       //Column 2//   
       JLabel facilitatorslabel = new JLabel("Facilitator(er)");
       facilitatorslabel.setBounds(500, 40, 100, 20);
@@ -117,7 +117,7 @@ public class EOPanelExport extends EOPanel {
       this.add(facilitatorslabel);       
       
       //Example data, here we need to load data from database
-
+   
                         
       facilitatormultiselect = new EOGUIMultiSelect(f, new Dimension(300, 240));
       facilitatormultiselect.setBounds(500, 60, 300, 240);
@@ -133,7 +133,7 @@ public class EOPanelExport extends EOPanel {
          "Vælg den tidsperiode du ønsker at eksportere og de facilitatorer som der er med i arrangementerne.\n\n" +
          "Efter du har eksporteret data, kan du sende CSV filen til den/de facilitatorer som skal afholde arrangementet. Som kan åbne filen i deres Event Organizer program.\n\n" +
          "Som standard er prisen for de forskellige dele af arrangementet ikke synlige."
-      );
+         );
       exportnotetextarea.setFont(this.gui.getFontsmall());
       exportnotetextarea.setLineWrap(true);
       exportnotetextarea.setWrapStyleWord(true);
@@ -143,7 +143,7 @@ public class EOPanelExport extends EOPanel {
    }
 
    public void setVisible(boolean visible, Object data) {
-   	if(data instanceof FacilitatorContactInfo[])
+      if(data instanceof FacilitatorContactInfo[])
       {
          facilitatormultiselect.setList((FacilitatorContactInfo[])data);
       }
