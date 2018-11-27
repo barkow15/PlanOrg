@@ -22,7 +22,7 @@ public class EODatabaseInterface {
          {
             rs.close();
             conn.close();
-            System.out.println("DB connection closed");
+            System.out.println("DB CONNECTION CLOSED");
          }
       }
       catch(Exception e)
@@ -345,6 +345,7 @@ public class EODatabaseInterface {
 	 * @param phone
 	 * @param email
 	 * @param company
+     * @param info
 	 */
    public boolean createCustomerContactInfo(String name, String phone, String email, String company, String info) {
    	// TODO - implement EODatabaseInterface.createCustomerContactInfo
@@ -382,15 +383,24 @@ public class EODatabaseInterface {
    }
 
 	/**
-	 * 
 	 * @param customercontactid
-	 * @param name
-	 * @param phone
-	 * @param email
-	 * @param comapny
-	 */
-   public void updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String comapny) {
+     * @param name
+     * @param phone
+     * @param email
+     * @param company
+     */
+   public boolean updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String company, String info) {
    	// TODO - implement EODatabaseInterface.updateCustomerContactInfo
+       boolean returnvalue = false;
+       String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + name + "', phone = '" + phone + "', email = '" + email + "', company = '" + company + "', info = '" + info + "'";
+
+       if(this.executeSql(sql) == 4){
+           returnvalue = true;
+       }else{
+           returnvalue = false;
+       }
+
+       return returnvalue;
 
       //throw new UnsupportedOperationException();
    }
@@ -403,10 +413,14 @@ public class EODatabaseInterface {
       try
       {
          conn = DriverManager.getConnection(this.dbPathAbsolute);
-         System.out.println("DB connection opened");
+         System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
+
+         System.out.println("EXECUTING SQL ...");
          returnvalue = pstmt.executeUpdate();
+
+         System.out.println("SQL SUCCESS: " + returnvalue);
          //System.out.println(returnvalue);
       }
       catch (Exception e)
@@ -428,9 +442,11 @@ public class EODatabaseInterface {
       {
          //conn = DriverManager.getConnection("jdbc:sqlite:database.db");
 		  conn = DriverManager.getConnection(this.dbPathAbsolute);
-         System.out.println("DB connection opened");
+         System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
+
+         System.out.println("EXECUTING SQL QUERY ...");
          rs = pstmt.executeQuery();
       
          return rs;
