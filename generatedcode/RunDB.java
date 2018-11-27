@@ -3,17 +3,18 @@ public class RunDB {
 
         EODatabaseInterface db = new EODatabaseInterface();
         //db.test();
+
         /****************************************/
         /** CustomerContactInfo DB TESTS START **/
         /****************************************/
-
         // <-- CREATE -->
         /*
         if(db.createCustomerContactInfo("Phil", "23232949", "philip@test.dk", "Test Firma", "Test info lorem ipsum ")){
             System.out.println("Created customer");
         }else{
             System.out.println("Error");
-        }*/
+        }
+        */
 
         // <-- DELETE -->
         /*
@@ -29,12 +30,13 @@ public class RunDB {
         //System.out.println(customer.getName());
 
         // <-- UPDATE -->
-        if(db.updateCustomerContactInfo(2, "Johnny Madsen", "12345678", "mads@madsen.dk", "madsens", "Mads")){
+        /*
+        if(db.updateCustomerContactInfo(1, "Johnny Madsen", "12345678", "mads@madsen.dk", "madsens", "Mads")){
             System.out.println("Updated Customer Contact Info");
         }else{
             System.out.println("Could not update Customer Contact Info. Try again");
         }
-
+        */
         /**************************************/
         /** CustomerContactInfo DB TESTS END **/
         /**************************************/
