@@ -1,11 +1,14 @@
 public enum EOOperation {
    START (null, EODisplayType.START),
    CREATEARRANGEMENT (null, EODisplayType.CREATEARRANGEMENT),
-    EXPORT (null,EODisplayType.START),
-    ADMFACILITATOR (null, EODisplayType.ADMFACILITATOR),
-    ADMEVENTTYPE (null, EODisplayType.ADMEVENTTYPE),
-    SHOWONLYPASTEVENT (null, EODisplayType.SHOWONLYPASTEVENT),
-    RESETSORTING (null, EODisplayType.RESETSORTING);
+   UPDATEARRANGEMENT (null, EODisplayType.UPDATEARRANGEMENT),
+   DELETEARRANGEMENT (null, EODisplayType.DELETEARRANGEMENT),
+   CREATEEVENT (null, EODisplayType.CREATEEVENT),
+   UPDATEEVENT (null, EODisplayType.UPDATEEVENT),
+   DELETEEVENT (null, EODisplayType.DELETEEVENT),   
+   EXPORT (null,EODisplayType.EXPORT),
+   ADMFACILITATOR (null, EODisplayType.ADMFACILITATOR),
+   ADMEVENTTYPE (null, EODisplayType.ADMEVENTTYPE);
 
    private Object data = null;
    private EODisplayType displaytype;
