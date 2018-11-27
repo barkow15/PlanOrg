@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class EOEvent {
+public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
 
 	private EOEventType[] eventtypes;
 	private LocalDateTime datetimestart;
@@ -30,5 +30,10 @@ public class EOEvent {
 	public String getDescription() {
 		return this.description;
 	}
+   
+   public String getDisplayName()
+   {
+      return(datetimestart.toString() + "-" + datetimeend.toString());
+   }   
 
 }
