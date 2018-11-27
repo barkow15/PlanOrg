@@ -41,7 +41,12 @@ public class EOManager {
             }
             gui.getBreadcrumb().pop();
             break;
-      
+         case ADMFACILITATOR:
+            gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
+            break;
+         case ADMEVENTTYPE:
+            gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
+            break;
          default:
             break;
       }

@@ -18,14 +18,16 @@ public class EOPanelExport extends EOPanel {
    EOGUIMultiSelect facilitatormultiselect;
    JCheckBox exportprice;
    FacilitatorContactInfo[] f;
+   EOGUIBreadcrumb breadcrumb;
    
    public EOPanelExport(EOGUI gui) {
       this.gui = gui;
       this.setLayout(null);
       
       //Header
-      EOGUIBreadcrumb breadcrumb = this.gui.getBreadcrumb();
+      breadcrumb = new EOGUIBreadcrumb(gui, gui.getBreadcrumb());
       breadcrumb.setBounds(5, 5, 800, 30);
+      breadcrumb.setVisible(true);
       this.add(breadcrumb);
       
       JButton exportbutton = new JButton("Export");
@@ -148,6 +150,7 @@ public class EOPanelExport extends EOPanel {
          facilitatormultiselect.setList((FacilitatorContactInfo[])data);
       }
       // TODO - implement PanelStartMenu.setVisible
+      breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible);
    }
   
