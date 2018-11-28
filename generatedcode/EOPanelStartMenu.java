@@ -11,20 +11,23 @@ import java.util.*;
 public class EOPanelStartMenu extends EOPanel {
 
    EOGUI gui = null;
+   EOGUIBreadcrumb breadcrumb;
+   
    public EOPanelStartMenu(EOGUI gui)
    {
       this.gui = gui;
       this.setLayout(null);
    
       //Header
-      EOGUIBreadcrumb breadcrumb = this.gui.getBreadcrumb();
-      breadcrumb.setBounds(5, 5, 800, 30);
+      breadcrumb = new EOGUIBreadcrumb(gui, gui.getBreadcrumb());
+      breadcrumb.setBounds(5, 5, 400, 30);
+      breadcrumb.setVisible(true);
       this.add(breadcrumb);
    
       int fromTop = 5;
       int borderRight = this.gui.getWidth();
       
-      JButton createArrangementButton=new JButton("Opret arrangement");
+      JButton createArrangementButton=new JButton("Opret Arrangement");
       createArrangementButton.setBounds(borderRight-175,fromTop, 150, 30);
       createArrangementButton.addActionListener(
          new ActionListener()
@@ -60,7 +63,7 @@ public class EOPanelStartMenu extends EOPanel {
               });
       this.add(admFacilitatorButton);
    
-      JButton admEventType=new JButton("Administrer begivenhedstyper");
+      JButton admEventType=new JButton("Administrer Begivenhedstyper");
       admEventType.setBounds(borderRight-790,fromTop, 250, 30);
       admEventType.addActionListener(
               new ActionListener()
@@ -72,8 +75,8 @@ public class EOPanelStartMenu extends EOPanel {
               });
       this.add(admEventType);
    
-      JLabel arrangementLabel=new JLabel("Arrangement");
-      arrangementLabel.setBounds(50, 40, 250, 150);
+      JLabel arrangementLabel=new JLabel("Arrangementer");
+      arrangementLabel.setBounds(10, 0, 350, 150);
       arrangementLabel.setFont(gui.getFontbig());
       this.add(arrangementLabel);
             
@@ -85,6 +88,7 @@ public class EOPanelStartMenu extends EOPanel {
 	 */
    public void setVisible(boolean visible, Object data) {
    	// TODO - implement PanelStartMenu.setVisible
+      breadcrumb.setBreadcrumb(gui.getBreadcrumb());
       super.setVisible(visible);
    }
    

@@ -88,7 +88,7 @@ public class EOPanelADMFacilitator extends EOPanel {
 
       JButton editFacilitatorButton = new JButton("Rediger");
       editFacilitatorButton.setBounds (100,550,100,100);
-      editFacilitatorButtonbutton.addActionListener(
+      editFacilitatorButton.addActionListener(
               new ActionListener()
               {
                  public void actionPerformed(ActionEvent e)
