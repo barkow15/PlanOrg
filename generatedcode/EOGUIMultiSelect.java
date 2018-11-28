@@ -27,20 +27,21 @@ public class EOGUIMultiSelect extends JPanel
             model.addElement(options[i]);
          }
       }
-
+   
       list = new JList<>(model);        
       list.setPreferredSize(size);
-
-      list.setCellRenderer(new DefaultListCellRenderer() {
+   
+      list.setCellRenderer(
+         new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (renderer instanceof JLabel && value instanceof EOGUIMultiSelectInterface) {
-                    ((JLabel) renderer).setText(((EOGUIMultiSelectInterface) value).getDisplayName());
-                }
-                return renderer;
+               Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+               if (renderer instanceof JLabel && value instanceof EOGUIMultiSelectInterface) {
+                  ((JLabel) renderer).setText(((EOGUIMultiSelectInterface) value).getDisplayName());
+               }
+               return renderer;
             }
-        });
+         });
       this.add(list);
    }
    

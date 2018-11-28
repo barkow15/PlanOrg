@@ -4,65 +4,53 @@ import java.awt.event.*;
 
 public class EOGUIBreadcrumb extends JPanel
 {
-   private EOOperation[] stack;
+   EOBreadcrumb breadcrumb = null;
    private JLabel[] labellink;
    private JLabel[] seperator;
-   private int stackcounter = 0;
    private int maxsize = 10;
-   EOGUI gui = null;
-          
-   public EOGUIBreadcrumb(EOGUI gui)
+   EOGUI gui;
+   
+   public EOGUIBreadcrumb(EOGUI gui, EOBreadcrumb breadcrumb)
    {
       this.gui = gui;
+      this.breadcrumb = breadcrumb;
+      
       this.setLayout(null);
-
+      
       labellink = new JLabel[maxsize];
       seperator = new JLabel[maxsize];
-      stack = new EOOperation[maxsize];
       
       for(int i = 0; i < maxsize; i++)
       {
          labellink[i] = null;
          seperator[i] = null;
-         stack[i] = null;
       }
       reset();
       drawCrumbs();
    }
    
-   public void reset()
+   public void setBreadcrumb(EOBreadcrumb b)
    {
-      System.out.println("RESET");
+      this.breadcrumb = breadcrumb;  
+      reset();
+      drawCrumbs();
+   }
+   
+   private void reset()
+   {
       for(int i = 0; i < maxsize; i++)
       {
+         if(labellink[i] != null)
+         {
+            labellink[i].setVisible(false);
+         }
          labellink[i] = null;
+         if(seperator[i] != null)
+         {
+            seperator[i].setVisible(false);
+         }         
          seperator[i] = null;
-         stack[i] = null;
       }   
-      this.stack[0] = EOOperation.START;
-      this.stackcounter = 1;
-   }
-   
-   public void push(EOOperation o)
-   {
-      if(stackcounter < maxsize)
-      {
-         this.stack[stackcounter] = o;
-         this.stackcounter++;
-         drawCrumbs();
-      }
-   }
-   
-   public void pop()
-   {
-      this.stack[stackcounter-1] = null;
-      this.labellink[stackcounter-1] = null;
-      if(seperator[stackcounter-1] != null)
-      {
-         seperator[stackcounter-1] = null;
-      }
-      this.stackcounter--;
-      drawCrumbs();
    }
      
    public void drawCrumbs()
@@ -71,19 +59,19 @@ public class EOGUIBreadcrumb extends JPanel
       Dimension size;
       final String sepstr = ">";
       int x = 5;
-      for(int i = 0; i < stackcounter; i++)
+      for(int i = 0; i < breadcrumb.getStackCounter(); i++)
       {
          if(labellink[i] != null)
          {
             labellink[i].setVisible(false);
          }
-         if(i+1 == stackcounter)
+         if(i+1 == breadcrumb.getStackCounter())
          {
             System.out.println("piv");         
-            labellink[i] = new JLabel(stack[i].getDisplayName());
+            labellink[i] = new JLabel(breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setForeground(Color.MAGENTA);
             labellink[i].setFont(medium);
-            size = getTextDimensions(labellink[i], medium, stack[i].getDisplayName());
+            size = getTextDimensions(labellink[i], medium, breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setBounds(x, 0, (int)size.getWidth(), (int)size.getHeight());
             this.add(labellink[i]);
             x += size.getWidth() + 5;
@@ -91,12 +79,12 @@ public class EOGUIBreadcrumb extends JPanel
          else
          {
             System.out.println("bla");
-            labellink[i] = new JLabel(stack[i].getDisplayName());
+            labellink[i] = new JLabel(breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setForeground(Color.BLUE);            
             labellink[i].setFont(medium);
-            size = getTextDimensions(labellink[i], medium, stack[i].getDisplayName());
+            size = getTextDimensions(labellink[i], medium, breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setBounds(x, 0, (int)size.getWidth(), (int)size.getHeight());
-            final EOOperation eoope = stack[i];
+            final EOOperation eoope = breadcrumb.getIndex(i);
             labellink[i].addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                   gui.runCommand(eoope);

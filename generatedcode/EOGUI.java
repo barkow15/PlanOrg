@@ -15,11 +15,11 @@ public class EOGUI {
    private int screenwidth = 0;
    private int screenheight = 0;
    EOManager eomanager = null;
-   EOGUIBreadcrumb breadcrumb = null;
+   EOBreadcrumb breadcrumb = null;
    
    public EOGUI(EOManager eomanager)
    {
-      breadcrumb = new EOGUIBreadcrumb(this);
+      this.breadcrumb = new EOBreadcrumb();
       this.eomanager = eomanager;
       frame = new JFrame("Event Organizer Administration 1.1");
       //frame.setUndecorated(true);
@@ -55,7 +55,7 @@ public class EOGUI {
       screens.put(EODisplayType.CREATEARRANGEMENT, new EOPanelCreateArrangement(this)); 
       screens.put(EODisplayType.UPDATEARRANGEMENT, new EOPanelUpdateArrangement(this)); 
       screens.put(EODisplayType.DELETEARRANGEMENT, new EOPanelDeleteArrangement(this)); 
-      //screens.put(EODisplayType.CREATEEVENT, new EOPanelCreateEvent(this)); 
+      screens.put(EODisplayType.CREATEEVENT, new EOPanelCreateEvent(this)); 
       screens.put(EODisplayType.UPDATEEVENT, new EOPanelUpdateEvent(this)); 
       screens.put(EODisplayType.DELETEEVENT, new EOPanelDeleteEvent(this));  
       screens.put(EODisplayType.ADMEVENTTYPE, new EOPanelADMEventType(this)); 
@@ -67,9 +67,9 @@ public class EOGUI {
       screens.get(EODisplayType.START).setVisible(true);   
    }
    
-   public EOGUIBreadcrumb getBreadcrumb()
+   public EOBreadcrumb getBreadcrumb()
    {
-      return(breadcrumb);
+      return(this.breadcrumb);
    }
    
    public Font getFontbig (){
