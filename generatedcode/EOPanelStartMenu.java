@@ -12,6 +12,7 @@ public class EOPanelStartMenu extends EOPanel {
 
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
+   EOGUIArrangementTable arrangementtable;
    
    public EOPanelStartMenu(EOGUI gui)
    {
@@ -79,8 +80,29 @@ public class EOPanelStartMenu extends EOPanel {
       arrangementLabel.setBounds(10, 0, 350, 150);
       arrangementLabel.setFont(gui.getFontbig());
       this.add(arrangementLabel);
+
+      JCheckBox showallcheckbox = new JCheckBox("Vis kun ikke afholdte");
+      showallcheckbox.setBounds(this.gui.getWidth()-170, 70, 150, 30);
+      showallcheckbox.setSelected(true);
+      showallcheckbox.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                     if(showallcheckbox.isSelected())
+                     {
+                        gui.runCommand(EOOperation.START);
+                     }
+                     else
+                     {
+                        gui.runCommand(EOOperation.STARTSHOWALL);
+                     }
+                 }
+              });
+      this.add(showallcheckbox);
+
       
-      EOGUIArrangementTable arrangementtable = new EOGUIArrangementTable(gui);
+      arrangementtable = new EOGUIArrangementTable(gui);
       arrangementtable.setBounds(10, 100, gui.getWidth()-35, gui.getHeight()-150);
       this.add(arrangementtable);
    }
@@ -92,6 +114,10 @@ public class EOPanelStartMenu extends EOPanel {
    public void setVisible(boolean visible, Object data) {
    	// TODO - implement PanelStartMenu.setVisible
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
+      if(((EOOperation)data).getData() instanceof EOArrangement[])
+      {
+         arrangementtable.setArrangements((EOArrangement[])((EOOperation)data).getData());
+      }
       super.setVisible(visible);
    }
    

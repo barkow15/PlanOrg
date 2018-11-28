@@ -145,11 +145,10 @@ public class EOPanelExport extends EOPanel {
    }
 
    public void setVisible(boolean visible, Object data) {
-      if(data instanceof FacilitatorContactInfo[])
+      if(((EOOperation)data).getData() instanceof FacilitatorContactInfo[])
       {
-         facilitatormultiselect.setList((FacilitatorContactInfo[])data);
+         facilitatormultiselect.setList((FacilitatorContactInfo[])((EOOperation)data).getData());
       }
-      // TODO - implement PanelStartMenu.setVisible
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible);
    }

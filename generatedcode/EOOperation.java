@@ -1,5 +1,6 @@
 public enum EOOperation {
    START (null, "Start menu", EODisplayType.START),
+   STARTSHOWALL (null, "Start menu", EODisplayType.START),      
    CREATEARRANGEMENT (null, "Opret Arrangement", EODisplayType.CREATEARRANGEMENT),
    UPDATEARRANGEMENT (null, "Opdater Arrangement", EODisplayType.UPDATEARRANGEMENT),
    DELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT),
