@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 public class EODatabaseInterface {
    Connection conn = null;
@@ -65,19 +66,21 @@ public class EODatabaseInterface {
 	 * @param customercontactid
 	 */
    public CustomerContactInfo getCustomerContactInfo(int customercontactid) {
-   	// TODO - implement EODatabaseInterface.getCustomerContactInfo
+
 	   String sql = "SELECT * FROM EOCustomerContactInfo WHERE idEOContactInfo =" + customercontactid + " AND deletedStatus = 2";
 	   ResultSet rs = this.querySql(sql);
-	   CustomerContactInfo contactInfo = null;
 
+	   CustomerContactInfo contactInfo = null;
 	   try
 	   {
-	   		//Iterate through ResultSet
+
+	   		// Iterate through ResultSet
 		   while(rs.next())
 		   {
-			   System.out.println(rs);
 			   contactInfo = new CustomerContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
 		   }
+		   // Close connection
+		   this.closeConnection(rs);
 	   }
 	   catch(Exception e)
 	   {
@@ -85,12 +88,9 @@ public class EODatabaseInterface {
 		   System.exit(0);
 	   }
 
-	   // Luk DB forbindelse
-	   this.closeConnection(rs);
-
 	   // Return CustomerContactInfo
 	   return contactInfo;
-	   //throw new UnsupportedOperationException();
+
    }
 
 	/**
@@ -107,9 +107,68 @@ public class EODatabaseInterface {
 	 * @param facilitatorcontactid
 	 */
    public FacilitatorContactInfo getFacilitatorContactInfo(int facilitatorcontactid) {
-   	// TODO - implement EODatabaseInterface.getFacilitatorContactInfo
-      throw new UnsupportedOperationException();
+	   String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE idEOContactInfo =" + facilitatorcontactid + " AND deletedStatus = 2";
+	   ResultSet rs = this.querySql(sql);
+
+	   FacilitatorContactInfo contactInfo = null;
+	   try
+	   {
+
+		   // Iterate through ResultSet
+		   while(rs.next())
+		   {
+			   contactInfo = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
+		   }
+		   // Close connection
+		   this.closeConnection(rs);
+	   }
+	   catch(Exception e)
+	   {
+		   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		   System.exit(0);
+	   }
+
+	   // Return CustomerContactInfo
+	   return contactInfo;
    }
+	/**
+	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud
+	 *  og returnere et array af FacilitatorContactInfo objekter
+	 */
+	public ArrayList<FacilitatorContactInfo> getAllFacilitatorContactInfo() {
+		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
+		ResultSet rs = this.querySql(sql);
+
+		// Initializere variablen facilConInfoArr
+		ArrayList<FacilitatorContactInfo> facilConInfoArr = new ArrayList<FacilitatorContactInfo>();
+
+		try
+		{
+
+			// Iterate through ResultSet
+			while(rs.next())
+			{
+				// Så længe at en række returneres skal denne tilføjes til "facilConInfoArr"
+				facilConInfoArr.add(new FacilitatorContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info")));
+			}
+
+			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
+			if(facilConInfoArr != null) {
+				System.out.println(facilConInfoArr.get(0));
+			}
+			// Close connection
+			this.closeConnection(rs);
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+
+		// Return CustomerContactInfo
+		return facilConInfoArr;
+	}
+
 
 	/**
 	 * 
@@ -257,13 +316,22 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param name
-	 * @param phone
-	 * @param email
+	 * @param facilObj
 	 */
-   public void createFacilitatorContactInfo(String name, String phone, String email) {
+   public boolean createFacilitatorContactInfo(FacilitatorContactInfo facilObj) {
    	// TODO - implement EODatabaseInterface.createFacilitatorContactInfo
-      throw new UnsupportedOperationException();
+	   boolean returnvalue = false;
+	   int deletedStatus = 2;
+
+	   if(executeSql("INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES ('" + deletedStatus + "','" + facilObj.getName() + "','" + facilObj.getPhone() + "','" + facilObj.getEmail() + "','" + facilObj.getInfo() + "')") == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
+
+      //throw new UnsupportedOperationException();
    }
 
 	/**
@@ -277,14 +345,20 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param facilitatorid
-	 * @param name
-	 * @param phone
-	 * @param email
+	 * @param facilObj
+	 *
 	 */
-   public void updateFacilitatorContactInfo(int facilitatorid, String name, String phone, String email) {
-   	// TODO - implement EODatabaseInterface.updateFacilitatorContactInfo
-      throw new UnsupportedOperationException();
+   public boolean updateFacilitatorContactInfo(FacilitatorContactInfo facilObj) {
+	   boolean returnvalue = false;
+	   String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + facilObj.getName() + "', phone = '" + facilObj.getPhone() + "', email = '" + facilObj.getEmail() + "' WHERE idEOContactInfo =" + facilObj.getId();
+
+	   if(this.executeSql(sql) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
    }
 
 	/**
@@ -372,7 +446,7 @@ public class EODatabaseInterface {
      * @param company
      */
    public boolean updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String company, String info) {
-   	// TODO - implement EODatabaseInterface.updateCustomerContactInfo
+
        boolean returnvalue = false;
        String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + name + "', phone = '" + phone + "', email = '" + email + "', company = '" + company + "', info = '" + info + "' WHERE idEOContactInfo =" + customercontactid;
 
@@ -384,7 +458,6 @@ public class EODatabaseInterface {
 
        return returnvalue;
 
-      //throw new UnsupportedOperationException();
    }
 
    private int executeSql(String sql)
@@ -455,6 +528,7 @@ public class EODatabaseInterface {
 		{
 			if(conn != null)
 			{
+				System.out.println("CLOSING DB CONNECTION");
 				rs.close();
 				conn.close();
 				System.out.println("DB CONNECTION CLOSED");
