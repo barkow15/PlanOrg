@@ -3,6 +3,36 @@ public class RunDB {
 
         EODatabaseInterface db = new EODatabaseInterface();
         //db.test();
+        /*******************************************/
+        /** FacilitatorContactInfo DB TESTS START **/
+        /*******************************************/
+
+        // <-- CREATE -->
+        /*
+
+        if(db.createFacilitatorContactInfo(new FacilitatorContactInfo(1,"Martin", "70807080", "johnny@hej.dk", "blablabla"))){
+            System.out.println("Created facilitator");
+        }else{
+            System.out.println("Error");
+        }
+
+        */
+
+        // <-- GET -->
+        /*
+        FacilitatorContactInfo facilitator = db.getFacilitatorContactInfo(1);
+        if(facilitator != null) {
+            System.out.println(facilitator.getName());
+        }
+        */
+
+        // <-- GET ALL -->
+        db.getAllFacilitatorContactInfo();
+
+        /*****************************************/
+        /** FacilitatorContactInfo DB TESTS END **/
+        /*****************************************/
+
 
         /****************************************/
         /** CustomerContactInfo DB TESTS START **/
@@ -26,8 +56,12 @@ public class RunDB {
         */
 
         // <-- GET -->
-        //CustomerContactInfo customer = db.getCustomerContactInfo(2);
-        //System.out.println(customer.getName());
+        /*
+        CustomerContactInfo customer = db.getCustomerContactInfo(1);
+        if(customer != null) {
+            System.out.println(customer.getName());
+        }
+        */
 
         // <-- UPDATE -->
         /*
