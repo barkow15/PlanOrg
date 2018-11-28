@@ -11,12 +11,8 @@ import java.util.*;
 public class EOPanelADMEventType extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;   
-<<<<<<< HEAD
    EOGUIMultiSelect eventtypemultiselect;
-   
-=======
 
->>>>>>> 0b0c07c0263de2b05f167369687cd3398fc0daa2
    public EOPanelADMEventType(EOGUI gui) {
       this.gui = gui;
       this.setLayout(null);
@@ -50,10 +46,6 @@ public class EOPanelADMEventType extends EOPanel {
                   }
                });
       this.add(cancelbutton);
-<<<<<<< HEAD
-     
-=======
->>>>>>> 0b0c07c0263de2b05f167369687cd3398fc0daa2
      
      //Column1//
       JLabel facilitatorslabel = new JLabel("Begivenhedstyper:");
@@ -227,10 +219,7 @@ public class EOPanelADMEventType extends EOPanel {
    {
       super.paintComponent(g);
       g.drawLine(00,38, this.getWidth(), 38);
-<<<<<<< HEAD
       g.drawLine(330,45, 330, this.getHeight()-50); 
       g.drawLine(650,45, 650, this.getHeight()-50);    
-=======
->>>>>>> 0b0c07c0263de2b05f167369687cd3398fc0daa2
    }      
 }

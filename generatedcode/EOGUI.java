@@ -66,6 +66,11 @@ public class EOGUI {
       DisableAllScreen();
       screens.get(EODisplayType.START).setVisible(true);   
    }
+
+   public javax.swing.border.Border getDefaultBorder()
+   {
+      return(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+   }
    
    public EOBreadcrumb getBreadcrumb()
    {
