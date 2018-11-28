@@ -48,7 +48,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                     gui.runCommand(EOOperation.DELETEEVENT);
                   }
                });
       this.add(deletebutton);
@@ -62,7 +62,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                     gui.runCommand(EOOperation.UPDATEEVENT);
                   }
                });
       this.add(editbutton);
@@ -76,7 +76,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                     gui.runCommand(EOOperation.CREATEEVENT);
                   }
                });
       this.add(createbutton);
