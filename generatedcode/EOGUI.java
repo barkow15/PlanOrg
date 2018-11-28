@@ -15,14 +15,17 @@ public class EOGUI {
    private int screenwidth = 0;
    private int screenheight = 0;
    EOManager eomanager = null;
-   public EOGUI()
+   EOBreadcrumb breadcrumb = null;
+   
+   public EOGUI(EOManager eomanager)
    {
-      eomanager = new EOManager();
+      this.breadcrumb = new EOBreadcrumb();
+      this.eomanager = eomanager;
       frame = new JFrame("Event Organizer Administration 1.1");
       //frame.setUndecorated(true);
       //GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
       //gd.setFullScreenWindow(frame);
-      frame.setSize(1200, 900);
+      frame.setSize(1300, 1000);
       frame.setLayout(null);
       frame.setVisible(true);
       //We will close Java when the screen is exited
@@ -50,10 +53,25 @@ public class EOGUI {
       screens = new HashMap<EODisplayType, EOPanel>();
       screens.put(EODisplayType.START, new EOPanelStartMenu(this));      
       screens.put(EODisplayType.CREATEARRANGEMENT, new EOPanelCreateArrangement(this)); 
-
+      screens.put(EODisplayType.UPDATEARRANGEMENT, new EOPanelUpdateArrangement(this)); 
+      screens.put(EODisplayType.DELETEARRANGEMENT, new EOPanelDeleteArrangement(this)); 
+      screens.put(EODisplayType.CREATEEVENT, new EOPanelCreateEvent(this)); 
+      screens.put(EODisplayType.UPDATEEVENT, new EOPanelUpdateEvent(this)); 
+      screens.put(EODisplayType.DELETEEVENT, new EOPanelDeleteEvent(this));  
+      screens.put(EODisplayType.ADMEVENTTYPE, new EOPanelADMEventType(this)); 
+      screens.put(EODisplayType.ADMFACILITATOR, new EOPanelADMFacilitator(this)); 
+      screens.put(EODisplayType.EXPORT, new EOPanelExport(this));
+      screens.put(EODisplayType.ERROR, new EOPanelError(this));
+                            
       DisableAllScreen();
       screens.get(EODisplayType.START).setVisible(true);   
    }
+   
+   public EOBreadcrumb getBreadcrumb()
+   {
+      return(this.breadcrumb);
+   }
+   
    public Font getFontbig (){
       return (new Font ("Arial", Font.PLAIN,40));
    }
@@ -72,6 +90,16 @@ public class EOGUI {
          ((JPanel)m.getValue()).setVisible(false);
          frame.add((JPanel)m.getValue());
       }
+   }
+   
+   public int getWidth()
+   {
+      return(screenwidth);
+   }
+   
+   public int getHeight()
+   {
+      return(screenheight);
    }
 
 	/**

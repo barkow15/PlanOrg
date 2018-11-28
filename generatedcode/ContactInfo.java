@@ -1,4 +1,4 @@
-public class ContactInfo {
+public class ContactInfo implements EOGUIMultiSelectInterface {
 
 	private String name;
 	private String phone;
@@ -41,5 +41,10 @@ public class ContactInfo {
 	public int getId() {
 		return this.id;
 	}
+
+   public String getDisplayName()
+   {
+      return(this.name);
+   }   
 
 }

@@ -11,26 +11,14 @@ import java.time.LocalDateTime;
 public class EODatabaseInterface {
    Connection conn = null;
 
-   private void closenConnection(ResultSet rs)
-   {
-      try
-      {
-         if(conn != null)
-         {
-            rs.close();
-            conn.close();
-         }
-      }
-      catch(Exception e)
-      {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-         System.exit(0);
-      }
-   }
+   String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/database.db";
+   String dbPathRelative = "jdbc:sqlite:database.db";
 
    public void test()
    {
+   	  System.out.println("DB method \"Test\" running...");
       ResultSet rs = querySql("SELECT * FROM EOCustomerContactInfo LIMIT 100");
+      //ResultSet rs = querySql("INSERT INTO 'EOCustomerContactInfo' ('name', 'deletedStatus') VALUES ('Test', 2)");
    
       try
       {
@@ -78,7 +66,31 @@ public class EODatabaseInterface {
 	 */
    public CustomerContactInfo getCustomerContactInfo(int customercontactid) {
    	// TODO - implement EODatabaseInterface.getCustomerContactInfo
-      throw new UnsupportedOperationException();
+	   String sql = "SELECT * FROM EOCustomerContactInfo WHERE idEOContactInfo =" + customercontactid + " AND deletedStatus = 2";
+	   ResultSet rs = this.querySql(sql);
+	   CustomerContactInfo contactInfo = null;
+
+	   try
+	   {
+	   		//Iterate through ResultSet
+		   while(rs.next())
+		   {
+			   System.out.println(rs);
+			   contactInfo = new CustomerContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
+		   }
+	   }
+	   catch(Exception e)
+	   {
+		   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		   System.exit(0);
+	   }
+
+	   // Luk DB forbindelse
+	   this.closeConnection(rs);
+
+	   // Return CustomerContactInfo
+	   return contactInfo;
+	   //throw new UnsupportedOperationException();
    }
 
 	/**
@@ -315,32 +327,64 @@ public class EODatabaseInterface {
 	 * @param phone
 	 * @param email
 	 * @param company
+     * @param info
 	 */
-   public void createCustomerContactInfo(String name, String phone, String email, String company) {
+   public boolean createCustomerContactInfo(String name, String phone, String email, String company, String info) {
    	// TODO - implement EODatabaseInterface.createCustomerContactInfo
-      throw new UnsupportedOperationException();
+	   boolean returnvalue = false;
+	   int deletedStatus = 2;
+	   //executeSql("INSERT INTO 'EOCustomerContactInfo' (name, phone, email, company) VALUES ('"+ name + "','"+ phone + "','"+ email +"','"+company+"')");
+
+	   if(executeSql("INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES ('" + deletedStatus + "','" + name + "','" + phone + "','" + email + "','" + company + "', '" + info + "')") == 1){
+	   	returnvalue = true;
+	   }else{
+	   	returnvalue = false;
+	   }
+
+	   return returnvalue;
+      //throw new UnsupportedOperationException();
    }
 
 	/**
 	 * 
 	 * @param customercontactid
 	 */
-   public void deleteCustomerContactInfo(int customercontactid) {
+   public boolean deleteCustomerContactInfo(int customercontactid) {
    	// TODO - implement EODatabaseInterface.deleteCustomerContactInfo
-      throw new UnsupportedOperationException();
+	   boolean returnvalue = false;
+	   String sql = "UPDATE 'EOCustomerContactInfo' SET deletedStatus = '3' WHERE idEOContactInfo = " + customercontactid;
+
+	   if(this.executeSql(sql) == 1){
+	   	returnvalue = true;
+	   }else{
+	   	returnvalue = false;
+	   }
+
+	   return returnvalue;
+       //throw new UnsupportedOperationException();
    }
 
 	/**
-	 * 
 	 * @param customercontactid
-	 * @param name
-	 * @param phone
-	 * @param email
-	 * @param comapny
-	 */
-   public void updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String comapny) {
+     * @param name
+     * @param phone
+     * @param email
+     * @param company
+     */
+   public boolean updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String company, String info) {
    	// TODO - implement EODatabaseInterface.updateCustomerContactInfo
-      throw new UnsupportedOperationException();
+       boolean returnvalue = false;
+       String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + name + "', phone = '" + phone + "', email = '" + email + "', company = '" + company + "', info = '" + info + "' WHERE idEOContactInfo =" + customercontactid;
+
+       if(this.executeSql(sql) == 1){
+           returnvalue = true;
+       }else{
+           returnvalue = false;
+       }
+
+       return returnvalue;
+
+      //throw new UnsupportedOperationException();
    }
 
    private int executeSql(String sql)
@@ -350,16 +394,31 @@ public class EODatabaseInterface {
    
       try
       {
-         conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-         System.out.println("succesfully opened database");
+         conn = DriverManager.getConnection(this.dbPathAbsolute);
+         System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
+
+         System.out.println("EXECUTING SQL ...");
          returnvalue = pstmt.executeUpdate();
+
+         System.out.println("SQL SUCCESS: " + returnvalue);
+         //System.out.println(returnvalue);
+		  System.out.println("CLOSING DB CONNECTION ...");
+
+		  if(conn != null)
+		  {
+			  conn.close();
+			  System.out.println("DB CONNECTION CLOSED");
+		  }
+
       }
       catch (Exception e)
       {
          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-         System.exit(0);
+
+		  returnvalue = -1;
+         //System.exit(0);
       }
       return(returnvalue);
    }
@@ -371,10 +430,13 @@ public class EODatabaseInterface {
    
       try
       {
-         conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-         System.out.println("succesfully opened database");
+         //conn = DriverManager.getConnection("jdbc:sqlite:database.db");
+		  conn = DriverManager.getConnection(this.dbPathAbsolute);
+         System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
+
+         System.out.println("EXECUTING SQL QUERY ...");
          rs = pstmt.executeQuery();
       
          return rs;
@@ -386,5 +448,23 @@ public class EODatabaseInterface {
       }
       return rs;
    }
+
+	private void closeConnection(ResultSet rs)
+	{
+		try
+		{
+			if(conn != null)
+			{
+				rs.close();
+				conn.close();
+				System.out.println("DB CONNECTION CLOSED");
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+	}
 
 }
