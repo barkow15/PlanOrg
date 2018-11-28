@@ -41,6 +41,18 @@ public class EOManager {
             }
             gui.getBreadcrumb().pop();
             break;
+         case OPENARRANGEMENT:
+            gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
+            break;               
+         case CREATEARRANGEMENT:
+            gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
+            break;
+         case UPDATEARRANGEMENT:
+            gui.getBreadcrumb().push(EOOperation.UPDATEARRANGEMENT);
+            break;                    
+         case DELETEARRANGEMENT:
+            gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
+            break;
          case ADMFACILITATOR:
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
             break;

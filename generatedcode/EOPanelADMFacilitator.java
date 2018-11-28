@@ -45,6 +45,62 @@ public class EOPanelADMFacilitator extends EOPanel {
                   }
                });
       this.add(cancelbutton);
+
+      JLabel facilitatorLabel = new JLabel ("Facilitator:");
+      facilitatorLabel.setBounds (50,50,150,50);
+      this.add(facilitatorLabel);
+
+      JLabel editCreateFacilitatorLabel = new JLabel("Rediger/Opret Facilitator:");
+      editCreateFacilitatorLabel.setBounds(200,50,200,50);
+      this.add(editCreateFacilitatorLabel);
+
+      JLabel nameOfFacilitator = new JLabel("Navn:");
+      nameOfFacilitator.setBounds(200,75,100,50);
+      this.add(nameOfFacilitator);
+
+      JTextField nameText = new JTextField();
+      nameText.setBounds(200,100,100,50);
+      this.add(nameText);
+
+      JLabel email = new JLabel("Email:");
+      email.setBounds(200,200,100,50);
+      this.add(email);
+
+      JTextField emailText = new JTextField();
+      emailText.setBounds(200,250,100,50);
+      this.add(emailText);
+
+      JLabel phoneNumber = new JLabel("Telefonnummer:");
+      phoneNumber.setBounds(200,300,100,50);
+      this.add(phoneNumber);
+
+      JTextField phoneNumberText = new JTextField();
+      phoneNumberText.setBounds (200,450,100,50);
+      this.add(phoneNumberText);
+
+      JLabel notes = new JLabel("Noter:");
+      notes.setBounds(200,500,150,50);
+      this.add(notes);
+
+      JTextField notesText = new JTextField();
+      notesText.setBounds(200,550,400,400);
+      this.add(notesText);
+
+      JButton editFacilitatorButton = new JButton("Rediger");
+      editFacilitatorButton.setBounds (100,550,100,100);
+      editFacilitatorButton.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    //gui.runCommand(EOOperation.EDITFACILITATOR);
+                 }
+              });
+      this.add(editFacilitatorButton);
+
+
+
+
      
    }
 

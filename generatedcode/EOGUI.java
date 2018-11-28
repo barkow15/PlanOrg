@@ -54,7 +54,8 @@ public class EOGUI {
       screens.put(EODisplayType.START, new EOPanelStartMenu(this));      
       screens.put(EODisplayType.CREATEARRANGEMENT, new EOPanelCreateArrangement(this)); 
       screens.put(EODisplayType.UPDATEARRANGEMENT, new EOPanelUpdateArrangement(this)); 
-      screens.put(EODisplayType.DELETEARRANGEMENT, new EOPanelDeleteArrangement(this)); 
+      screens.put(EODisplayType.DELETEARRANGEMENT, new EOPanelDeleteArrangement(this));
+      screens.put(EODisplayType.OPENARRANGEMENT, new EOPanelOpenArrangement(this));       
       screens.put(EODisplayType.CREATEEVENT, new EOPanelCreateEvent(this)); 
       screens.put(EODisplayType.UPDATEEVENT, new EOPanelUpdateEvent(this)); 
       screens.put(EODisplayType.DELETEEVENT, new EOPanelDeleteEvent(this));  
@@ -65,6 +66,11 @@ public class EOGUI {
                             
       DisableAllScreen();
       screens.get(EODisplayType.START).setVisible(true);   
+   }
+
+   public javax.swing.border.Border getDefaultBorder()
+   {
+      return(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
    }
    
    public EOBreadcrumb getBreadcrumb()

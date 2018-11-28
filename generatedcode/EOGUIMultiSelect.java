@@ -19,6 +19,13 @@ public class EOGUIMultiSelect extends JPanel
    
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size)
    {
+      this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+   }
+   
+   public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode)
+   {   
+      this.setBackground(Color.WHITE);
+      size.setSize(size.getWidth()-2, size.getHeight()-7);
       model = new DefaultListModel<>();
       if(options != null)
       {
