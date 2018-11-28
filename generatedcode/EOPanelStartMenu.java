@@ -79,7 +79,10 @@ public class EOPanelStartMenu extends EOPanel {
       arrangementLabel.setBounds(10, 0, 350, 150);
       arrangementLabel.setFont(gui.getFontbig());
       this.add(arrangementLabel);
-            
+      
+      EOGUIArrangementTable arrangementtable = new EOGUIArrangementTable(gui);
+      arrangementtable.setBounds(10, 100, gui.getWidth()-35, gui.getHeight()-150);
+      this.add(arrangementtable);
    }
 	/**
 	 * 

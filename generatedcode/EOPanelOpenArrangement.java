@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class EOPanelUpdateArrangement extends EOPanel {
+public class EOPanelOpenArrangement extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
 
-   public EOPanelUpdateArrangement(EOGUI gui) {
+   public EOPanelOpenArrangement(EOGUI gui) {
       this.gui = gui;
       this.setLayout(null);
    

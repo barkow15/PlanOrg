@@ -3,6 +3,7 @@ public enum EOOperation {
    CREATEARRANGEMENT (null, "Opret Arrangement", EODisplayType.CREATEARRANGEMENT),
    UPDATEARRANGEMENT (null, "Opdater Arrangement", EODisplayType.UPDATEARRANGEMENT),
    DELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT),
+   OPENARRANGEMENT (null, "Vis Arrangement", EODisplayType.OPENARRANGEMENT),   
    CREATEEVENT (null, "Opret Begivenhed", EODisplayType.CREATEEVENT),
    UPDATEEVENT (null, "Opdater Begivenhed", EODisplayType.UPDATEEVENT),
    DELETEEVENT (null, "Slet Begivenhed", EODisplayType.DELETEEVENT),   
