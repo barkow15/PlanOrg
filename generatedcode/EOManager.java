@@ -46,14 +46,14 @@ public class EOManager {
             // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
             /*
             FacilitatorContactInfo[] allFacilConInfo = db.getAllFacilitatorContactInfo();
-
+         
             if(allFacilConInfo != null){
                EOOperation.EXPORT.setData(allFacilConInfo);
             }else{
                //EOOperation.EXPORT.setData(allFacilConInfo)
             }
             */
-
+         
             gui.getBreadcrumb().push(EOOperation.EXPORT);
             break;
          case SAVECSV:
@@ -84,10 +84,18 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
             break;
          case ADMFACILITATOR:
+            FacilitatorContactInfo[] fci = new FacilitatorContactInfo[5];
+            fci[0] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
+            fci[1] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
+            fci[2] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
+            fci[3] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
+               
+            EOOperation.ADMFACILITATOR.setData(fci); 
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
             break;
          case UPDATEFACILITATOR:
             gui.getBreadcrumb().push(EOOperation.UPDATEFACILITATOR);
+            break;
          case ADMEVENTTYPE:
             gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
             break;

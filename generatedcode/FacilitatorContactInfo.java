@@ -8,7 +8,7 @@ public class FacilitatorContactInfo extends ContactInfo {
 	 * @param email
 	 * @param info
 	 */
-	public FacilitatorContactInfo(int id, String name, String phone, String email, String info) {
+   public FacilitatorContactInfo(int id, String name, String phone, String email, String info) {
       super(id, name, phone, email, info);
-	}
+   }
 }
