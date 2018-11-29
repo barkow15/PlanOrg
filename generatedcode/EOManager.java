@@ -84,13 +84,13 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
             break;
          case ADMFACILITATOR:
-            FacilitatorContactInfo[] fci = new FacilitatorContactInfo[5];
-            fci[0] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
-            fci[1] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
-            fci[2] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
-            fci[3] = new FacilitatorContactInfo(1, "Navn", "22222222", "m@abe.dk", "");
-               
-            EOOperation.ADMFACILITATOR.setData(fci); 
+            FacilitatorContactInfo[] allFacilConInfo1 = db.getAllFacilitatorContactInfo();
+
+            if(allFacilConInfo1 != null){
+               EOOperation.ADMFACILITATOR.setData(allFacilConInfo1);
+            }else{
+               //EOOperation.EXPORT.setData(allFacilConInfo)
+            }
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
             break;
          case UPDATEFACILITATOR:
@@ -101,7 +101,12 @@ public class EOManager {
             break;
          case CREATEEVENT:
             gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
-            break;     
+            break;
+         case CREATEFACILITATOR:
+            break;
+         case DELETEFACILITATOR:
+            db.deleteFacilitatorContactInfo((FacilitatorContactInfo)EOOperation.DELETEFACILITATOR.getData());
+            break;
          default:
             break;
       }

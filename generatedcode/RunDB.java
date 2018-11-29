@@ -48,7 +48,7 @@ public class RunDB {
 
 
         // <-- GET ALL -->
-        /*
+
         FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
         if(facilAll != null) {
             for (int i = 0; i < facilAll.length; i++) {
@@ -67,7 +67,7 @@ public class RunDB {
         }else{
             System.out.println("No data or error.");
         }
-        */
+
 
 
 
