@@ -44,7 +44,7 @@ public class EOManager {
             break;
          case EXPORT:
             // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
-            /*
+
             FacilitatorContactInfo[] allFacilConInfo = db.getAllFacilitatorContactInfo();
          
             if(allFacilConInfo != null){
@@ -52,7 +52,7 @@ public class EOManager {
             }else{
                //EOOperation.EXPORT.setData(allFacilConInfo)
             }
-            */
+
          
             gui.getBreadcrumb().push(EOOperation.EXPORT);
             break;
