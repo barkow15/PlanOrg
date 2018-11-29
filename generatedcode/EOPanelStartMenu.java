@@ -27,54 +27,70 @@ public class EOPanelStartMenu extends EOPanel {
    
       int fromTop = 5;
       int borderRight = this.gui.getWidth();
-      
-      JButton createArrangementButton=new JButton("Opret Arrangement");
-      createArrangementButton.setBounds(borderRight-175,fromTop, 150, 30);
-      createArrangementButton.addActionListener(
-         new ActionListener()
-         {
-            public void actionPerformed(ActionEvent e)
+      if(gui.isAdministrator())
+      {
+         JButton createArrangementButton=new JButton("Opret Arrangement");
+         createArrangementButton.setBounds(borderRight-175,fromTop, 150, 30);
+         createArrangementButton.addActionListener(
+            new ActionListener()
             {
-               gui.runCommand(EOOperation.CREATEARRANGEMENT);
-            }
-         });
-      this.add(createArrangementButton);
-   
-      JButton exportButton=new JButton("Eksporter");
-      exportButton.setBounds(borderRight-330,fromTop, 150, 30);
-      exportButton.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
+               public void actionPerformed(ActionEvent e)
+               {
+                  gui.runCommand(EOOperation.CREATEARRANGEMENT);
+               }
+            });
+         this.add(createArrangementButton);
+      
+         JButton exportButton=new JButton("Eksporter");
+         exportButton.setBounds(borderRight-330,fromTop, 150, 30);
+         exportButton.addActionListener(
+                 new ActionListener()
                  {
-                    gui.runCommand(EOOperation.EXPORT);
-                 }
-              });
-      this.add(exportButton);
-   
-      JButton admFacilitatorButton=new JButton("Administrer Facilitatorer");
-      admFacilitatorButton.setBounds(borderRight-535,fromTop, 200, 30);
-      admFacilitatorButton.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
+                    public void actionPerformed(ActionEvent e)
+                    {
+                       gui.runCommand(EOOperation.EXPORT);
+                    }
+                 });
+         this.add(exportButton);
+      
+         JButton admFacilitatorButton=new JButton("Administrer Facilitatorer");
+         admFacilitatorButton.setBounds(borderRight-535,fromTop, 200, 30);
+         admFacilitatorButton.addActionListener(
+                 new ActionListener()
                  {
-                    gui.runCommand(EOOperation.ADMFACILITATOR);
-                 }
-              });
-      this.add(admFacilitatorButton);
-   
-      JButton admEventType=new JButton("Administrer Begivenhedstyper");
-      admEventType.setBounds(borderRight-790,fromTop, 250, 30);
-      admEventType.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
+                    public void actionPerformed(ActionEvent e)
+                    {
+                       gui.runCommand(EOOperation.ADMFACILITATOR);
+                    }
+                 });
+         this.add(admFacilitatorButton);
+      
+         JButton admEventType=new JButton("Administrer Begivenhedstyper");
+         admEventType.setBounds(borderRight-790,fromTop, 250, 30);
+         admEventType.addActionListener(
+                 new ActionListener()
                  {
-                    gui.runCommand(EOOperation.ADMEVENTTYPE);
-                 }
-              });
-      this.add(admEventType);
+                    public void actionPerformed(ActionEvent e)
+                    {
+                       gui.runCommand(EOOperation.ADMEVENTTYPE);
+                    }
+                 });
+         this.add(admEventType);
+      }
+      else
+      {
+         JButton createArrangementButton=new JButton("Importer Arrangementer");
+         createArrangementButton.setBounds(borderRight-215,fromTop, 190, 30);
+         createArrangementButton.addActionListener(
+            new ActionListener()
+            {
+               public void actionPerformed(ActionEvent e)
+               {
+                  gui.runCommand(EOOperation.CREATEARRANGEMENT);
+               }
+            });
+         this.add(createArrangementButton);
+      }
    
       JLabel arrangementLabel=new JLabel("Arrangementer");
       arrangementLabel.setBounds(10, 0, 350, 150);

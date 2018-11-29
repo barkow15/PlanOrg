@@ -95,26 +95,26 @@ public class EOPanelExport extends EOPanel {
       
       //Column1//
       JLabel startdatetimelabel = new JLabel("Start dato/tid");
-      startdatetimelabel.setBounds(65, 40, 400, 20);
+      startdatetimelabel.setBounds(10, 40, 400, 20);
       startdatetimelabel.setFont(this.gui.getFontsmall());
       this.add(startdatetimelabel);
       
       startdatetime = new EOGUIDateTimePicker(LocalDateTime.now());
-      startdatetime.setBounds(65, 60, 300, 400);
+      startdatetime.setBounds(10, 60, 300, 400);
       this.add(startdatetime);
-   
+      //Column 2// 
       JLabel enddatetimelabel = new JLabel("Slut dato/tid");
-      enddatetimelabel.setBounds(65, 460, 100, 20);
+      enddatetimelabel.setBounds(330, 40, 100, 20);
       enddatetimelabel.setFont(this.gui.getFontsmall());
       this.add(enddatetimelabel);
       
       enddatetime = new EOGUIDateTimePicker(LocalDateTime.now().plusDays(7));
-      enddatetime.setBounds(65, 480, 300, 400);
+      enddatetime.setBounds(330, 60, 300, 400);
       this.add(enddatetime);
    
-      //Column 2//   
+      //Column 3//   
       JLabel facilitatorslabel = new JLabel("Facilitator(er)");
-      facilitatorslabel.setBounds(500, 40, 100, 20);
+      facilitatorslabel.setBounds(650, 40, 100, 20);
       facilitatorslabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorslabel);       
       
@@ -122,15 +122,15 @@ public class EOPanelExport extends EOPanel {
    
                         
       facilitatormultiselect = new EOGUIMultiSelect(f, new Dimension(300, 240));
-      facilitatormultiselect.setBounds(500, 60, 300, 240);
+      facilitatormultiselect.setBounds(650, 60, 300, 240);
       this.add(facilitatormultiselect);
       
       exportprice = new JCheckBox("Vis priser");
       exportprice.setSelected(false);
-      exportprice.setBounds(500, 310, 100, 20);
+      exportprice.setBounds(650, 310, 100, 20);
       this.add(exportprice);
       
-      //Column 3//
+      //Column 4//
       JTextArea exportnotetextarea = new JTextArea(
          "Vælg den tidsperiode du ønsker at eksportere og de facilitatorer som der er med i arrangementerne.\n\n" +
          "Efter du har eksporteret data, kan du sende CSV filen til den/de facilitatorer som skal afholde arrangementet. Som kan åbne filen i deres Event Organizer program.\n\n" +
@@ -139,7 +139,7 @@ public class EOPanelExport extends EOPanel {
       exportnotetextarea.setFont(this.gui.getFontsmall());
       exportnotetextarea.setLineWrap(true);
       exportnotetextarea.setWrapStyleWord(true);
-      exportnotetextarea.setBounds(910, 60, 300, 300);
+      exportnotetextarea.setBounds(970, 60, 300, 300);
       exportnotetextarea.setBackground(new Color(0, 0, 0, 0));
       this.add(exportnotetextarea);
    }
@@ -157,7 +157,8 @@ public class EOPanelExport extends EOPanel {
    {
       super.paintComponent(g);
       g.drawLine(0,38, this.getWidth(), 38);
-      g.drawLine(433,45, 433, this.getHeight()-50);
-      g.drawLine(866,45, 866, this.getHeight()-50);
+      g.drawLine(320,45, 320, this.getHeight()-50);
+      g.drawLine(640,45, 640, this.getHeight()-50);
+      g.drawLine(960,45, 960, this.getHeight()-50);      
    }   
 }
