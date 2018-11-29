@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class RunDB {
     public static void main(String[] args){
 
@@ -9,13 +11,11 @@ public class RunDB {
 
         // <-- CREATE -->
         /*
-
-        if(db.createFacilitatorContactInfo(new FacilitatorContactInfo(1,"Martin", "70807080", "johnny@hej.dk", "blablabla"))){
+        if(db.createFacilitatorContactInfo(new FacilitatorContactInfo(1,"Marcus", "70807080", "marcus@test.dk", "blablabla"))){
             System.out.println("Created facilitator");
         }else{
             System.out.println("Error");
         }
-
         */
 
         // <-- GET -->
@@ -26,8 +26,41 @@ public class RunDB {
         }
         */
 
+        // <-- DELETE -->
+        /*
+        if(db.deleteFacilitatorContactInfo(1)){
+            System.out.println("Deleted Customer Contact Info");
+        }else{
+            System.out.println("Could not delete customer contact info. Try again.");
+        }
+        */
+
+        // <-- UPDATE -->
+        /*
+        if(db.updateFacilitatorContactInfo(new FacilitatorContactInfo(2,"John", "70807080", "marcus@test.dk", "blablabla"))){
+            System.out.println("Updated Customer Contact Info");
+        }else{
+            System.out.println("Could not update Customer Contact Info. Try again");
+        }
+        */
+
+
         // <-- GET ALL -->
-        db.getAllFacilitatorContactInfo();
+        FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
+        if(facilAll != null) {
+            for (int i = 0; i < facilAll.length; i++) {
+                //System.out.println(facilAll[0].getName());
+                if(facilAll[i] != null) {
+                    System.out.println(facilAll[i].getName());
+                    System.out.println(facilAll[i].getPhone());
+                    System.out.println(facilAll[i].getEmail());
+                    System.out.println(facilAll[i].getInfo());
+                }
+            }
+        }else{
+            System.out.println("No data or error.");
+        }
+
 
         /*****************************************/
         /** FacilitatorContactInfo DB TESTS END **/
@@ -37,9 +70,11 @@ public class RunDB {
         /****************************************/
         /** CustomerContactInfo DB TESTS START **/
         /****************************************/
+        CustomerContactInfo ci = new CustomerContactInfo(1,"Phil", "23232949", "philip@test.dk", "Test Firma", "Bla");
+
         // <-- CREATE -->
         /*
-        if(db.createCustomerContactInfo("Phil", "23232949", "philip@test.dk", "Test Firma", "Test info lorem ipsum ")){
+        if(db.createCustomerContactInfo()){
             System.out.println("Created customer");
         }else{
             System.out.println("Error");
