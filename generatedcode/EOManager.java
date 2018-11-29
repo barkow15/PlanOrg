@@ -80,6 +80,8 @@ public class EOManager {
          case ADMFACILITATOR:
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
             break;
+         case UPDATEFACILITATOR:
+            gui.getBreadcrumb().push(EOOperation.UPDATEFACILITATOR);
          case ADMEVENTTYPE:
             gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
             break;

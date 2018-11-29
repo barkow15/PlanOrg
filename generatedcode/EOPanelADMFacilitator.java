@@ -7,18 +7,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.util.*;
+import java.time.LocalDateTime;
+
 
 public class EOPanelADMFacilitator extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
+   JTextField nameText;
    
    public EOPanelADMFacilitator(EOGUI gui) {
       this.gui = gui;
       this.setLayout(null);
 
+      EOGUIMultiSelect admFacilitatorMultiselect;
+
       //Header
       breadcrumb = new EOGUIBreadcrumb(gui, gui.getBreadcrumb());
-      breadcrumb.setBounds(5, 5, 400, 30);
+      breadcrumb.setBounds(5, 5, 800, 30);
       breadcrumb.setVisible(true);
       this.add(breadcrumb);
 
@@ -46,57 +51,105 @@ public class EOPanelADMFacilitator extends EOPanel {
                });
       this.add(cancelbutton);
 
+
       JLabel facilitatorLabel = new JLabel ("Facilitator:");
       facilitatorLabel.setBounds (50,50,150,50);
       this.add(facilitatorLabel);
 
       JLabel editCreateFacilitatorLabel = new JLabel("Rediger/Opret Facilitator:");
-      editCreateFacilitatorLabel.setBounds(200,50,200,50);
+      editCreateFacilitatorLabel.setBounds(450,50,200,50);
       this.add(editCreateFacilitatorLabel);
 
       JLabel nameOfFacilitator = new JLabel("Navn:");
-      nameOfFacilitator.setBounds(200,75,100,50);
+      nameOfFacilitator.setBounds(450,75,100,50);
       this.add(nameOfFacilitator);
 
-      JTextField nameText = new JTextField();
-      nameText.setBounds(200,100,100,50);
+      nameText = new JTextField();
+      nameText.setBounds(450,125,150,20);
       this.add(nameText);
 
       JLabel email = new JLabel("Email:");
-      email.setBounds(200,200,100,50);
+      email.setBounds(450,150,100,50);
       this.add(email);
 
       JTextField emailText = new JTextField();
-      emailText.setBounds(200,250,100,50);
+      emailText.setBounds(450,200,150,20);
       this.add(emailText);
 
       JLabel phoneNumber = new JLabel("Telefonnummer:");
-      phoneNumber.setBounds(200,300,100,50);
+      phoneNumber.setBounds(450,225,100,50);
       this.add(phoneNumber);
 
       JTextField phoneNumberText = new JTextField();
-      phoneNumberText.setBounds (200,450,100,50);
+      phoneNumberText.setBounds (450,275,150,20);
       this.add(phoneNumberText);
 
       JLabel notes = new JLabel("Noter:");
-      notes.setBounds(200,500,150,50);
+      notes.setBounds(450,400,150,50);
       this.add(notes);
 
       JTextField notesText = new JTextField();
-      notesText.setBounds(200,550,400,400);
+      notesText.setBounds(450,450,300,150);
       this.add(notesText);
 
-      JButton editFacilitatorButton = new JButton("Rediger");
-      editFacilitatorButton.setBounds (100,550,100,100);
+      //MultiSelect
+      EOArrangement[] arrangements = new EOArrangement[5];
+      arrangements[0] = new EOArrangement(1, "START 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+      arrangements[1] = new EOArrangement(2, "START 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+      arrangements[2] = new EOArrangement(3, "START 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+      arrangements[3] = new EOArrangement(4, "START 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+
+      admFacilitatorMultiselect = new EOGUIMultiSelect(arrangements, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
+      admFacilitatorMultiselect.setBounds(50, 100, 300, 240);
+
+      this.add(admFacilitatorMultiselect);
+
+      JButton editFacilitatorButton = new JButton("Rediger Facilitator");
+      editFacilitatorButton.setBounds (100,400,150,50);
       editFacilitatorButton.addActionListener(
               new ActionListener()
               {
                  public void actionPerformed(ActionEvent e)
                  {
-                    //gui.runCommand(EOOperation.EDITFACILITATOR);
+                    System.out.println("Rediger Knap");
+
+                    Object [] facilitator = admFacilitatorMultiselect.getSelected();
+                       EOOperation.UPDATEFACILITATOR.setData(null);
+                       if (facilitator==null)
+                       {
+                          System.out.println("Facilitator er null");
+                       }
+                       else
+                       {
+                          System.out.println("Den erikke null"+Integer.toString(facilitator.length)+facilitator);
+                       }
+
+                       if (facilitator instanceof FacilitatorContactInfo[])
+                       {
+                          FacilitatorContactInfo[] facilitatorArray = (FacilitatorContactInfo[]) facilitator;
+                          System.out.print("instance");
+                          if (0<facilitatorArray.length)
+                          {
+                             EOOperation.UPDATEFACILITATOR.setData(facilitatorArray[0]);
+                             System.out.print("facilitator knap virker");
+                             if (facilitatorArray[0]==null)
+                             {
+                                System.out.println("Den ern null)");
+                             }
+                          }
+                       }
+                    gui.runCommand(EOOperation.UPDATEFACILITATOR);
                  }
               });
       this.add(editFacilitatorButton);
+
+
+
+
+
+
+
+
 
 
 
@@ -106,6 +159,25 @@ public class EOPanelADMFacilitator extends EOPanel {
 
    public void setVisible(boolean visible, Object data) {
    	// TODO - implement PanelStartMenu.setVisible
+      if (data instanceof EOOperation)
+      {
+         EOOperation facilitatorEnum=(EOOperation)data;
+         if (EOOperation.UPDATEFACILITATOR == facilitatorEnum)
+         {
+            System.out.println("Enanden ko");
+            if (EOOperation.UPDATEFACILITATOR.getData()==null)
+            {
+               System.out.println("En helt 3. ko");
+            }
+            if (EOOperation.UPDATEFACILITATOR.getData() instanceof FacilitatorContactInfo)
+            {
+                FacilitatorContactInfo facilitator = (FacilitatorContactInfo) EOOperation.UPDATEFACILITATOR.getData();
+                nameText.setText(facilitator.getName());
+                System.out.println("Stor Success");
+            }
+
+         }
+      }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible);
    }
@@ -119,5 +191,6 @@ public class EOPanelADMFacilitator extends EOPanel {
    {
       super.paintComponent(g);
       g.drawLine(00,38, this.getWidth(), 38);
+      g.drawLine(433,45, 433, this.getHeight()-50);
    }     
 }
