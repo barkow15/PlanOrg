@@ -527,7 +527,7 @@ public class EODatabaseInterface {
    
       try
       {
-         conn = DriverManager.getConnection(this.dbPathAbsolute);
+         conn = DriverManager.getConnection(this.dbPathRelative);
          System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
@@ -564,7 +564,7 @@ public class EODatabaseInterface {
       try
       {
          //conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-		  conn = DriverManager.getConnection(this.dbPathAbsolute);
+		  conn = DriverManager.getConnection(this.dbPathRelative);
          System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
