@@ -10,7 +10,7 @@ public class EOGUIArrangementTable extends JPanel
    String[] columnNames = {"id", "Dato start", "Dato slut", "Navn", "Facilitator(er)", "Er betalt", "Er afholdt", "", "", ""};
    EOArrangement[] arrangements;
    JTable table;
- Object[][] data = {
+   Object[][] data = {
         {"1", "Kathy1", "Smith",
          "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
          "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
@@ -105,52 +105,54 @@ public class EOGUIArrangementTable extends JPanel
       table = new JTable(data, columnNames);
       //Ref: https://stackoverflow.com/questions/1990817/how-to-make-a-jtable-non-editable
       //Implemented through a anonymous inner class
-      table.setModel(new DefaultTableModel(data, columnNames) {
-          @Override
-          public boolean isCellEditable(int row, int column) {
+      table.setModel(
+         new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
              //all cells false
-             return false;
-          }
-      });
+               return false;
+            }
+         });
       table.setPreferredScrollableViewportSize(new Dimension(1000, 800));
       table.setFillsViewportHeight(true);
       table.setAutoCreateRowSorter(true);
       //Disables that users can drag columns around - This is so we know column 0 is always the arrangement id
       table.getTableHeader().setReorderingAllowed(false);
       
-      table.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent e)
+      table.addMouseListener(
+         new java.awt.event.MouseAdapter()
          {
-            int row=table.rowAtPoint(e.getPoint());
-            int col=table.columnAtPoint(e.getPoint());
-            int id = Integer.parseInt((String)table.getValueAt(row,0));
+            public void mouseClicked(java.awt.event.MouseEvent e)
+            {
+               int row=table.rowAtPoint(e.getPoint());
+               int col=table.columnAtPoint(e.getPoint());
+               int id = Integer.parseInt((String)table.getValueAt(row,0));
             //Row 7 = Open
-            if(col == 7)
-            { 
-               EOOperation.OPENARRANGEMENT.setData(getArrangement(id));
-               gui.runCommand(EOOperation.OPENARRANGEMENT);
-            }
+               if(col == 7)
+               { 
+                  EOOperation.OPENARRANGEMENT.setData(getArrangement(id));
+                  gui.runCommand(EOOperation.OPENARRANGEMENT);
+               }
                
             //Row 8 = Edit
-            if(col == 8)
-            {
-               EOOperation.UPDATEARRANGEMENT.setData(getArrangement(id));
-               gui.runCommand(EOOperation.UPDATEARRANGEMENT);
-            }
+               if(col == 8)
+               {
+                  EOOperation.UPDATEARRANGEMENT.setData(getArrangement(id));
+                  gui.runCommand(EOOperation.UPDATEARRANGEMENT);
+               }
             //Row 9 = Delete
-            if(col == 9)
-            {
-               EOOperation.DELETEARRANGEMENT.setData(getArrangement(id));
-               gui.runCommand(EOOperation.DELETEARRANGEMENT);
-            }            
-            try
-            {
-               System.out.println(" Value in the cell clicked :"+ " " +table.getValueAt(row,0).toString() + " " + row + " " + col);
+               if(col == 9)
+               {
+                  EOOperation.DELETEARRANGEMENT.setData(getArrangement(id));
+                  gui.runCommand(EOOperation.DELETEARRANGEMENT);
+               }            
+               try
+               {
+                  System.out.println(" Value in the cell clicked :"+ " " +table.getValueAt(row,0).toString() + " " + row + " " + col);
+               }
+               catch(Exception err){}
             }
-            catch(Exception err){}
-         }
-      });    
+         });    
         
       this.add(table);
       JScrollPane scrollPane = new JScrollPane(table);
@@ -160,9 +162,9 @@ public class EOGUIArrangementTable extends JPanel
    public void setArrangements(EOArrangement[] arrangements)
    {
       this.arrangements = arrangements;
-
+   
       DefaultTableModel dm = (DefaultTableModel)table.getModel();
-
+   
       dm.getDataVector().removeAllElements();
       dm.fireTableDataChanged();
             
@@ -191,7 +193,7 @@ public class EOGUIArrangementTable extends JPanel
             {
                facilitators = "";
             }
-
+         
             String sdate = arrangements[i].getDateTimeStart().getDayOfMonth() + "/" + arrangements[i].getDateTimeStart().getMonthValue() + " " + arrangements[i].getDateTimeStart().getYear();
             String edate = arrangements[i].getDateTimeEnd().getDayOfMonth() + "/" + arrangements[i].getDateTimeEnd().getMonthValue() + " " + arrangements[i].getDateTimeEnd().getYear();
             System.out.println(arrangements[i].getName());
@@ -212,7 +214,7 @@ public class EOGUIArrangementTable extends JPanel
          }
       }
       dm.fireTableDataChanged();   
-
+   
    }
    
    private EOArrangement getArrangement(int id)

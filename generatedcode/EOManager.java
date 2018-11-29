@@ -12,7 +12,7 @@ public class EOManager {
 	 * @param operation
 	 */
    public EOOperation runCommand(EOOperation operation) {
-   	System.out.println("EOManager.runCommand(" + operation + ")");
+      System.out.println("EOManager.runCommand(" + operation + ")");
       // TODO - implement EOManager.runCommand
       switch(operation)
       {
