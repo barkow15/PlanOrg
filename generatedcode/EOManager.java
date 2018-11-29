@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 
 public class EOManager {
-   EOGUI gui;
+   EOGUI               gui;
    EODatabaseInterface db;
    
    public EOManager()
@@ -44,7 +44,16 @@ public class EOManager {
             break;
          case EXPORT:
             // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
-            //EOOperation.EXPORT.setData(db.getAllFacilitatorContactInfo());
+            /*
+            FacilitatorContactInfo[] allFacilConInfo = db.getAllFacilitatorContactInfo();
+
+            if(allFacilConInfo != null){
+               EOOperation.EXPORT.setData(allFacilConInfo);
+            }else{
+               //EOOperation.EXPORT.setData(allFacilConInfo)
+            }
+            */
+
             gui.getBreadcrumb().push(EOOperation.EXPORT);
             break;
          case SAVECSV:
