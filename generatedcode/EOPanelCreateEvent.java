@@ -26,7 +26,7 @@ public class EOPanelCreateEvent extends EOPanel {
    
       //Header
       breadcrumb = new EOGUIBreadcrumb(gui, gui.getBreadcrumb());
-      breadcrumb.setBounds(5, 5, 400, 30);
+      breadcrumb.setBounds(5, 5, 800, 30);
       breadcrumb.setVisible(true);
       this.add(breadcrumb);
       

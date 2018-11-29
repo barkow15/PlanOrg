@@ -83,6 +83,9 @@ public class EOManager {
          case ADMEVENTTYPE:
             gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
             break;
+         case CREATEEVENT:
+            gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
+            break;     
          default:
             break;
       }
