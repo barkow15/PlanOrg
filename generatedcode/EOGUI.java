@@ -25,6 +25,7 @@ public class EOGUI {
       //frame.setUndecorated(true);
       //GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
       //gd.setFullScreenWindow(frame);
+      frame.setResizable(false);
       frame.setSize(1300, 1000);
       frame.setLayout(null);
       frame.setVisible(true);
@@ -65,7 +66,7 @@ public class EOGUI {
       screens.put(EODisplayType.ERROR, new EOPanelError(this));
                             
       DisableAllScreen();
-      screens.get(EODisplayType.START).setVisible(true);   
+      runCommand(EOOperation.START);
    }
 
    public javax.swing.border.Border getDefaultBorder()
@@ -124,7 +125,7 @@ public class EOGUI {
          System.out.println("getData == null");
       }      
       System.out.println("Viser: " + coperation.getDisplayType());
-      screens.get(coperation.getDisplayType()).setVisible(true, coperation.getData()); 
+      screens.get(coperation.getDisplayType()).setVisible(true, coperation); 
    }
 
 }

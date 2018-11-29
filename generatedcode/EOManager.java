@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+
 public class EOManager {
    EOGUI gui;
    
@@ -10,11 +12,33 @@ public class EOManager {
 	 * @param operation
 	 */
    public EOOperation runCommand(EOOperation operation) {
-   	// TODO - implement EOManager.runCommand
+      System.out.println("EOManager.runCommand(" + operation + ")");
+      // TODO - implement EOManager.runCommand
       switch(operation)
       {
          case START:
-            gui.getBreadcrumb().reset();
+            EOArrangement[] arrangements = new EOArrangement[5];
+            arrangements[0] = new EOArrangement(1, "START 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+            arrangements[1] = new EOArrangement(2, "START 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+            arrangements[2] = new EOArrangement(3, "START 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
+            arrangements[3] = new EOArrangement(4, "START 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);                        
+            EOOperation.START.setData(arrangements);         
+            if(gui != null)
+            {
+               gui.getBreadcrumb().reset();
+            }
+            break;
+         case STARTSHOWALL:
+            EOArrangement[] ssarrangements = new EOArrangement[5];
+            ssarrangements[0] = new EOArrangement(1, "STARTSHOWALL 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
+            ssarrangements[1] = new EOArrangement(2, "STARTSHOWALL 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);
+            ssarrangements[2] = new EOArrangement(3, "STARTSHOWALL 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
+            ssarrangements[3] = new EOArrangement(4, "STARTSHOWALL 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);                        
+            EOOperation.STARTSHOWALL.setData(ssarrangements);         
+            if(gui != null)
+            {
+               gui.getBreadcrumb().reset();
+            }
             break;
          case EXPORT:
             FacilitatorContactInfo[] f = new FacilitatorContactInfo[5];
@@ -59,6 +83,9 @@ public class EOManager {
          case ADMEVENTTYPE:
             gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
             break;
+         case CREATEEVENT:
+            gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
+            break;     
          default:
             break;
       }

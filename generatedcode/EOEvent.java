@@ -35,5 +35,10 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
    {
       return(datetimestart.toString() + "-" + datetimeend.toString());
    }   
+   
+   public String exportCSV()
+   {
+      return("");
+   }
 
 }

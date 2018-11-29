@@ -11,7 +11,6 @@ public class EOPanelCreateArrangement extends EOPanel {
       this.gui = gui;
       this.setLayout(null);
    
-   
       JButton savebutton=new JButton("Gem");
       System.out.println(this.gui.getWidth()-110);
       savebutton.setBounds(this.gui.getWidth()-110, 10, 100, 30);
@@ -219,10 +218,6 @@ public class EOPanelCreateArrangement extends EOPanel {
       super.setVisible(visible);
    }
 
-   public void clearData() {
-   	// TODO - implement PanelCreateArrangement.clearData
-      throw new UnsupportedOperationException();
-   }
    protected void paintComponent(Graphics g)
    {
       super.paintComponent(g);
