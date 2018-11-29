@@ -439,26 +439,39 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param name
-	 * @param phone
-	 * @param email
-	 * @param company
-     * @param info
+	 * @param customerContactInfo
+     *
 	 */
-   public boolean createCustomerContactInfo(String name, String phone, String email, String company, String info) {
-   	// TODO - implement EODatabaseInterface.createCustomerContactInfo
-	   boolean returnvalue = false;
-	   int deletedStatus = 2;
-	   //executeSql("INSERT INTO 'EOCustomerContactInfo' (name, phone, email, company) VALUES ('"+ name + "','"+ phone + "','"+ email +"','"+company+"')");
+   public boolean createCustomerContactInfo(CustomerContactInfo customerContactInfo) {
+   	   CustomerContactInfo c 	= customerContactInfo;
 
-	   if(executeSql("INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES ('" + deletedStatus + "','" + name + "','" + phone + "','" + email + "','" + company + "', '" + info + "')") == 1){
+   	   boolean  returnvalue 	= false;
+
+   	   String 	deletedStatus	= "2";
+	   String 	name 			= c.getName();
+	   String	phone			= c.getPhone();
+	   String	email			= c.getEmail();
+	   String	company			= c.getCompany();
+	   String	info			= c.getInfo();
+	   String	SQL				= "";
+
+	   SQL += "INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES (";
+	   SQL += "'" + deletedStatus 	+ "',";
+	   SQL += "'" + name 			+ "',";
+	   SQL += "'" + phone 			+ "',";
+	   SQL += "'" + email 			+ "',";
+	   SQL += "'" + company 		+ "',";
+	   SQL += "'" + info 			+ "')";
+
+	   System.out.println(SQL);
+
+	   if(executeSql(SQL) == 1){
 	   	returnvalue = true;
 	   }else{
 	   	returnvalue = false;
 	   }
 
 	   return returnvalue;
-      //throw new UnsupportedOperationException();
    }
 
 	/**
@@ -527,7 +540,7 @@ public class EODatabaseInterface {
    
       try
       {
-         conn = DriverManager.getConnection(this.dbPathRelative);
+         conn = DriverManager.getConnection(this.dbPathAbsolute);
          System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
@@ -564,7 +577,7 @@ public class EODatabaseInterface {
       try
       {
          //conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-		  conn = DriverManager.getConnection(this.dbPathRelative);
+		  conn = DriverManager.getConnection(this.dbPathAbsolute);
          System.out.println("DB CONNECTION OPENED");
       
          pstmt = conn.prepareStatement(sql);
