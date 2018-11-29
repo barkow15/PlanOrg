@@ -179,24 +179,17 @@ public class EODatabaseInterface {
 		{
 			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
 			if(rowCount != 0){
-
 				// Initialisere array facilArr på størrelsen defineret i "rowCount"
 				facilArr = new FacilitatorContactInfo[rowCount];
 
 				int i = 0;
 				while(rs.next()){
-					//System.out.println(rs.getInt("idEOContactInfo"));
-					//System.out.println(rs.getString("name"));
 					facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
-
 					++i;
-					//System.out.println(facilArr[i].getName());
 				}
 				// Luk DB forbindelse efter query er kørt færdig
 				this.closeConnection(rs);
 			}
-
-
 			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
 			if(facilArr != null) {
 				//System.out.println(facilArr[0]);
@@ -207,9 +200,6 @@ public class EODatabaseInterface {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
-
-		// Return FacilitatorContactInfo som array
-		//System.out.println(facilArr[0].getName());
 		return facilArr;
 	}
 
