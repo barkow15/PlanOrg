@@ -13,7 +13,8 @@ public enum EOOperation {
    ADMEVENTTYPE (null, "Administrer Begivenhedstyper", EODisplayType.ADMEVENTTYPE),
    ERROR (null, "Fejl sk�rm", EODisplayType.ERROR),
    SAVECSV (null, "Gem CSV", EODisplayType.START),
-   SAVECREATEEVENT (null, "Gem Event", EODisplayType.START);
+   SAVECREATEEVENT (null, "Gem Event", EODisplayType.START),
+   UPDATEFACILITATOR (null,"Rediger Facilitator",EODisplayType.ADMFACILITATOR);
    
    private Object data = null;
    private EODisplayType displaytype;
