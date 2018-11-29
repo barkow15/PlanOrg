@@ -16,12 +16,11 @@ public class EOGUI {
    private int screenheight = 0;
    EOManager eomanager = null;
    EOBreadcrumb breadcrumb = null;
-   int usertype = 2;
+   //usertype = 1: Secretarian
+   //usertype = 2: Facilitator   
+   int usertype = 1;
    public EOGUI(EOManager eomanager)
-   {
-      //usertype = 1: Secretarian
-      //usertype = 2: Facilitator
-      
+   {      
       this.breadcrumb = new EOBreadcrumb();
       this.eomanager = eomanager;
       if(usertype == 1)
