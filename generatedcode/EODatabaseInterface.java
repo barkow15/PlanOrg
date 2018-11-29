@@ -1,11 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 public class EODatabaseInterface {
@@ -172,29 +168,39 @@ public class EODatabaseInterface {
 	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud
 	 *  og returnere et array af FacilitatorContactInfo objekter
 	 */
-	public ArrayList<FacilitatorContactInfo> getAllFacilitatorContactInfo() {
+	public FacilitatorContactInfo[] getAllFacilitatorContactInfo() {
+		int rowCount = 0;
+		rowCount = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
+		FacilitatorContactInfo[] facilArr = null;
 		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
 		ResultSet rs = this.querySql(sql);
 
-		// Initializere variablen facilConInfoArr
-		ArrayList<FacilitatorContactInfo> facilConInfoArr = new ArrayList<FacilitatorContactInfo>();
-
 		try
 		{
+			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
+			if(rowCount != 0){
 
-			// Iterate through ResultSet
-			while(rs.next())
-			{
-				// Så længe at en række returneres skal denne tilføjes til "facilConInfoArr"
-				facilConInfoArr.add(new FacilitatorContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info")));
+				// Initialisere array facilArr på størrelsen defineret i "rowCount"
+				facilArr = new FacilitatorContactInfo[rowCount];
+
+				int i = 0;
+				while(rs.next()){
+					//System.out.println(rs.getInt("idEOContactInfo"));
+					//System.out.println(rs.getString("name"));
+					facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
+
+					++i;
+					//System.out.println(facilArr[i].getName());
+				}
+				// Luk DB forbindelse efter query er kørt færdig
+				this.closeConnection(rs);
 			}
+
 
 			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
-			if(facilConInfoArr != null) {
-				System.out.println(facilConInfoArr.get(0));
+			if(facilArr != null) {
+				//System.out.println(facilArr[0]);
 			}
-			// Close connection
-			this.closeConnection(rs);
 		}
 		catch(Exception e)
 		{
@@ -202,8 +208,9 @@ public class EODatabaseInterface {
 			System.exit(0);
 		}
 
-		// Return CustomerContactInfo
-		return facilConInfoArr;
+		// Return FacilitatorContactInfo som array
+		//System.out.println(facilArr[0].getName());
+		return facilArr;
 	}
 
 	/**
@@ -372,11 +379,20 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param facilitatorid
+	 * @param facilitatorcontactid
 	 */
-   public void deleteFacilitatorContactInfo(int facilitatorid) {
-   	// TODO - implement EODatabaseInterface.deleteFacilitatorContactInfo
-      throw new UnsupportedOperationException();
+   public boolean deleteFacilitatorContactInfo(int facilitatorcontactid) {
+	   boolean returnvalue = false;
+
+	   String sql = "UPDATE 'EOFacilitatorContactInfo' SET deletedStatus = '3' WHERE idEOContactInfo = " + facilitatorcontactid;
+
+	   if(this.executeSql(sql) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
    }
 
 	/**
@@ -460,7 +476,6 @@ public class EODatabaseInterface {
 	 * @param customercontactid
 	 */
    public boolean deleteCustomerContactInfo(int customercontactid) {
-   	// TODO - implement EODatabaseInterface.deleteCustomerContactInfo
 	   boolean returnvalue = false;
 	   String sql = "UPDATE 'EOCustomerContactInfo' SET deletedStatus = '3' WHERE idEOContactInfo = " + customercontactid;
 
@@ -471,7 +486,6 @@ public class EODatabaseInterface {
 	   }
 
 	   return returnvalue;
-       //throw new UnsupportedOperationException();
    }
 
 	/**
@@ -494,6 +508,26 @@ public class EODatabaseInterface {
 
        return returnvalue;
 
+   }
+
+   public int getNotDeletedRowCountFromTable(String tablename){
+	String  sql = "SELECT Count(*) FROM " + tablename + " WHERE deletedStatus = 2";
+	ResultSet rs = this.querySql(sql);
+	int		rowCount = 0;
+	try {
+		while (rs.next()) {
+			rowCount = rs.getInt(1);
+		}
+	}
+	catch (Exception e)
+	{
+		System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+
+		//System.exit(0);
+	}
+	this.closeConnection(rs);
+
+	return rowCount;
    }
 
    private int executeSql(String sql)
