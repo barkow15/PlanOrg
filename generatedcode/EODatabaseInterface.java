@@ -349,22 +349,36 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param facilObj
+	 * @param fCIObj
 	 */
-   public boolean createFacilitatorContactInfo(FacilitatorContactInfo facilObj) {
-   	// TODO - implement EODatabaseInterface.createFacilitatorContactInfo
-	   boolean returnvalue = false;
-	   int deletedStatus = 2;
+   public boolean createFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
 
-	   if(executeSql("INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES ('" + deletedStatus + "','" + facilObj.getName() + "','" + facilObj.getPhone() + "','" + facilObj.getEmail() + "','" + facilObj.getInfo() + "')") == 1){
+	   FacilitatorContactInfo f = fCIObj;
+	   boolean  returnvalue 	= false;
+
+	   String 	deletedStatus	= "2";
+	   String 	name 			= f.getName();
+	   String	phone			= f.getPhone();
+	   String	email			= f.getEmail();
+	   String	info			= f.getInfo();
+	   String	SQL				= "";
+
+	   SQL += "INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES (";
+	   SQL += "'" + deletedStatus 	+ "',";
+	   SQL += "'" + name 			+ "',";
+	   SQL += "'" + phone 			+ "',";
+	   SQL += "'" + email 			+ "',";
+	   SQL += "'" + info 			+ "')";
+
+	   System.out.println(SQL);
+
+	   if(executeSql(SQL) == 1){
 		   returnvalue = true;
 	   }else{
 		   returnvalue = false;
 	   }
 
 	   return returnvalue;
-
-      //throw new UnsupportedOperationException();
    }
 
 	/**
@@ -405,14 +419,34 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param name
-	 * @param phone
-	 * @param email
-	 * @param company
+	 * @param cECObj
+	 *
 	 */
-   public void createExternalContactInfo(String name, String phone, String email, String company) {
-   	// TODO - implement EODatabaseInterface.createExternalContactInfo
-      throw new UnsupportedOperationException();
+   public boolean createExternalContactInfo(ExternalContactInfo cECObj) {
+	   ExternalContactInfo e 	= cECObj;
+	   boolean  returnvalue 	= false;
+
+	   String 	deletedStatus	= "2";
+	   String 	name 			= e.getName();
+	   String	phone			= e.getPhone();
+	   String	email			= e.getEmail();
+	   String	info			= e.getInfo();
+	   String	SQL				= "";
+
+	   SQL += "INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES (";
+	   SQL += "'" + deletedStatus 	+ "',";
+	   SQL += "'" + name 			+ "',";
+	   SQL += "'" + phone 			+ "',";
+	   SQL += "'" + email 			+ "',";
+	   SQL += "'" + info 			+ "')";
+
+	   if(executeSql(SQL) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
    }
 
 	/**
@@ -439,11 +473,11 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param customerContactInfo
+	 * @param cCIObj
      *
 	 */
-   public boolean createCustomerContactInfo(CustomerContactInfo customerContactInfo) {
-   	   CustomerContactInfo c 	= customerContactInfo;
+   public boolean createCustomerContactInfo(CustomerContactInfo cCIObj) {
+   	   CustomerContactInfo c 	= cCIObj;
 
    	   boolean  returnvalue 	= false;
 
@@ -462,8 +496,6 @@ public class EODatabaseInterface {
 	   SQL += "'" + email 			+ "',";
 	   SQL += "'" + company 		+ "',";
 	   SQL += "'" + info 			+ "')";
-
-	   System.out.println(SQL);
 
 	   if(executeSql(SQL) == 1){
 	   	returnvalue = true;
