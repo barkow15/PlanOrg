@@ -42,6 +42,12 @@ public class EOManager {
                gui.getBreadcrumb().reset();
             }
             break;
+         case IMPORT:
+            gui.getBreadcrumb().push(EOOperation.IMPORT);
+            break; 
+         case IMPORTCSV:
+            gui.getBreadcrumb().pop();
+            break;             
          case EXPORT:
             // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
 

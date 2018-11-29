@@ -86,7 +86,7 @@ public class EOPanelStartMenu extends EOPanel {
             {
                public void actionPerformed(ActionEvent e)
                {
-                  gui.runCommand(EOOperation.CREATEARRANGEMENT);
+                  gui.runCommand(EOOperation.IMPORT);
                }
             });
          this.add(createArrangementButton);

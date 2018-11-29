@@ -9,6 +9,8 @@ public enum EOOperation {
    UPDATEEVENT (null, "Opdater Begivenhed", EODisplayType.UPDATEEVENT),  //Rasmus
    DELETEEVENT (null, "Slet Begivenhed", EODisplayType.DELETEEVENT), //Rasmus
    SAVECREATEEVENT (null, "Gem Event", EODisplayType.START), //Rasmus
+   IMPORT (null, "Importer", EODisplayType.IMPORT), //Martin
+   IMPORTCSV (null, "Importer", EODisplayType.START), //Martin   
    EXPORT (null, "Exporter", EODisplayType.EXPORT), //Martin
    SAVECSV (null, "Gem CSV", EODisplayType.START), //Fælles     
    ADMFACILITATOR (null, "Administrer Facilitatorer", EODisplayType.ADMFACILITATOR), //Frederik
