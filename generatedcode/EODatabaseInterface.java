@@ -383,12 +383,16 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param facilitatorcontactid
+	 * @param fCIObj
 	 */
-   public boolean deleteFacilitatorContactInfo(int facilitatorcontactid) {
+   public boolean deleteFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
 	   boolean returnvalue = false;
 
-	   String sql = "UPDATE 'EOFacilitatorContactInfo' SET deletedStatus = '3' WHERE idEOContactInfo = " + facilitatorcontactid;
+	   int id = fCIObj.getId();
+
+	   String sql = "UPDATE ";
+	   sql += "'EOFacilitatorContactInfo' SET deletedStatus = '3'";
+	   sql += " WHERE idEOContactInfo = " + id;
 
 	   if(this.executeSql(sql) == 1){
 		   returnvalue = true;
