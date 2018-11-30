@@ -431,7 +431,7 @@ public class EODatabaseInterface {
 		sql +=	"name = '" 	+ fCIObj.getName() + "',";
 		sql +=	"phone = '"	+ fCIObj.getPhone() + "',";
 		sql +=	"email = '"	+ fCIObj.getEmail() + "' ";
-		sql +=	"WHERE idEOContactInfo =" + fCIObj.getId();
+		sql +=	"WHERE idContactInfo =" + fCIObj.getId();
 
 		if(printSqlStatment == true){
 			System.out.println(sql);
