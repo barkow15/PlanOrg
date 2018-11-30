@@ -30,9 +30,10 @@ public class EOGUIMultiSelect extends JPanel
 
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode, Border border)
    {   
+      super(new GridLayout(1,0));
       this.setBackground(Color.WHITE);
       this.setBorder(border);
-      size.setSize(size.getWidth()-2, size.getHeight()-7);
+      //size.setSize(size.getWidth()-2, size.getHeight()-7);  
       model = new DefaultListModel<>();
       if(options != null)
       {
@@ -43,7 +44,7 @@ public class EOGUIMultiSelect extends JPanel
       }
    
       list = new JList<>(model);        
-      list.setPreferredSize(size);
+      //list.setPreferredSize(size);
    
       list.setCellRenderer(
          new DefaultListCellRenderer() {
@@ -56,7 +57,12 @@ public class EOGUIMultiSelect extends JPanel
                return renderer;
             }
          });
-      this.add(list);
+      JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
+      scrollPane.setSize(size);  
+
+      this.add(scrollPane);
+      //this.add(list);
    }
    
    public Object[] getSelected()
@@ -72,7 +78,7 @@ public class EOGUIMultiSelect extends JPanel
       }
    }
    
-   public void setList(Object[] options)
+   public void setList(EOGUIMultiSelectInterface[] options)
    {
       model = new DefaultListModel<>();
       if(options != null)
