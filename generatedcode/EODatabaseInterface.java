@@ -30,43 +30,6 @@ public class EODatabaseInterface {
       }      
    }
 
-   /* GENERISK METODE TIL AT HENTE ALLE ROWS I TABEL OG RETURNERE DEM SOM ARRAYLIST */
-	/*
-	private ArrayList<Object> getAllRowsFromTable(String tablename, Object objName){
-		String sql = "SELECT * FROM " + tablename + " WHERE deletedStatus = 2";
-		ResultSet rs = this.querySql(sql);
-
-		// Initializere variablen facilConInfoArr
-		ArrayList<objName> arrList = new ArrayList<objName>();
-
-		try
-		{
-
-			// Iterate through ResultSet
-			while(rs.next())
-			{
-				// Så længe at en række returneres skal denne tilføjes til "facilConInfoArr"
-				arrList.add(new objName(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info")));
-			}
-
-			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
-			if(arrList != null) {
-				System.out.println(arrList.get(0));
-			}
-			// Close connection
-			this.closeConnection(rs);
-		}
-		catch(Exception e)
-		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-			System.exit(0);
-		}
-
-		// Return arrList
-		return arrList;
-	}
-	*/
-
 	/**
 	 * 
 	 * @param arrangementid
