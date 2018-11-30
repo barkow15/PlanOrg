@@ -1,6 +1,6 @@
-javac WashHallDatabaseInterface.java
-javac WashHallStatistics.java
+javac EODatabaseInterface.java
+javac Run.java
 
-java -cp ".:sqlite-jdbc-3.23.1.jar" WashHallStatistics
+java -cp ".:sqlite-jdbc-3.23.1.jar" EODatabaseInterface
 
 pause
