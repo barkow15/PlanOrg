@@ -8,7 +8,6 @@ public class RunDB {
         /*******************************************/
         /** FacilitatorContactInfo DB TESTS START **/
         /*******************************************/
-
         FacilitatorContactInfo fi = new FacilitatorContactInfo(1,"Test Testesen", "12345678", "test@test.dk","Bla");
         // <-- CREATE -->
         /*
@@ -18,7 +17,6 @@ public class RunDB {
             System.out.println("Error");
         }
         */
-
 
         // <-- GET -->
         /*
@@ -30,12 +28,13 @@ public class RunDB {
 
         // <-- DELETE -->
         /*
-        if(db.deleteFacilitatorContactInfo(1)){
+        if(db.deleteFacilitatorContactInfo(fi)){
             System.out.println("Deleted Customer Contact Info");
         }else{
             System.out.println("Could not delete customer contact info. Try again.");
         }
         */
+
 
         // <-- UPDATE -->
         /*
@@ -122,34 +121,34 @@ public class RunDB {
         /****************************************/
         /** ExternalContactInfo DB TESTS START **/
         /****************************************/
-        ExternalContactInfo ei = new ExternalContactInfo(1,"Test Testesen", "12345678", "test@test.dk", "","Bla");
+        ExternalContactInfo ei = new ExternalContactInfo(1,"Test Testesen", "12345678", "test@test.dk", "Bla","Bla Inc.");
         // <-- CREATE -->
         /*
         if(db.createExternalContactInfo(ei)){
             System.out.println("Created external contact");
         }else{
             System.out.println("Error");
-        }
-        */
-
+        }*/
 
 
         // <-- GET -->
         /*
-        FacilitatorContactInfo facilitator = db.getFacilitatorContactInfo(1);
-        if(facilitator != null) {
-            System.out.println(facilitator.getName());
+        ExternalContactInfo external = db.getExternalContactInfo(ei);
+        if(external != null) {
+            System.out.println(external.getName());
         }
         */
 
+
         // <-- DELETE -->
         /*
-        if(db.deleteFacilitatorContactInfo(1)){
+        if(db.deleteExternalContactInfo(ei)){
             System.out.println("Deleted Customer Contact Info");
         }else{
             System.out.println("Could not delete customer contact info. Try again.");
         }
         */
+
 
         // <-- UPDATE -->
         /*
