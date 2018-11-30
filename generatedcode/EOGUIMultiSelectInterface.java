@@ -1,5 +1,5 @@
 /**
-Gør det muligt for de classes som der implementere dette interface at blive brugt i EOGUIMultiSelect
+Goer det muligt for de classes som der implementere dette interface at blive brugt i EOGUIMultiSelect
 */
 public interface EOGUIMultiSelectInterface
 {

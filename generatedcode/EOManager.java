@@ -6,8 +6,10 @@ public class EOManager {
    
    public EOManager()
    {
+
       this.gui = new EOGUI(this);
-      this.db  = new EODatabaseInterface();
+      this.db = new EODatabaseInterface();
+
    }
 	/**
 	 * 
@@ -81,6 +83,7 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
             break;               
          case CREATEARRANGEMENT:
+            gui.getBreadcrumb().reset();
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
          case UPDATEARRANGEMENT:
