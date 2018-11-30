@@ -18,6 +18,7 @@ public enum EOOperation {
    UPDATEFACILITATOR (null,"Rediger Facilitator",EODisplayType.ADMFACILITATOR), //Frederik
    CREATEFACILITATOR (null,"Opret Facilitator",EODisplayType.ADMFACILITATOR), //Frederik
    DELETEFACILITATOR(null,"Slet facilitator",EODisplayType.ADMFACILITATOR), //Frederik
+    SAVEEDITFACILITATOR(null,"Gem Ændringer",EODisplayType.ADMFACILITATOR),//Frederik
    ADMEVENTTYPE (null, "Administrer Begivenhedstyper", EODisplayType.ADMEVENTTYPE), //Martin
    ERROR (null, "Fejl Skaerm", EODisplayType.ERROR); //Martin
  
