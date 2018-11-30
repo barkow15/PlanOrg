@@ -1,4 +1,4 @@
-public class CustomerContactInfo extends ContactInfo {
+public class CustomerContactInfo extends ContactInfo  {
 
    private String company;
 
@@ -20,4 +20,9 @@ public class CustomerContactInfo extends ContactInfo {
       this.company = company;
    }
 
+   @Override   
+   public String exportCSV()
+   {
+      return(super.exportCSV("CustomerContactInfo") + "; " + getCompany() + "\n");
+   }   
 }

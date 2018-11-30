@@ -1,4 +1,4 @@
-public class ContactInfo implements EOGUIMultiSelectInterface {
+public class ContactInfo implements EOGUIMultiSelectInterface, EOCSVInterface {
 
 	private String name;
 	private String phone;
@@ -45,6 +45,23 @@ public class ContactInfo implements EOGUIMultiSelectInterface {
    public String getDisplayName()
    {
       return(this.name);
+   }   
+   
+   public String exportCSV()
+   {
+      return(exportCSV("ContactInfo") + "\n");
+   }
+   
+   public String exportCSV(String type)
+   {
+      String str = 
+         type + "; " +
+         id + "; " +
+         name + "; " +
+         phone + "; " + 
+         email + "; " +
+         "info";
+      return(str);
    }   
 
 }

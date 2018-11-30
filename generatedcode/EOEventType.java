@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 
@@ -46,10 +47,6 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 		return(externalcontactinfo);
 	}
    
-   public String exportCSV(){
-      return("");
-   }
-
 	public String getDescription() {
 		return this.description;
 	}
@@ -62,5 +59,27 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
    {
       return(this.name);
    }   
+
+   public int getId()
+   {
+      return(id);
+   }
+
+   public String exportCSV(){
+      String str =
+         "EOEventType; " +
+         Integer.toString(id) + "; " + 
+         name + "; " + 
+         description + "; " +
+         locationstart + "; " +
+         locationend + "; " +
+         Integer.toString(time) + "; " +
+         Double.toString(price);
+         if(getExternalContactInfo() != null)
+         {
+            str += getExternalContactInfo().exportCSV();
+         }
+      return(str);
+   }
 
 }

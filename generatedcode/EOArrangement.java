@@ -4,6 +4,7 @@ An implementation of an arrangement.
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface {
 
@@ -106,17 +107,52 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    }
 
    /**
-   Returns the arrangements as one or more CSV lines.
+   Returns the arrangement as one or more CSV lines.
    First returning the EOArragement on a line, and then subsequensiable lines are the objects the EOArrangement is containing.
-   in the format (in this example there are 2 facilitaros and 3 events assigned to the arrangement): 
+   in the format (in this example there are 2 facilitaros and 1 event that contain 2 eventtypes assigned to the arrangement): 
    Line1: EOArrangement, id, name, description, datetimestart, datetimeend, price, ispayed, isdone
    Line2: CustomerContactInfo, id, name, phone, email, info, company
    Line3: FacilitatorContactInfo, id, name, phone, email, info
    Line4: FacilitatorContactInfo, id, name, phone, email, info   
-   Line4: EOEvent, events
+   Line5: EOEvent, id, description, datetimestart, datetimeend, price, 
+   
+   Line6: EOEventType, id, name, description, locationstart, locationend, time, price
+   Line7: ExternalContactInfo, id, name, phone, email, info, company   
+   Line8: EOEventType, id, name, description, locationstart, locationend, time, price
+   Line9: ExternalContactInfo, id, name, phone, email, info, company
+   
+   Other objects might also return multiple lines.
    */
    public String exportCSV()
    {
+      String str = 
+         "EOArrangement; " + 
+         Integer.toString(getId()) + "; " + 
+         getName() + "; " + 
+         getDescription() + "; " + 
+         getDateTimeStart().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "; " +
+         getDateTimeEnd().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "; " +
+         Double.toString(getPrice()) + "; " + 
+         Boolean.toString(isPayed()) + "; " + 
+         Boolean.toString(isDone()) + "\n"; 
+         str += getCustomer().exportCSV();
+         FacilitatorContactInfo[] f = getFacilitators();
+         if(f != null)
+         {
+            for(int i = 0; i < f.length; i++)
+            {
+               str += f[i].exportCSV();
+            }
+         }
+         EOEvent[] e = getEvents();
+         if(e != null)
+         {
+            for(int i = 0; i < e.length; i++)
+            {
+               str += e[i].exportCSV();
+            }
+         }
+      
       return("");
    }
 }

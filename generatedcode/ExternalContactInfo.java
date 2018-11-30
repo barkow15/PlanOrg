@@ -20,4 +20,9 @@ public class ExternalContactInfo extends ContactInfo {
 		this.company = company;
 	}
 
+   @Override   
+   public String exportCSV()
+   {
+      return(super.exportCSV("ExternalContactInfo") + "; " + getCompany() + "\n");
+   }   
 }
