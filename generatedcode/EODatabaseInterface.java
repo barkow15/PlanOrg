@@ -96,21 +96,61 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param customercontactid
+	 * @param cCIObj
 	 */
-   public CustomerContactInfo getCustomerContactInfo(int customercontactid) {
+   public CustomerContactInfo getCustomerContactInfo(CustomerContactInfo cCIObj) {
+   		int id = cCIObj.getId();
+   		String sql = "";
 
-	   String sql = "SELECT * FROM EOCustomerContactInfo WHERE idEOContactInfo =" + customercontactid + " AND deletedStatus = 2";
-	   ResultSet rs = this.querySql(sql);
+		sql += "SELECT * FROM 'EOCustomerContactInfo'";
+		sql += "WHERE idEOContactInfo=" + id + " ";
+		sql += "AND deletedStatus=2";
 
-	   CustomerContactInfo contactInfo = null;
-	   try
-	   {
+		ResultSet rs = this.querySql(sql);
 
-	   		// Iterate through ResultSet
+		CustomerContactInfo contactInfo = null;
+		try
+		{
+
+			// Iterate through ResultSet
 		   while(rs.next())
 		   {
 			   contactInfo = new CustomerContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
+		   }
+		   // Close connection
+		   this.closeConnection(rs);
+		}
+		catch(Exception e)
+		{
+		   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		   System.exit(0);
+		}
+
+		// Return CustomerContactInfo
+		return contactInfo;
+   }
+
+	/**
+	 * 
+	 * @param eCIObj
+	 */
+   public ExternalContactInfo getExternalContactInfo(ExternalContactInfo eCIObj) {
+	   int id = eCIObj.getId();
+	   String sql = "";
+
+	   sql += "SELECT * FROM 'EOExternalContactInfo'";
+	   sql += "WHERE idEOContactInfo=" + id + " ";
+	   sql += "AND deletedStatus=2";
+	   //System.out.println(sql);
+
+	   ResultSet rs = this.querySql(sql);
+	   ExternalContactInfo contactInfo = null;
+	   try
+	   {
+		   // Iterate through ResultSet
+		   while(rs.next())
+		   {
+			   contactInfo = new ExternalContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
 		   }
 		   // Close connection
 		   this.closeConnection(rs);
@@ -123,16 +163,6 @@ public class EODatabaseInterface {
 
 	   // Return CustomerContactInfo
 	   return contactInfo;
-
-   }
-
-	/**
-	 * 
-	 * @param externalcontactid
-	 */
-   public ExternalContactInfo getExternalContactInfo(int externalcontactid) {
-   	// TODO - implement EODatabaseInterface.getExternalContantInfo
-      throw new UnsupportedOperationException();
    }
 
 	/**
@@ -169,9 +199,12 @@ public class EODatabaseInterface {
 	 *  og returnere et array af FacilitatorContactInfo objekter
 	 */
 	public FacilitatorContactInfo[] getAllFacilitatorContactInfo() {
-		int rowCount = 0;
-		rowCount = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
 		FacilitatorContactInfo[] facilArr = null;
+		int rowCount;
+
+		rowCount 	 = 0;
+		rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
+
 		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
 		ResultSet rs = this.querySql(sql);
 
@@ -191,9 +224,9 @@ public class EODatabaseInterface {
 				this.closeConnection(rs);
 			}
 			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
-			if(facilArr != null) {
+			//if(facilArr != null) {
 				//System.out.println(facilArr[0]);
-			}
+			//}
 		}
 		catch(Exception e)
 		{
@@ -370,8 +403,6 @@ public class EODatabaseInterface {
 	   SQL += "'" + email 			+ "',";
 	   SQL += "'" + info 			+ "')";
 
-	   System.out.println(SQL);
-
 	   if(executeSql(SQL) == 1){
 		   returnvalue = true;
 	   }else{
@@ -386,31 +417,37 @@ public class EODatabaseInterface {
 	 * @param fCIObj
 	 */
    public boolean deleteFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
-	   boolean returnvalue = false;
+	    int 	id 			= fCIObj.getId();
+		boolean returnvalue = false;
+		String 	sql 		= "";
 
-	   int id = fCIObj.getId();
+		sql += "UPDATE ";
+		sql += "'EOFacilitatorContactInfo' SET deletedStatus = '3'";
+		sql += " WHERE idEOContactInfo = " + id;
 
-	   String sql = "UPDATE ";
-	   sql += "'EOFacilitatorContactInfo' SET deletedStatus = '3'";
-	   sql += " WHERE idEOContactInfo = " + id;
-
-	   if(this.executeSql(sql) == 1){
+		if(this.executeSql(sql) == 1){
 		   returnvalue = true;
-	   }else{
+		}else{
 		   returnvalue = false;
-	   }
+		}
 
-	   return returnvalue;
+		return returnvalue;
    }
 
 	/**
 	 * 
-	 * @param facilObj
+	 * @param fCIObj
 	 *
 	 */
-   public boolean updateFacilitatorContactInfo(FacilitatorContactInfo facilObj) {
-	   boolean returnvalue = false;
-	   String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + facilObj.getName() + "', phone = '" + facilObj.getPhone() + "', email = '" + facilObj.getEmail() + "' WHERE idEOContactInfo =" + facilObj.getId();
+   public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
+	   boolean 	returnvalue = false;
+	   String 	sql 		= "";
+
+	   sql +=	"UPDATE 'EOFacilitatorContactInfo' SET ";
+	   sql +=	"name = '" 	+ fCIObj.getName() + "',";
+	   sql +=	"phone = '"	+ fCIObj.getPhone() + "',";
+	   sql +=	"email = '"	+ fCIObj.getEmail() + "' ";
+	   sql +=	"WHERE idEOContactInfo =" + fCIObj.getId();
 
 	   if(this.executeSql(sql) == 1){
 		   returnvalue = true;
@@ -435,14 +472,17 @@ public class EODatabaseInterface {
 	   String	phone			= e.getPhone();
 	   String	email			= e.getEmail();
 	   String	info			= e.getInfo();
+	   String 	company 		= e.getCompany();
 	   String	SQL				= "";
 
-	   SQL += "INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES (";
+
+	   SQL += "INSERT INTO 'EOExternalContactInfo' (deletedStatus, name, phone, email, info, company) VALUES (";
 	   SQL += "'" + deletedStatus 	+ "',";
 	   SQL += "'" + name 			+ "',";
 	   SQL += "'" + phone 			+ "',";
 	   SQL += "'" + email 			+ "',";
-	   SQL += "'" + info 			+ "')";
+	   SQL += "'" + info 			+ "',";
+	   SQL += "'" + company			+ "')";
 
 	   if(executeSql(SQL) == 1){
 		   returnvalue = true;
@@ -455,24 +495,48 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param externalcontactid
+	 * @param eCIObj
 	 */
-   public void deleteExternalContactInfo(int externalcontactid) {
-   	// TODO - implement EODatabaseInterface.deleteExternalContactInfo
-      throw new UnsupportedOperationException();
+   public boolean deleteExternalContactInfo(ExternalContactInfo eCIObj) {
+	   int 		id 			= eCIObj.getId();
+	   boolean 	returnvalue = false;
+	   String 	sql 		= "";
+
+	   sql += "UPDATE ";
+	   sql += "'EOExternalContactInfo' SET deletedStatus = '3'";
+	   sql += " WHERE idEOContactInfo = " + id;
+
+	   if(this.executeSql(sql) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
    }
 
 	/**
 	 * 
-	 * @param externalcontactid
-	 * @param name
-	 * @param phone
-	 * @param email
-	 * @param company
+	 * @param eCIObj
+	 *
 	 */
-   public void updateExternalContactInfo(int externalcontactid, String name, String phone, String email, String company) {
-   	// TODO - implement EODatabaseInterface.updateExternalContactInfo
-      throw new UnsupportedOperationException();
+   public boolean updateExternalContactInfo(ExternalContactInfo eCIObj) {
+	   boolean returnvalue = false;
+	   String sql = "";
+
+	   sql +=	"UPDATE 'EOExternalContactInfo' SET ";
+	   sql +=	"name = '" 	+ eCIObj.getName() + "',";
+	   sql +=	"phone = '"	+ eCIObj.getPhone() + "',";
+	   sql +=	"email = '"	+ eCIObj.getEmail() + "' ";
+	   sql +=	"WHERE idEOContactInfo =" + eCIObj.getId();
+
+	   if(this.executeSql(sql) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
    }
 
 	/**
