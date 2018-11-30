@@ -4,6 +4,17 @@ public class RunDB {
     public static void main(String[] args){
 
         EODatabaseInterface db = new EODatabaseInterface();
+
+        /*********************************/
+        /** Arrangements DB TESTS START **/
+        /*********************************/
+
+        //EOArrangement ar = new EOArrangement(1, "Nøgenbadning", "Blablabla", "16:00");
+
+        /*******************************/
+        /** Arrangements DB TESTS END **/
+        /*******************************/
+
         //db.test();
         /*******************************************/
         /** FacilitatorContactInfo DB TESTS START **/
