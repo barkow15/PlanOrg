@@ -133,13 +133,16 @@ public class EODatabaseInterface {
 	 * @param fCIObj
 	 */
    public FacilitatorContactInfo getFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
-	   String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE idEOContactInfo =" + fCIObj.getId() + " AND deletedStatus = 2";
+   		FacilitatorContactInfo contactInfo = null;
+   		String sql = "";
+
+	   sql += "SELECT * FROM EOFacilitatorContactInfo WHERE idEOContactInfo =";
+	   sql += fCIObj.getId() + " AND deletedStatus = 2";
+
 	   ResultSet rs = this.querySql(sql);
 
-	   FacilitatorContactInfo contactInfo = null;
 	   try
 	   {
-
 		   // Iterate through ResultSet
 		   while(rs.next())
 		   {
