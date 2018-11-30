@@ -4,6 +4,7 @@ public enum EOOperation {
    CREATEARRANGEMENT (null, "Opret Arrangement", EODisplayType.CREATEARRANGEMENT), //Marcus
    UPDATEARRANGEMENT (null, "Opdater Arrangement", EODisplayType.UPDATEARRANGEMENT), //Marcus
    DELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT), //Marcus
+   SAVEDELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT), //Marcus
    OPENARRANGEMENT (null, "Vis Arrangement", EODisplayType.OPENARRANGEMENT), //Martin - Mangler DB
    CREATEEVENT (null, "Opret Begivenhed", EODisplayType.CREATEEVENT),  //Rasmus
    UPDATEEVENT (null, "Opdater Begivenhed", EODisplayType.UPDATEEVENT),  //Rasmus
