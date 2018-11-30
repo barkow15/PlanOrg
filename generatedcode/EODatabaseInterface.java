@@ -59,151 +59,6 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param cCIObj
-	 */
-   public CustomerContactInfo getCustomerContactInfo(CustomerContactInfo cCIObj) {
-   		int id = cCIObj.getId();
-   		String sql = "";
-
-		sql += "SELECT * FROM 'EOCustomerContactInfo'";
-		sql += "WHERE idEOContactInfo=" + id + " ";
-		sql += "AND deletedStatus=2";
-
-		ResultSet rs = this.querySql(sql);
-
-		CustomerContactInfo contactInfo = null;
-		try
-		{
-
-			// Iterate through ResultSet
-		   while(rs.next())
-		   {
-			   contactInfo = new CustomerContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
-		   }
-		   // Close connection
-		   this.closeConnection(rs);
-		}
-		catch(Exception e)
-		{
-		   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		   System.exit(0);
-		}
-
-		// Return CustomerContactInfo
-		return contactInfo;
-   }
-
-	/**
-	 * 
-	 * @param eCIObj
-	 */
-   public ExternalContactInfo getExternalContactInfo(ExternalContactInfo eCIObj) {
-	   int id = eCIObj.getId();
-	   String sql = "";
-
-	   sql += "SELECT * FROM 'EOExternalContactInfo'";
-	   sql += "WHERE idEOContactInfo=" + id + " ";
-	   sql += "AND deletedStatus=2";
-	   //System.out.println(sql);
-
-	   ResultSet rs = this.querySql(sql);
-	   ExternalContactInfo contactInfo = null;
-	   try
-	   {
-		   // Iterate through ResultSet
-		   while(rs.next())
-		   {
-			   contactInfo = new ExternalContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
-		   }
-		   // Close connection
-		   this.closeConnection(rs);
-	   }
-	   catch(Exception e)
-	   {
-		   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		   System.exit(0);
-	   }
-
-	   // Return CustomerContactInfo
-	   return contactInfo;
-   }
-
-	/**
-	 * 
-	 * @param fCIObj
-	 */
-   public FacilitatorContactInfo getFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
-   		FacilitatorContactInfo contactInfo = null;
-   		String sql = "";
-
-	   sql += "SELECT * FROM EOFacilitatorContactInfo WHERE idEOContactInfo =";
-	   sql += fCIObj.getId() + " AND deletedStatus = 2";
-
-	   ResultSet rs = this.querySql(sql);
-
-	   try
-	   {
-		   // Iterate through ResultSet
-		   while(rs.next())
-		   {
-			   contactInfo = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
-		   }
-		   // Close connection
-		   this.closeConnection(rs);
-	   }
-	   catch(Exception e)
-	   {
-		   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		   System.exit(0);
-	   }
-
-	   // Return CustomerContactInfo
-	   return contactInfo;
-   }
-	/**
-	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud
-	 *  og returnere et array af FacilitatorContactInfo objekter
-	 */
-	public FacilitatorContactInfo[] getAllFacilitatorContactInfo() {
-		FacilitatorContactInfo[] facilArr = null;
-		int rowCount;
-
-		rowCount 	 = 0;
-		rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
-
-		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
-		ResultSet rs = this.querySql(sql);
-
-		try
-		{
-			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
-			if(rowCount != 0){
-				// Initialisere array facilArr på størrelsen defineret i "rowCount"
-				facilArr = new FacilitatorContactInfo[rowCount];
-
-				int i = 0;
-				while(rs.next()){
-					facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
-					++i;
-				}
-				// Luk DB forbindelse efter query er kørt færdig
-				this.closeConnection(rs);
-			}
-			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
-			//if(facilArr != null) {
-				//System.out.println(facilArr[0]);
-			//}
-		}
-		catch(Exception e)
-		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-			System.exit(0);
-		}
-		return facilArr;
-	}
-
-	/**
-	 * 
 	 * @param sortby
 	 * @param pagenumber
 	 */
@@ -405,7 +260,7 @@ public class EODatabaseInterface {
 	 * @param fCIObj
 	 *
 	 */
-   public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
+    public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
 	   boolean 	returnvalue = false;
 	   String 	sql 		= "";
 
@@ -422,7 +277,92 @@ public class EODatabaseInterface {
 	   }
 
 	   return returnvalue;
-   }
+    }
+
+	/**
+	 *
+	 * @param fCIObj
+	 */
+	public FacilitatorContactInfo getFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
+		FacilitatorContactInfo contactInfo = null;
+		String sql = "";
+
+		sql += "SELECT * FROM EOFacilitatorContactInfo WHERE idEOContactInfo =";
+		sql += fCIObj.getId() + " AND deletedStatus = 2";
+
+		ResultSet rs = this.querySql(sql);
+
+		try
+		{
+			// Iterate through ResultSet
+			while(rs.next())
+			{
+				contactInfo = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
+			}
+			// Close connection
+			this.closeConnection(rs);
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+
+		// Return CustomerContactInfo
+		return contactInfo;
+	}
+	/**
+	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud
+	 *  og returnere et array af FacilitatorContactInfo objekter
+	 */
+	public FacilitatorContactInfo[] getAllFacilitatorContactInfo() {
+		FacilitatorContactInfo[] facilArr = null;
+		int rowCount;
+
+		rowCount 	 = 0;
+		rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
+
+		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
+		ResultSet rs = this.querySql(sql);
+
+		try
+		{
+			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
+			if(rowCount != 0){
+				// Initialisere array facilArr på størrelsen defineret i "rowCount"
+				facilArr = new FacilitatorContactInfo[rowCount];
+
+				int i = 0;
+				while(rs.next()){
+					facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
+					++i;
+				}
+				// Luk DB forbindelse efter query er kørt færdig
+				this.closeConnection(rs);
+			}
+			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
+			//if(facilArr != null) {
+			//System.out.println(facilArr[0]);
+			//}
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+		return facilArr;
+	}
+
+	/**
+	 *
+	 * @param fCIObj
+	 * @param printSqlStatment
+	 *
+	 * Overwriter metoden updateFacilitatorContactInfo med den
+	 * tilføjede parameter printSqlStatment som udskriver SQLstatement
+	 * til konsollen
+	 *
+	 */
 	public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj, boolean printSqlStatment) {
 		boolean 	returnvalue = false;
 		String 	sql 		= "";
@@ -431,7 +371,7 @@ public class EODatabaseInterface {
 		sql +=	"name = '" 	+ fCIObj.getName() + "',";
 		sql +=	"phone = '"	+ fCIObj.getPhone() + "',";
 		sql +=	"email = '"	+ fCIObj.getEmail() + "' ";
-		sql +=	"WHERE idContactInfo =" + fCIObj.getId();
+		sql +=	"WHERE idEOContactInfo =" + fCIObj.getId();
 
 		if(printSqlStatment == true){
 			System.out.println(sql);
@@ -451,7 +391,7 @@ public class EODatabaseInterface {
 	 * @param cECObj
 	 *
 	 */
-   public boolean createExternalContactInfo(ExternalContactInfo cECObj) {
+    public boolean createExternalContactInfo(ExternalContactInfo cECObj) {
 	   ExternalContactInfo e 	= cECObj;
 	   boolean  returnvalue 	= false;
 
@@ -479,13 +419,13 @@ public class EODatabaseInterface {
 	   }
 
 	   return returnvalue;
-   }
+    }
 
 	/**
 	 * 
 	 * @param eCIObj
 	 */
-   public boolean deleteExternalContactInfo(ExternalContactInfo eCIObj) {
+    public boolean deleteExternalContactInfo(ExternalContactInfo eCIObj) {
 	   int 		id 			= eCIObj.getId();
 	   boolean 	returnvalue = false;
 	   String 	sql 		= "";
@@ -501,14 +441,14 @@ public class EODatabaseInterface {
 	   }
 
 	   return returnvalue;
-   }
+     }
 
 	/**
 	 * 
 	 * @param eCIObj
 	 *
 	 */
-   public boolean updateExternalContactInfo(ExternalContactInfo eCIObj) {
+    public boolean updateExternalContactInfo(ExternalContactInfo eCIObj) {
 	   boolean returnvalue = false;
 	   String sql = "";
 
@@ -525,7 +465,84 @@ public class EODatabaseInterface {
 	   }
 
 	   return returnvalue;
-   }
+    }
+
+	/**
+	 *
+	 * @param eCIObj
+	 */
+	public ExternalContactInfo getExternalContactInfo(ExternalContactInfo eCIObj) {
+		int id = eCIObj.getId();
+		String sql = "";
+
+		sql += "SELECT * FROM 'EOExternalContactInfo'";
+		sql += "WHERE idEOContactInfo=" + id + " ";
+		sql += "AND deletedStatus=2";
+		//System.out.println(sql);
+
+		ResultSet rs = this.querySql(sql);
+		ExternalContactInfo contactInfo = null;
+		try
+		{
+			// Iterate through ResultSet
+			while(rs.next())
+			{
+				contactInfo = new ExternalContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
+			}
+			// Close connection
+			this.closeConnection(rs);
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+
+		// Return CustomerContactInfo
+		return contactInfo;
+	}
+
+	/**
+	 *  Metode til at hente alle EOExternalContactInfo rows ud
+	 *  og returnere et array af ExternalContactInfo objekter
+	 */
+	public ExternalContactInfo[] getAllExternalContactInfo() {
+		ExternalContactInfo[] extArr = null;
+		int rowCount;
+
+		rowCount 	 = 0;
+		rowCount 	 = getNotDeletedRowCountFromTable("EOExternalContactInfo");
+
+		String sql = "SELECT * FROM EOExternalContactInfo WHERE deletedStatus = 2";
+		ResultSet rs = this.querySql(sql);
+
+		try
+		{
+			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
+			if(rowCount != 0){
+				// Initialisere array facilArr på størrelsen defineret i "rowCount"
+				extArr = new ExternalContactInfo[rowCount];
+
+				int i = 0;
+				while(rs.next()){
+					extArr[i] = new ExternalContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
+					++i;
+				}
+				// Luk DB forbindelse efter query er kørt færdig
+				this.closeConnection(rs);
+			}
+			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
+			//if(facilArr != null) {
+			//System.out.println(facilArr[0]);
+			//}
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+		return extArr;
+	}
 
 	/**
 	 * 
@@ -564,80 +581,169 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param customercontactid
+	 * @param cCIObj
 	 */
-   public boolean deleteCustomerContactInfo(int customercontactid) {
-	   boolean returnvalue = false;
-	   String sql = "UPDATE 'EOCustomerContactInfo' SET deletedStatus = '3' WHERE idEOContactInfo = " + customercontactid;
+   public boolean deleteCustomerContactInfo(CustomerContactInfo cCIObj) {
+	   int 		id 			= cCIObj.getId();
+	   boolean 	returnvalue = false;
+	   String 	sql 		= "";
+
+	   sql += "UPDATE ";
+	   sql += "'EOCustomerContactInfo' SET deletedStatus = '3'";
+	   sql += " WHERE idEOContactInfo = " + id;
 
 	   if(this.executeSql(sql) == 1){
-	   	returnvalue = true;
+		   returnvalue = true;
 	   }else{
-	   	returnvalue = false;
+		   returnvalue = false;
 	   }
 
 	   return returnvalue;
    }
 
 	/**
-	 * @param customercontactid
-     * @param name
-     * @param phone
-     * @param email
-     * @param company
+	 * @param cCIObj
      */
-   public boolean updateCustomerContactInfo(int customercontactid, String name, String phone, String email, String company, String info) {
+    public boolean updateCustomerContactInfo(CustomerContactInfo cCIObj) {
+	   boolean 	returnvalue = false;
+	   String 	sql 		= "";
 
-       boolean returnvalue = false;
-       String sql = "UPDATE 'EOCustomerContactInfo' SET name = '" + name + "', phone = '" + phone + "', email = '" + email + "', company = '" + company + "', info = '" + info + "' WHERE idEOContactInfo =" + customercontactid;
+	   sql +=	"UPDATE 'EOCustomerContactInfo' SET ";
+	   sql +=	"name = '" 	+ cCIObj.getName() + "',";
+	   sql +=	"phone = '"	+ cCIObj.getPhone() + "',";
+	   sql +=	"email = '"	+ cCIObj.getEmail() + "' ";
+	   sql +=	"WHERE idEOContactInfo =" + cCIObj.getId();
 
-       if(this.executeSql(sql) == 1){
-           returnvalue = true;
-       }else{
-           returnvalue = false;
-       }
+	   if(this.executeSql(sql) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
 
-       return returnvalue;
+	   return returnvalue;
+    }
 
-   }
+	/**
+	 *
+	 * @param cCIObj
+	 */
+	public CustomerContactInfo getCustomerContactInfo(CustomerContactInfo cCIObj) {
+		int id = cCIObj.getId();
+		String sql = "";
 
-   public int getNotDeletedRowCountFromTable(String tablename){
-	String  sql = "SELECT Count(*) FROM " + tablename + " WHERE deletedStatus = 2";
-	ResultSet rs = this.querySql(sql);
-	int		rowCount = 0;
-	try {
-		while (rs.next()) {
-			rowCount = rs.getInt(1);
+		sql += "SELECT * FROM 'EOCustomerContactInfo'";
+		sql += "WHERE idEOContactInfo=" + id + " ";
+		sql += "AND deletedStatus=2";
+
+		ResultSet rs = this.querySql(sql);
+
+		CustomerContactInfo contactInfo = null;
+		try
+		{
+
+			// Iterate through ResultSet
+			while(rs.next())
+			{
+				contactInfo = new CustomerContactInfo(rs.getInt("idEOContactInfo"),rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
+			}
+			// Close connection
+			this.closeConnection(rs);
 		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+
+		// Return CustomerContactInfo
+		return contactInfo;
 	}
-	catch (Exception e)
+
+	/**
+	 *  Metode til at hente alle EOCustomerContactInfo rows ud
+	 *  og returnere et array af CustomerContactInfo objekter
+	 */
+	public CustomerContactInfo[] getAllCustomerContactInfo() {
+		CustomerContactInfo[] extArr = null;
+		int rowCount;
+
+		rowCount 	 = 0;
+		rowCount 	 = getNotDeletedRowCountFromTable("EOCustomerContactInfo");
+
+		String sql = "SELECT * FROM EOCustomerContactInfo WHERE deletedStatus = 2";
+		ResultSet rs = this.querySql(sql);
+
+		try
+		{
+			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
+			if(rowCount != 0){
+				// Initialisere array facilArr på størrelsen defineret i "rowCount"
+				extArr = new CustomerContactInfo[rowCount];
+
+				int i = 0;
+				while(rs.next()){
+					extArr[i] = new CustomerContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
+					++i;
+				}
+				// Luk DB forbindelse efter query er kørt færdig
+				this.closeConnection(rs);
+			}
+			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
+			//if(facilArr != null) {
+			//System.out.println(facilArr[0]);
+			//}
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+		return extArr;
+	}
+
+	/**
+	* @param tablename
+	* Metode som henter hvor mange antal rækker
+	* der er i tabel 'tablename' som ikke er
+	* blevet soft deleted.
+	*/
+	public int getNotDeletedRowCountFromTable(String tablename){
+		String  sql = "SELECT Count(*) FROM " + tablename + " WHERE deletedStatus = 2";
+		ResultSet rs = this.querySql(sql);
+		int		rowCount = 0;
+		try {
+			while (rs.next()) {
+				rowCount = rs.getInt(1);
+			}
+		}
+		catch (Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+
+			//System.exit(0);
+		}
+		this.closeConnection(rs);
+
+		return rowCount;
+	}
+
+	private int executeSql(String sql)
 	{
-		System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	  int returnvalue = -1;
+	  PreparedStatement pstmt = null;
 
-		//System.exit(0);
-	}
-	this.closeConnection(rs);
+	  try
+	  {
+		 conn = DriverManager.getConnection(this.dbPathRelative);
+		 System.out.println("DB CONNECTION OPENED");
 
-	return rowCount;
-   }
+		 pstmt = conn.prepareStatement(sql);
 
-   private int executeSql(String sql)
-   {
-      int returnvalue = -1;
-      PreparedStatement pstmt = null;
-   
-      try
-      {
-         conn = DriverManager.getConnection(this.dbPathRelative);
-         System.out.println("DB CONNECTION OPENED");
-      
-         pstmt = conn.prepareStatement(sql);
+		 System.out.println("EXECUTING SQL ...");
+		 returnvalue = pstmt.executeUpdate();
 
-         System.out.println("EXECUTING SQL ...");
-         returnvalue = pstmt.executeUpdate();
-
-         System.out.println("SQL SUCCESS: " + returnvalue);
-         //System.out.println(returnvalue);
+		 System.out.println("SQL SUCCESS: " + returnvalue);
+		 //System.out.println(returnvalue);
 		  System.out.println("CLOSING DB CONNECTION ...");
 
 		  if(conn != null)
@@ -646,42 +752,42 @@ public class EODatabaseInterface {
 			  System.out.println("DB CONNECTION CLOSED");
 		  }
 
-      }
-      catch (Exception e)
-      {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	  }
+	  catch (Exception e)
+	  {
+		 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 
 		  returnvalue = -1;
-         //System.exit(0);
-      }
-      return(returnvalue);
-   }
+		 //System.exit(0);
+	  }
+	  return(returnvalue);
+	}
 
-   private ResultSet querySql(String sql)
-   {
-      PreparedStatement pstmt = null;
-      ResultSet rs = null;
-   
-      try
-      {
-         //conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-		  conn = DriverManager.getConnection(this.dbPathRelative);
-         System.out.println("DB CONNECTION OPENED");
-      
-         pstmt = conn.prepareStatement(sql);
+    private ResultSet querySql(String sql)
+    {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-         System.out.println("EXECUTING SQL QUERY ...");
-         rs = pstmt.executeQuery();
-      
-         return rs;
-      }
-      catch (Exception e)
-      {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-         System.exit(0);
-      }
-      return rs;
-   }
+		try
+		{
+			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
+			conn = DriverManager.getConnection(this.dbPathRelative);
+			System.out.println("DB CONNECTION OPENED");
+
+			pstmt = conn.prepareStatement(sql);
+
+			System.out.println("EXECUTING SQL QUERY ...");
+			rs = pstmt.executeQuery();
+
+			return rs;
+		}
+		catch (Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+		return rs;
+    }
 
 	private void closeConnection(ResultSet rs)
 	{

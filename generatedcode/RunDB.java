@@ -8,7 +8,7 @@ public class RunDB {
         /*******************************************/
         /** FacilitatorContactInfo DB TESTS START **/
         /*******************************************/
-        FacilitatorContactInfo fi = new FacilitatorContactInfo(1,"Test Testesen", "12345678", "test@test.dk","Bla");
+        FacilitatorContactInfo fi = new FacilitatorContactInfo(2,"- Name of test -", "12345678", "test@test.dk","Bla");
         // <-- CREATE -->
         /*
         if(db.createFacilitatorContactInfo(fi)){
@@ -38,16 +38,15 @@ public class RunDB {
 
         // <-- UPDATE -->
         /*
-        if(db.updateFacilitatorContactInfo(new FacilitatorContactInfo(2,"John", "70807080", "marcus@test.dk", "blablabla"))){
+        if(db.updateFacilitatorContactInfo(fi)){
             System.out.println("Updated Customer Contact Info");
         }else{
             System.out.println("Could not update Customer Contact Info. Try again");
         }
         */
 
-
         // <-- GET ALL -->
-
+        /*
         FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
         if(facilAll != null) {
             for (int i = 0; i < facilAll.length; i++) {
@@ -66,9 +65,7 @@ public class RunDB {
         }else{
             System.out.println("No data or error.");
         }
-
-
-
+        */
 
         /*****************************************/
         /** FacilitatorContactInfo DB TESTS END **/
@@ -79,7 +76,7 @@ public class RunDB {
         /** CustomerContactInfo DB TESTS START **/
         /****************************************/
 
-        CustomerContactInfo ci = new CustomerContactInfo(1,"Mathias Johnson", "67189182", "mathias@test.dk", "Test Firma", "Bla");
+        CustomerContactInfo ci = new CustomerContactInfo(1,"Customer Test", "67189182", "mathias@test.dk", "Test Firma", "Bla");
         // <-- CREATE -->
         /*
         if(db.createCustomerContactInfo(ci)){
@@ -91,7 +88,7 @@ public class RunDB {
 
         // <-- DELETE -->
         /*
-        if(db.deleteCustomerContactInfo(1)){
+        if(db.deleteCustomerContactInfo(ci)){
             System.out.println("Deleted Customer Contact Info");
         }else{
             System.out.println("Could not delete customer contact info. Try again.");
@@ -100,7 +97,7 @@ public class RunDB {
 
         // <-- GET -->
         /*
-        CustomerContactInfo customer = db.getCustomerContactInfo(1);
+        CustomerContactInfo customer = db.getCustomerContactInfo(ci);
         if(customer != null) {
             System.out.println(customer.getName());
         }
@@ -108,12 +105,34 @@ public class RunDB {
 
         // <-- UPDATE -->
         /*
-        if(db.updateCustomerContactInfo(1, "Johnny Madsen", "12345678", "mads@madsen.dk", "madsens", "Mads")){
+        if(db.updateCustomerContactInfo(ci)){
             System.out.println("Updated Customer Contact Info");
         }else{
             System.out.println("Could not update Customer Contact Info. Try again");
+        }*/
+
+        // <-- GET ALL -->
+        /*
+        CustomerContactInfo[] customAll = db.getAllCustomerContactInfo();
+        if(customAll != null) {
+            for (int i = 0; i < customAll.length; i++) {
+                //System.out.println(facilAll[0].getName());
+                if(customAll[i] != null) {
+
+                    System.out.println("CustomConInfo id: " + customAll[i].getId());
+
+                    System.out.println(customAll[i].getName());
+                    System.out.println(customAll[i].getPhone());
+                    System.out.println(customAll[i].getEmail());
+                    System.out.println(customAll[i].getInfo() + "\n");
+
+                }
+            }
+        }else{
+            System.out.println("No data or error.");
         }
         */
+
         /**************************************/
         /** CustomerContactInfo DB TESTS END **/
         /**************************************/
@@ -152,7 +171,7 @@ public class RunDB {
 
         // <-- UPDATE -->
         /*
-        if(db.updateFacilitatorContactInfo(new FacilitatorContactInfo(2,"John", "70807080", "marcus@test.dk", "blablabla"))){
+        if(db.updateExternalContactInfo(ei))){
             System.out.println("Updated Customer Contact Info");
         }else{
             System.out.println("Could not update Customer Contact Info. Try again");
@@ -162,18 +181,18 @@ public class RunDB {
 
         // <-- GET ALL -->
         /*
-        FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
-        if(facilAll != null) {
-            for (int i = 0; i < facilAll.length; i++) {
+        ExternalContactInfo[] extAll = db.getAllExternalContactInfo();
+        if(extAll != null) {
+            for (int i = 0; i < extAll.length; i++) {
                 //System.out.println(facilAll[0].getName());
-                if(facilAll[i] != null) {
+                if(extAll[i] != null) {
 
-                    System.out.println("FacilConInfo id: " + facilAll[i].getId());
+                    System.out.println("ExtConInfo id: " + extAll[i].getId());
 
-                    System.out.println(facilAll[i].getName());
-                    System.out.println(facilAll[i].getPhone());
-                    System.out.println(facilAll[i].getEmail());
-                    System.out.println(facilAll[i].getInfo() + "\n");
+                    System.out.println(extAll[i].getName());
+                    System.out.println(extAll[i].getPhone());
+                    System.out.println(extAll[i].getEmail());
+                    System.out.println(extAll[i].getInfo() + "\n");
 
                 }
             }
