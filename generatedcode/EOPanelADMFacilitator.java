@@ -16,7 +16,7 @@ public class EOPanelADMFacilitator extends EOPanel {
    JTextField nameText;
    JTextField emailText;
    JTextField phoneNumberText;
-   JTextField notesText;
+   JTextArea notesText;
    EOGUIMultiSelect admFacilitatorMultiselect;
    
    public EOPanelADMFacilitator(EOGUI gui) {
@@ -91,8 +91,9 @@ public class EOPanelADMFacilitator extends EOPanel {
       JLabel notes = new JLabel("Noter:");
       notes.setBounds(450,300,150,50);
       this.add(notes);
-   
-      notesText = new JTextField();
+
+
+      notesText = new JTextArea();
       notesText.setBounds(450,350,300,150);
       this.add(notesText);
    
@@ -101,7 +102,8 @@ public class EOPanelADMFacilitator extends EOPanel {
       admFacilitatorMultiselect.setBounds(50, 100, 300, 240);
    
       this.add(admFacilitatorMultiselect);
-   
+
+      //Edit Facilitator
       JButton editFacilitatorButton = new JButton("Rediger Facilitator");
       editFacilitatorButton.setBounds (50,400,150,50);
       editFacilitatorButton.addActionListener(
@@ -117,8 +119,9 @@ public class EOPanelADMFacilitator extends EOPanel {
               });
       this.add(editFacilitatorButton);
 
-      JButton createFacilitatorButton = new JButton("Opret Facilitator");
-      createFacilitatorButton.setBounds (450,550,150,50);
+      //Create Facilitator
+      JButton createFacilitatorButton = new JButton("Opret Ny Facilitator");
+      createFacilitatorButton.setBounds (650,550,150,50);
       createFacilitatorButton.addActionListener(
               new ActionListener()
               {
@@ -138,6 +141,7 @@ public class EOPanelADMFacilitator extends EOPanel {
               });
       this.add(createFacilitatorButton);
 
+      //Delete Button
       JButton deleteFacilitatorButton = new JButton("Slet");
       deleteFacilitatorButton.setBounds(200,400,150,50);
       deleteFacilitatorButton.addActionListener(
@@ -154,15 +158,38 @@ public class EOPanelADMFacilitator extends EOPanel {
               });
       this.add(deleteFacilitatorButton);
 
+      //ADM Facilitator text
       JTextArea admFacilitatorTextArea = new JTextArea(
-              "Tryk paa en Facalitator fra listen for at redigere eller slette oprettede facilitatorer.\n"+
-                      "Ellers kan kan man oprette en ny facilitater ved at udfylde de valgte felter.");
+              "Tryk paa en Facalitator fra listen for at redigere eller slette oprettede facilitatorer.\n\n"+
+                      "Tryk paa Gem Redigering, naar du er slut med at redigereen facilitator for at gemme updateringen.\n\n"+
+                      "Ellers kan kan man oprette en ny facilitater ved at udfylde felterne, og trykke paa Opret Ny Facilitator.");
       admFacilitatorTextArea.setFont(this.gui.getFontsmall());
       admFacilitatorTextArea.setLineWrap(true);
       admFacilitatorTextArea.setWrapStyleWord(true);
       admFacilitatorTextArea.setBounds(910, 60, 300, 300);
       admFacilitatorTextArea.setBackground(new Color(0, 0, 0, 0));
       this.add(admFacilitatorTextArea);
+
+      //Gem redigering af Facilitator
+      JButton saveEditFacilitator = new JButton("Gem Redigering");
+      saveEditFacilitator.setBounds(450,550,150,50);
+      saveEditFacilitator.addActionListener(
+              new ActionListener() {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                    FacilitatorContactInfo updatefacilitatorcontactinfo = new FacilitatorContactInfo
+                            (
+                                    -1,
+                                    nameText.getText(),
+                                    phoneNumberText.getText(),
+                                    emailText.getText(),
+                                    notesText.getText()
+                            );
+                    EOOperation.SAVEEDITFACILITATOR.setData(updatefacilitatorcontactinfo);
+                    gui.runCommand(EOOperation.SAVEEDITFACILITATOR);
+                 }
+              });
+      this.add(saveEditFacilitator);
 
    }
 
@@ -182,6 +209,9 @@ public class EOPanelADMFacilitator extends EOPanel {
             {
                FacilitatorContactInfo facilitator = (FacilitatorContactInfo) EOOperation.UPDATEFACILITATOR.getData();
                nameText.setText(facilitator.getName());
+               phoneNumberText.setText(facilitator.getPhone());
+               emailText.setText(facilitator.getEmail());
+               notesText.setText(facilitator.getInfo());
 
             }
          

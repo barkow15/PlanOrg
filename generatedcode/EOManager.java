@@ -105,6 +105,7 @@ public class EOManager {
             break;
          case UPDATEFACILITATOR:
             gui.getBreadcrumb().push(EOOperation.UPDATEFACILITATOR);
+            db.getFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.UPDATEFACILITATOR.getData());
             break;
          case ADMEVENTTYPE:
             gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
@@ -113,9 +114,14 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
             break;
          case CREATEFACILITATOR:
+            db.createFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.CREATEFACILITATOR.getData());
             break;
          case DELETEFACILITATOR:
-            db.deleteFacilitatorContactInfo((FacilitatorContactInfo)EOOperation.DELETEFACILITATOR.getData());
+            db.deleteFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.DELETEFACILITATOR.getData());
+            break;
+         case SAVEEDITFACILITATOR:
+            db.updateFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.SAVEEDITFACILITATOR.getData());
+            System.out.println(EOOperation.SAVEEDITFACILITATOR);
             break;
          default:
             break;
