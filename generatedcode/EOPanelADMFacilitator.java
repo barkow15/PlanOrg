@@ -17,6 +17,7 @@ public class EOPanelADMFacilitator extends EOPanel {
    JTextField emailText;
    JTextField phoneNumberText;
    JTextArea notesText;
+   JOptionPane besked;
    EOGUIMultiSelect admFacilitatorMultiselect;
    
    public EOPanelADMFacilitator(EOGUI gui) {
@@ -41,7 +42,7 @@ public class EOPanelADMFacilitator extends EOPanel {
                      gui.runCommand(EOOperation.START);
                   }
                });
-      this.add(exportbutton);
+      //this.add(exportbutton);
       
       JButton cancelbutton=new JButton("Annuller");
       cancelbutton.setBounds(this.gui.getWidth()-230, 5, 100, 30);
@@ -177,9 +178,10 @@ public class EOPanelADMFacilitator extends EOPanel {
               new ActionListener() {
                  public void actionPerformed(ActionEvent e)
                  {
+                    int selectedID=((FacilitatorContactInfo)EOOperation.UPDATEFACILITATOR.getData()).getId();
                     FacilitatorContactInfo updatefacilitatorcontactinfo = new FacilitatorContactInfo
                             (
-                                    -1,
+                                    selectedID,
                                     nameText.getText(),
                                     phoneNumberText.getText(),
                                     emailText.getText(),
@@ -198,6 +200,14 @@ public class EOPanelADMFacilitator extends EOPanel {
       if (data instanceof EOOperation)
       {
          EOOperation facilitatorEnum=(EOOperation)data;
+         //Clear input Fields.
+         if (EOOperation.ADMFACILITATOR == facilitatorEnum){
+            nameText.setText("");
+            phoneNumberText.setText("");
+            emailText.setText("");
+            notesText.setText("");
+         }
+
          if (EOOperation.UPDATEFACILITATOR == facilitatorEnum)
          {
 
@@ -213,9 +223,12 @@ public class EOPanelADMFacilitator extends EOPanel {
                emailText.setText(facilitator.getEmail());
                notesText.setText(facilitator.getInfo());
 
+
             }
          
          }
+
+
          System.out.println("1");
          if(facilitatorEnum == EOOperation.ADMFACILITATOR)
          {
@@ -228,13 +241,36 @@ public class EOPanelADMFacilitator extends EOPanel {
          }
          
       }
+      EOOperation facilitatorEnum=(EOOperation)data;
+      if (EOOperation.SAVEEDITFACILITATOR == facilitatorEnum){
+         nameText.setText("");
+         phoneNumberText.setText("");
+         emailText.setText("");
+         notesText.setText("");
+         admFacilitatorMultiselect.setList((Object[])EOOperation.SAVEEDITFACILITATOR.getData());
+         besked.showMessageDialog(null,"Update Gemt!");
+      }
+      if (EOOperation.CREATEFACILITATOR == facilitatorEnum) {
+         nameText.setText("");
+         phoneNumberText.setText("");
+         emailText.setText("");
+         notesText.setText("");
+         admFacilitatorMultiselect.setList((Object[])EOOperation.CREATEFACILITATOR.getData());
+         besked.showMessageDialog(null, "Facilitator Oprettet!");
+      }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible);
    }
 
    public void clearData() {
-   	// TODO - implement PanelCreateArrangement.clearData
-      throw new UnsupportedOperationException();
+      //Clear input Fields.
+      EOOperation facilitatorEnum=(EOOperation)data;
+      if (EOOperation.ADMFACILITATOR == facilitatorEnum){
+         nameText.setText("");
+         phoneNumberText.setText("");
+         emailText.setText("");
+         notesText.setText("");
+      }
    }
 
    protected void paintComponent(Graphics g)

@@ -101,10 +101,12 @@ public class EOManager {
 
             if(allFacilConInfo1 != null){
                EOOperation.ADMFACILITATOR.setData(allFacilConInfo1);
-            }else{
+            }
+            else{
                //EOOperation.EXPORT.setData(allFacilConInfo)
             }
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
+
             break;
          case UPDATEFACILITATOR:
             gui.getBreadcrumb().push(EOOperation.UPDATEFACILITATOR);
@@ -118,12 +120,20 @@ public class EOManager {
             break;
          case CREATEFACILITATOR:
             db.createFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.CREATEFACILITATOR.getData());
+            FacilitatorContactInfo[] allFacilConInfoCreate = db.getAllFacilitatorContactInfo();
+            if(allFacilConInfoCreate != null){
+               EOOperation.CREATEFACILITATOR.setData(allFacilConInfoCreate);
+            }
             break;
          case DELETEFACILITATOR:
             db.deleteFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.DELETEFACILITATOR.getData());
             break;
          case SAVEEDITFACILITATOR:
             db.updateFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.SAVEEDITFACILITATOR.getData());
+            FacilitatorContactInfo[] allFacilConInfoSave = db.getAllFacilitatorContactInfo();
+            if(allFacilConInfoSave != null){
+               EOOperation.SAVEEDITFACILITATOR.setData(allFacilConInfoSave);
+            }
             System.out.println(EOOperation.SAVEEDITFACILITATOR);
             break;
          default:
