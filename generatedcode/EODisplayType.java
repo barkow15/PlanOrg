@@ -8,6 +8,7 @@ public enum EODisplayType {
    UPDATEEVENT,
    DELETEEVENT,   
    EXPORT,
+   IMPORT,
    ADMFACILITATOR,
    ERROR,
    ADMEVENTTYPE;

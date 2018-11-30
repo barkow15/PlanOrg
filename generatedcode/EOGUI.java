@@ -16,17 +16,27 @@ public class EOGUI {
    private int screenheight = 0;
    EOManager eomanager = null;
    EOBreadcrumb breadcrumb = null;
-   
+   //usertype = 1: Secretarian
+   //usertype = 2: Facilitator   
+   int usertype = 1;
    public EOGUI(EOManager eomanager)
-   {
+   {      
       this.breadcrumb = new EOBreadcrumb();
       this.eomanager = eomanager;
-      frame = new JFrame("Event Organizer Administration 1.1");
+      if(usertype == 1)
+      {
+         frame = new JFrame("Event Organizer Administration 1.1");
+      }
+      else
+      {
+         frame = new JFrame("Event Organizer 1.1");
+      }
+      
       //frame.setUndecorated(true);
       //GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
       //gd.setFullScreenWindow(frame);
       frame.setResizable(false);
-      frame.setSize(1300, 1000);
+      frame.setSize(1300, 700);
       frame.setLayout(null);
       frame.setVisible(true);
       //We will close Java when the screen is exited
@@ -63,6 +73,7 @@ public class EOGUI {
       screens.put(EODisplayType.ADMEVENTTYPE, new EOPanelADMEventType(this)); 
       screens.put(EODisplayType.ADMFACILITATOR, new EOPanelADMFacilitator(this)); 
       screens.put(EODisplayType.EXPORT, new EOPanelExport(this));
+      screens.put(EODisplayType.IMPORT, new EOPanelImport(this));      
       screens.put(EODisplayType.ERROR, new EOPanelError(this));
                             
       DisableAllScreen();
@@ -126,6 +137,11 @@ public class EOGUI {
       }      
       System.out.println("Viser: " + coperation.getDisplayType());
       screens.get(coperation.getDisplayType()).setVisible(true, coperation); 
+   }
+   
+   public boolean isAdministrator()
+   {
+      return(usertype == 1);
    }
 
 }

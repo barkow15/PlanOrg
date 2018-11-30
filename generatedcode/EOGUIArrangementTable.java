@@ -7,80 +7,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class EOGUIArrangementTable extends JPanel
 {
-   String[] columnNames = {"id", "Dato start", "Dato slut", "Navn", "Facilitator(er)", "Er betalt", "Er afholdt", "", "", ""};
+   String[] columnNames;
    EOArrangement[] arrangements;
    JTable table;
-   Object[][] data = {
-        {"1", "Kathy1", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"2", "Kathy2", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"3", "Kathy3", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"4", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}, {"5", "Kathy", "Smith",
-         "Snowboarding", "", "", "", "Åbn", "Rediger", "Slet"}};
+   Object[][] data = {};
    EOGUI gui;
 
    public EOGUIArrangementTable(EOGUI gui)
@@ -95,18 +25,18 @@ public class EOGUIArrangementTable extends JPanel
       this.setBackground(java.awt.Color.CYAN);
       
       createTable();
-      
-      setArrangements(null);      
+      columnNames = getColumns();      
+     
    }
 
    private void createTable()
    {
-      
+      columnNames = getColumns();
       table = new JTable(data, columnNames);
       //Ref: https://stackoverflow.com/questions/1990817/how-to-make-a-jtable-non-editable
       //Implemented through a anonymous inner class
       table.setModel(
-         new DefaultTableModel(data, columnNames) {
+         new DefaultTableModel(null, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
              //all cells false
@@ -197,20 +127,41 @@ public class EOGUIArrangementTable extends JPanel
             String sdate = arrangements[i].getDateTimeStart().getDayOfMonth() + "/" + arrangements[i].getDateTimeStart().getMonthValue() + " " + arrangements[i].getDateTimeStart().getYear();
             String edate = arrangements[i].getDateTimeEnd().getDayOfMonth() + "/" + arrangements[i].getDateTimeEnd().getMonthValue() + " " + arrangements[i].getDateTimeEnd().getYear();
             System.out.println(arrangements[i].getName());
-            String[] s = {
-               Integer.toString(arrangements[i].getId()), 
-               sdate, 
-               edate, 
-               arrangements[i].getName(), 
-               facilitators, 
-               Boolean.toString(arrangements[i].isPayed()), 
-               Boolean.toString(arrangements[i].isDone()), 
-               "Åbn", "Rediger", "Slet"};
-            try
+            if(gui.isAdministrator())
             {
-               dm.addRow(s);
+               String[] s = {
+                  Integer.toString(arrangements[i].getId()), 
+                  sdate, 
+                  edate, 
+                  arrangements[i].getName(), 
+                  facilitators, 
+                  Boolean.toString(arrangements[i].isPayed()), 
+                  Boolean.toString(arrangements[i].isDone()), 
+                  "Åbn", "Rediger", "Slet"};
+               try
+               {
+                  dm.addRow(s);
+               }
+               catch(Exception e){}  
             }
-            catch(Exception e){}      
+            else
+            {
+               String[] s = {
+                  Integer.toString(arrangements[i].getId()), 
+                  sdate, 
+                  edate, 
+                  arrangements[i].getName(), 
+                  facilitators, 
+                  Boolean.toString(arrangements[i].isPayed()), 
+                  Boolean.toString(arrangements[i].isDone()), 
+                  "Åbn"};
+               try
+               {
+                  dm.addRow(s);
+               }
+               catch(Exception e){}  
+            }
+    
          }
       }
       dm.fireTableDataChanged();   
@@ -227,5 +178,32 @@ public class EOGUIArrangementTable extends JPanel
          }
       }
       return(null);
+   }
+   
+   public String[] getColumns()
+   {
+      String[] sarray;
+      if(gui.isAdministrator())
+      {
+         sarray = new String[10];
+      }
+      else
+      {
+         sarray = new String[8];
+      }
+      sarray[0] = "id";
+      sarray[1] = "Dato start";
+      sarray[2] = "Dato slut";
+      sarray[3] = "Navn";
+      sarray[4] = "Facilitator(er)";
+      sarray[5] = "Er betalt";
+      sarray[6] = "Er afholdt";     
+      sarray[7] = "";
+      if(gui.isAdministrator())
+      {
+         sarray[8] = "";
+         sarray[9] = "";   
+      }
+      return(sarray);
    }
 }

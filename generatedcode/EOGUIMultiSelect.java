@@ -6,12 +6,13 @@ Data objecter skal implementere EOGUIMultiSelectInterface
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
+import javax.swing.border.Border;
 
 public class EOGUIMultiSelect extends JPanel
 {
    JList<Object> list = null;
    DefaultListModel<Object> model = null;
+   
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options)
    {
       this(options, new Dimension(300, 200));
@@ -21,10 +22,16 @@ public class EOGUIMultiSelect extends JPanel
    {
       this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
    }
-   
+
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode)
+   {
+      this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION, BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+   }
+
+   public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode, Border border)
    {   
       this.setBackground(Color.WHITE);
+      this.setBorder(border);
       size.setSize(size.getWidth()-2, size.getHeight()-7);
       model = new DefaultListModel<>();
       if(options != null)
