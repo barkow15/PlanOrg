@@ -42,11 +42,6 @@ public class EOPanelUpdateArrangement extends EOPanel {
                   }
                });
       this.add(savebutton);
-      //Header
-      breadcrumb = new EOGUIBreadcrumb(gui, gui.getBreadcrumb());
-      breadcrumb.setBounds(5, 5, 800, 30);
-      breadcrumb.setVisible(true);
-      this.add(breadcrumb);
 
       JButton cancelbutton=new JButton("Annuller");
       cancelbutton.setBounds(this.gui.getWidth()-225, 5, 100, 30);
@@ -197,7 +192,10 @@ public class EOPanelUpdateArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, Object data) {
-      breadcrumb.setBreadcrumb(gui.getBreadcrumb());     
+   System.out.println("VISIIIIIBLE");
+            gui.getBreadcrumb().reset();
+            gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);      
+      breadcrumb.setBreadcrumb(gui.getBreadcrumb());
       super.setVisible(visible);
    }
 

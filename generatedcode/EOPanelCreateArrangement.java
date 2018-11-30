@@ -179,8 +179,7 @@ public class EOPanelCreateArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, Object data) {
-   	// TODO - implement PanelStartMenu.setVisible
-       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
+      breadcrumb.setBreadcrumb(gui.getBreadcrumb());
       super.setVisible(visible);
    }
 

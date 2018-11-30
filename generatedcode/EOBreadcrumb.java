@@ -26,18 +26,24 @@ public class EOBreadcrumb
       {
          return(null);
       }
+      //System.out.println("getIndex returned: " + this.stack[i]);
       return(this.stack[i]);
    }
    
    public void reset()
    {
-      System.out.println("RESET");
+      //System.out.println("RESET");
       for(int i = 0; i < maxsize; i++)
       {
          stack[i] = null;
       }   
       this.stack[0] = EOOperation.START;
       this.stackcounter = 1;
+   }
+   
+   public void setStack(EOOperation[] stack)
+   {
+      this.stack = stack;
    }
    
    public void push(EOOperation o)
@@ -49,9 +55,11 @@ public class EOBreadcrumb
       }
    }
    
-   public void pop()
+   public EOOperation pop()
    {
+      EOOperation e = stack[stackcounter-1];
       this.stack[stackcounter-1] = null;
       this.stackcounter--;
+      return(e);
    }
 }

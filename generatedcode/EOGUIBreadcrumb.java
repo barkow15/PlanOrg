@@ -55,6 +55,7 @@ public class EOGUIBreadcrumb extends JPanel
      
    public void drawCrumbs()
    {
+      //System.out.println("Start: drawCrumbs()");
       Font medium = gui.getFontmedium();
       Dimension size;
       final String sepstr = ">";
@@ -67,18 +68,19 @@ public class EOGUIBreadcrumb extends JPanel
          }
          if(i+1 == breadcrumb.getStackCounter())
          {
-            System.out.println("piv");         
+            //System.out.println("Breakcrumb current: " + breadcrumb.getIndex(i).getDisplayName());         
             labellink[i] = new JLabel(breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setForeground(Color.MAGENTA);
             labellink[i].setFont(medium);
             size = getTextDimensions(labellink[i], medium, breadcrumb.getIndex(i).getDisplayName());
+            System.out.println("\tsize: "+size.toString());            
             labellink[i].setBounds(x, 0, (int)size.getWidth(), (int)size.getHeight());
             this.add(labellink[i]);
             x += size.getWidth() + 5;
          }
          else
          {
-            System.out.println("bla");
+            //System.out.println("Breakcrumb link: "+breadcrumb.getIndex(i).getDisplayName());
             labellink[i] = new JLabel(breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setForeground(Color.BLUE);            
             labellink[i].setFont(medium);
@@ -101,6 +103,7 @@ public class EOGUIBreadcrumb extends JPanel
                }  
 
             });
+            labellink[i].setVisible(true);
             this.add(labellink[i]);
             x += size.getWidth() + 5;
             seperator[i] = new JLabel(sepstr);
@@ -113,6 +116,7 @@ public class EOGUIBreadcrumb extends JPanel
          }
          labellink[i].setVisible(true);
       }
+      //System.out.println("End: drawCrumbs()");      
       this.revalidate();
       repaint();
    }
