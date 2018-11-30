@@ -1,10 +1,9 @@
-/**
-An implementation of an arrangement.
-*/
-
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+/**
+An implementation of an arrangement. An arrangement, contains events and times for when these are happening.
+*/
 
 public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface {
 
@@ -73,26 +72,44 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
 		return this.facilitators;
 	}
 
+   /**
+   Returns the name of the arrangement.
+   */
 	public String getName() {
 		return(name);
    }
 
+   /**
+   Returns the description for the arrangement.
+   */
 	public String getDescription() {
       return(description);
 	}
 
+   /**
+   Returns when the arrangement is starting.
+   */
 	public LocalDateTime getDateTimeStart() {
       return(datetimestart);
 	}
 
+   /**
+   Returns when the arrangement is ending.
+   */
 	public LocalDateTime getDateTimeEnd() {
       return(datetimeend);
 	}
 
+   /**
+   Returns the price of the arrrangement.
+   */
 	public double getPrice() {
 		return this.price;
 	}
-   
+
+   /**
+   Returns the name of the arrangement.
+   */   
    public String getDisplayName()
    {
       return(this.name);
@@ -107,21 +124,23 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    }
 
    /**
-   Returns the arrangement as one or more CSV lines.
-   First returning the EOArragement on a line, and then subsequensiable lines are the objects the EOArrangement is containing.
-   in the format (in this example there are 2 facilitaros and 1 event that contain 2 eventtypes assigned to the arrangement): 
-   Line1: EOArrangement, id, name, description, datetimestart, datetimeend, price, ispayed, isdone
-   Line2: CustomerContactInfo, id, name, phone, email, info, company
-   Line3: FacilitatorContactInfo, id, name, phone, email, info
-   Line4: FacilitatorContactInfo, id, name, phone, email, info   
-   Line5: EOEvent, id, description, datetimestart, datetimeend, price, 
-   
-   Line6: EOEventType, id, name, description, locationstart, locationend, time, price
-   Line7: ExternalContactInfo, id, name, phone, email, info, company   
-   Line8: EOEventType, id, name, description, locationstart, locationend, time, price
-   Line9: ExternalContactInfo, id, name, phone, email, info, company
-   
-   Other objects might also return multiple lines.
+   * <pre>
+   * Returns the arrangement as one or more CSV lines.
+   * First returning the EOArragement on a line, and then subsequensiable lines are the objects the EOArrangement is containing.
+   *
+   * In this example there are 2 facilitaros and 1 event that contain 2 eventtypes assigned to the arrangement:
+   * Line1: EOArrangement, id, name, description, datetimestart, datetimeend, price, ispayed, isdone
+   * Line2: CustomerContactInfo, id, name, phone, email, info, company
+   * Line3: FacilitatorContactInfo, id, name, phone, email, info
+   * Line4: FacilitatorContactInfo, id, name, phone, email, info
+   * Line5: EOEvent, id, description, datetimestart, datetimeend, price
+   * Line6: EOEventType, id, name, description, locationstart, locationend, time, price
+   * Line7: ExternalContactInfo, id, name, phone, email, info, company
+   * Line8: EOEventType, id, name, description, locationstart, locationend, time, price
+   * Line9: ExternalContactInfo, id, name, phone, email, info, company
+   *
+   * Other objects might also return multiple lines.
+   * </pre>
    */
    public String exportCSV()
    {

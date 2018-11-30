@@ -1,0 +1,87 @@
+Hvordan vores program virker
+Vores program kan groft sagt opdeles i 4 dele.
+
+Paneler (EOPanelXX: Taler med EOGUI)
+GUI (EOGUI: Taler med EOManager)
+Logik (EOManager: Taler med EOGUI og EODatabaseInterface)
+Database (EODatabaseInterface: Taler med EOManager)
+
+Til at styre hvad som EOGUI skal vises, bruger vi en enum type der hedder DisplayType.
+Til at styre hvilke operation vi er igang med, har vi en enum type der hedder EOOperation. Ud over at være en Enum, har vores Enum type EOOperation også mulighed for at overføre et Objekt og den har et default navn der kan vises og en default Enum DisplayType.
+
+Dvs. hvis man f.eks. trykker på en knap i vores panel: EOPanelStartMenu hvor der står Opret Arrangement
+- så bliver EOGUI.runCommand kaldt med EOOperation.CREATEARRANGEMENT,
+- EOGUI.runCommand kalder så EOManager.runCommand med EOOperation.CREATEARRANGEMENT
+- EOManager kigger hvad der skal gøres med evt. database (f.eks. skal der hentes diverse facilitatorer ud af databasen)
+- EOManager.runCommand returnere EOOperation.CREATEARRANGEMENT til EOGUI som nu indeholder de facilitatorer der skal vises på panelet.
+- EOGUI læser hvilke enum DisplayType som EOOperation.CREATEARRANGEMENT indeholder og viser dette panel, samtidig blier EOOperation.CREATEARRANGEMENT sendt videre til panelt som så kan tage data ud af EOOperation.CREATEARRANGEMENT
+
+Eksport/Import CSV:
+Vi har i vores program valgt at bruge ";" som seperator istedet for det som man normalt antager er standard ",". Ref: https://en.wikipedia.org/wiki/Comma-separated_values
+
+Vores CSV fil bliver generet ud fra formatet
+
+ObjectNavn1, data, data, data, data
+ObjectNavn1.1 er en del af ObjectNavn1, data, data, data, data
+ObjectNavn1.2 er en del af ObjectNavn1, data, data, data, data
+ObjectNavn1.1.1 er en del af ObjectNavn1.1, data, data, data, data
+
+Hvor vi escaper linie skift og ";".
+Double værdier for pris, bruger "." som standard.
+Datotid er angivet som dag/måned år time:minut.
+
+Da vores hoved data klasses er EOArrangement vil det altid være det vi tager udgangspunkt i når der bliver eksporteret data til facilitatorerne.
+
+Et eksempel på data eksport er her (taget fra EOArrangement: exportCSV())
+
+   * In this example there are 2 facilitaros and 1 event that contain 2 eventtypes assigned to the arrangement:
+   * Line1: EOArrangement, id, name, description, datetimestart, datetimeend, price, ispayed, isdone
+   * Line2: CustomerContactInfo, id, name, phone, email, info, company
+   * Line3: FacilitatorContactInfo, id, name, phone, email, info
+   * Line4: FacilitatorContactInfo, id, name, phone, email, info
+   * Line5: EOEvent, id, description, datetimestart, datetimeend, price
+   * Line6: EOEventType, id, name, description, locationstart, locationend, time, price
+   * Line7: ExternalContactInfo, id, name, phone, email, info, company
+   * Line8: EOEventType, id, name, description, locationstart, locationend, time, price
+   * Line9: ExternalContactInfo, id, name, phone, email, info, company
+
+Når data indlæses, bruger vi 2 metoder til dette. En som køre igennem alle arrangementer vi har. Når vi har et arrangement så sender vi datavidere til en metode som rekursivt finder data under arrangementet i formatet:
+
+EOArrangement
+- CustomerContactInfo
+- FacilitatorContactInfo[]
+- EOEvent
+-- EOEventType
+--- ExternalContactInfo
+
+data bliver derefter klistret sammen så det passer.
+
+Derefter flytter vi til at læse fra den linie der er ved det næste arrangement.
+
+På den måde slutter vores import med at være et array af EOArrangement[]. Vi truncater derefter databasen hos facilitatoren og indsætter alle EOArrangements.
+
+Nedarv:
+Vi har brugt nedarvning flere steder i vores program, et eksempel er fra vores abstract class ContactInfo. Denne klasse danner basis for vores 3 andre contact klasser CustomerContactInfo, FacilitatorContactInfo og ExternalContactInfo. 
+Grunden til at vi har brugt nedarv i lige præcis det her tilfælde er at alle klasserne skal kunne sætte  id (fra databasen), kontakt personens- navn, telefonnummer, email og generel information. ExternalContanctInfo og CustomerContactInfo er klasser som arver fra ContactInfo og har derudover i deres klasser muligheden for at gemme hvilke firma kontakt personen er fra.
+
+Et andet eksempel er EOPanel her arver vi fra javax.swing.JPanel for at lave vores eget panel. Her kunne vi have valgt at bruge et interface, men har valgt at bruge nedarv, da det er behændigt at vi kan kalse metoder i JPanel direkte og det afskærmer vores grafik som vises for et skærmbillede at vi har det hele i en klasse. Vores nye EOPanel har de ekstra metoder
+
+* public void setVisible(boolean visible, Object data) 
+* public Object getData()
+
+Hvor Object data er vores Enum
+
+Interface:
+Vi har brugt interface en hel del steder, f.eks. bruger vi EOGUIMultiSelectInterface i f.eks EOArrangement, EOEvent, etc. grunden til det er at vi i klassen EOGUIMultiSelect så kan modtage objekter af typen EOGUIMultiSelectInterface. I klassen EOGUIMultiSelect har vi en liste hvor vi udskriver getDisplayName() fra de EOGUIMultiSelectInterface objekter som denne modtager.
+
+Et andet eksempel på interface brug er EOCSVInterface, det kræver at klassen implementere public String exportCSV(), denne metode bruger vi så når vi skal eksportere data i klassen til en CSV fil. Denne bliver brugt i alle de klasser som vi har data for i databasen f.eks. EOArrangement, EOEvent, EOEventType, ContactInfo, CustomerContactInfo, ExternalContactInfo, FacilitatorContactInfo.
+
+Da vores CustomerInfo er hoved klassen for CustomerContactInfo, ExternalContactInfo, FacilitatorContactInfo har vi i denne implementeret metoden public String exportCSV(String type), dette er en hjælpe metode for sub klasser til ContactInfo. når en sub klass til ContactInfo eksportere data sker det så, sådan her (fra f.eks. CustomerContactInfo)
+
+   @Override   
+   public String exportCSV()
+   {
+      return(super.exportCSV("CustomerContactInfo") + "; " + getCompany() + "\n");
+   } 
+
+Hvor CustomerContactInfo har et ekstra felt Company.
