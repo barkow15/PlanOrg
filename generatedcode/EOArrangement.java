@@ -9,8 +9,8 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
 	private LocalDateTime datetimeend;
 	private double price;
 
-   private boolean ispayed;
-   private boolean isdone;
+	private boolean ispayed;
+	private boolean isdone;
 	private FacilitatorContactInfo[] facilitators;
 	private EOEvent[] events;
 	private CustomerContactInfo customer;
@@ -24,8 +24,8 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    	this.datetimeend = datetimeend;
    	this.price = price;
    
-      this.ispayed = ispayed;
-      this.isdone = isdone;
+	this.ispayed = ispayed;
+	this.isdone = isdone;
    	this.facilitators = facilitators;
    	this.events = events;
    	this.customer = customer;
