@@ -2,22 +2,36 @@ import java.time.LocalDateTime;
 
 public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 
+   private int id;
+	private String name;
+	private String description;   
 	private String locationstart;
 	private String locationend;
 	private int time;
-	private String name;
+
 	private ExternalContactInfo externalcontactinfo;
-	private String description;
+
 	private double price;
 
+
+   public EOEventType(int id, String name, String description, String locationstart, String locationend, int time, double price, ExternalContactInfo externalcontactinfo)
+   {
+      this.id = id;
+      this.name = name;
+      this.description = description;
+      this.locationstart = locationstart;
+      this.locationend = locationend;
+      this.time = time;
+      this.price = price;
+      this.externalcontactinfo = externalcontactinfo;
+   }
+   
 	public String getLocationStart() {
-		// TODO - implement EOEventType.getLocationStart
-		throw new UnsupportedOperationException();
+		return(locationstart);
 	}
 
 	public String getLocationEnd() {
-		// TODO - implement EOEventType.getLocationEnd
-		throw new UnsupportedOperationException();
+		return(locationend);
 	}
 
 	public int getTime() {
@@ -29,11 +43,12 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 	}
 
 	public ExternalContactInfo getExternalContactInfo() {
-		// TODO - implement EOEventType.getExternalContactInfo
-		throw new UnsupportedOperationException();
+		return(externalcontactinfo);
 	}
    
-   public String exportCSV(){ return(""); }
+   public String exportCSV(){
+      return("");
+   }
 
 	public String getDescription() {
 		return this.description;

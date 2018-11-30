@@ -7,23 +7,31 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
 	private LocalDateTime datetimeend;
 	private double price;
 	private String description;
+   private int id;
 
+   public EOEvent(int id, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, EOEventType[] eventtypes)
+   {
+      this.id = id;
+      this.description = description;
+      this.datetimestart = datetimestart;
+      this.datetimeend = datetimeend;
+      this.price = price;
+      this.eventtypes = eventtypes;
+   }
+   
 	public EOEventType[] getEventTypes() {
-		// TODO - implement EOEvent.getEventTypes
-		throw new UnsupportedOperationException();
+		return(eventtypes);
 	}
 
 	public LocalDateTime getDateTimeStart() {
-		// TODO - implement EOEvent.getDateTimeStart
-		throw new UnsupportedOperationException();
+		return(datetimestart);
 	}
 
 	public LocalDateTime getDateTimeEnd() {
-		// TODO - implement EOEvent.getDateTimeEnd
-		throw new UnsupportedOperationException();
+		return(datetimeend);
 	}
 
-	public double getPrice() {
+   public double getPrice() {
 		return this.price;
 	}
 
@@ -35,6 +43,11 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
    {
       return(datetimestart.toString() + "-" + datetimeend.toString());
    }   
+   
+   public int getId()
+   {
+      return(id);
+   }
    
    public String exportCSV()
    {
