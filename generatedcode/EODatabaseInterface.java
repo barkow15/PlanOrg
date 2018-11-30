@@ -423,6 +423,28 @@ public class EODatabaseInterface {
 
 	   return returnvalue;
    }
+	public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj, boolean printSqlStatment) {
+		boolean 	returnvalue = false;
+		String 	sql 		= "";
+
+		sql +=	"UPDATE 'EOFacilitatorContactInfo' SET ";
+		sql +=	"name = '" 	+ fCIObj.getName() + "',";
+		sql +=	"phone = '"	+ fCIObj.getPhone() + "',";
+		sql +=	"email = '"	+ fCIObj.getEmail() + "' ";
+		sql +=	"WHERE idEOContactInfo =" + fCIObj.getId();
+
+		if(printSqlStatment == true){
+			System.out.println(sql);
+		}
+
+		if(this.executeSql(sql) == 1){
+			returnvalue = true;
+		}else{
+			returnvalue = false;
+		}
+
+		return returnvalue;
+	}
 
 	/**
 	 * 
