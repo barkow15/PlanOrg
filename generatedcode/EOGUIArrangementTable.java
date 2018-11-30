@@ -1,9 +1,6 @@
 import javax.swing.*;
-import java.awt.GridLayout;
-import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import javax.swing.table.DefaultTableCellRenderer;
 
 public class EOGUIArrangementTable extends JPanel
 {
@@ -137,7 +134,7 @@ public class EOGUIArrangementTable extends JPanel
                   facilitators, 
                   Boolean.toString(arrangements[i].isPayed()), 
                   Boolean.toString(arrangements[i].isDone()), 
-                  "Åbn", "Rediger", "Slet"};
+                  "Aaben", "Rediger", "Slet"};
                try
                {
                   dm.addRow(s);
@@ -154,7 +151,7 @@ public class EOGUIArrangementTable extends JPanel
                   facilitators, 
                   Boolean.toString(arrangements[i].isPayed()), 
                   Boolean.toString(arrangements[i].isDone()), 
-                  "Åbn"};
+                  "Aaben"};
                try
                {
                   dm.addRow(s);

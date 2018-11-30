@@ -1,14 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsDevice;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.*;
-import java.util.*;
-import java.awt.Graphics;
-import java.time.LocalDateTime;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class EOPanelImport extends EOPanel {
@@ -67,8 +60,8 @@ public class EOPanelImport extends EOPanel {
       
       //Page text
       JTextArea importnotetextarea = new JTextArea(
-         "Ved at importere data, så bliver alt andet data i databasen slettet. Dvs. du har kun adgang til det data som du importere.\n\n" +
-         "Vælg importer i højre top hjørne og derefter find den CSV fil du har modtaget med data eller vælg annuller for at afbryde import af data.\n\n"
+         "Ved at importere data, saa bliver alt andet data i databasen slettet. Dvs. du har kun adgang til det data som du importere.\n\n" +
+         "Vaelg importer i hoejre top hjoerne og derefter find den CSV fil du har modtaget med data eller vaelg annuller for at afbryde import af data.\n\n"
          );
       importnotetextarea.setFont(this.gui.getFontmedium());
       importnotetextarea.setLineWrap(true);

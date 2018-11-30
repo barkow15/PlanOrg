@@ -95,7 +95,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       facilitatormultiselect.setBounds(650, 300, 300, 160);
       this.add(facilitatormultiselect);
 
-      JButton facilitatorbutton=new JButton("Åben");
+      JButton facilitatorbutton=new JButton("Aaben");
       facilitatorbutton.setBounds(850, 470, 100, 20);
       facilitatorbutton.addActionListener(
                new ActionListener()

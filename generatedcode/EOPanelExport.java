@@ -1,15 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsDevice;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.*;
-import java.util.*;
-import java.awt.Graphics;
-import java.time.LocalDateTime;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.LocalDateTime;
 
 public class EOPanelExport extends EOPanel {
    EOGUI gui = null;
@@ -132,8 +126,8 @@ public class EOPanelExport extends EOPanel {
       
       //Column 4//
       JTextArea exportnotetextarea = new JTextArea(
-         "Vælg den tidsperiode du ønsker at eksportere og de facilitatorer som der er med i arrangementerne.\n\n" +
-         "Efter du har eksporteret data, kan du sende CSV filen til den/de facilitatorer som skal afholde arrangementet. Som kan åbne filen i deres Event Organizer program.\n\n" +
+         "Vaelg den tidsperiode du oensker at eksportere og de facilitatorer som der er med i arrangementerne.\n\n" +
+         "Efter du har eksporteret data, kan du sende CSV filen til den/de facilitatorer som skal afholde arrangementet. Som kan aabne filen i deres Event Organizer program.\n\n" +
          "Som standard er prisen for de forskellige dele af arrangementet ikke synlige."
          );
       exportnotetextarea.setFont(this.gui.getFontsmall());
