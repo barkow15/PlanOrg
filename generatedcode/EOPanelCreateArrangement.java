@@ -205,8 +205,6 @@ public class EOPanelCreateArrangement extends EOPanel {
       descriptiontextfield.setFont(this.gui.getFontsmall());
    
       this.add(descriptiontextfield);
-
-
    
    
    }

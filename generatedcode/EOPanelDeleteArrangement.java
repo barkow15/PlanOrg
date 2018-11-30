@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 public class EOPanelDeleteArrangement extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
+   JTextField deletenametextfield;
+   EOArrangement deletearrangement;
 
    public EOPanelDeleteArrangement(EOGUI gui) {
       this.gui = gui;
@@ -26,7 +28,8 @@ public class EOPanelDeleteArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                     EOOperation.SAVEDELETEARRANGEMENT.setData(deletearrangement);
+                     gui.runCommand(EOOperation.SAVEDELETEARRANGEMENT);
                   }
                });
       this.add(savebutton);
@@ -44,6 +47,28 @@ public class EOPanelDeleteArrangement extends EOPanel {
                   }
                });
       this.add(cancelbutton);
+
+
+      JLabel verifylabel=new JLabel("Er du sikker paa, at du vil slette arrangementet?");
+      verifylabel.setBounds(425, 200, 450, 60);
+      verifylabel.setFont(this.gui.getFontmedium());
+
+      this.add(verifylabel);
+
+      //Name
+      JLabel deletenamelabel=new JLabel("Navn:");
+      deletenamelabel.setBounds(550, 275, 50, 30);
+      deletenamelabel.setFont(this.gui.getFontsmall());
+
+      this.add(deletenamelabel);
+
+      deletenametextfield=new JTextField();
+      deletenametextfield.setBounds(600, 275, 150, 30);
+      deletenametextfield.setFont(this.gui.getFontsmall());
+
+      this.add(deletenametextfield);
+
+
    
    }
 	/**
@@ -52,6 +77,13 @@ public class EOPanelDeleteArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, Object data) {
+      EOOperation deletearrangement = (EOOperation) data;
+      if(deletearrangement.getData() instanceof EOArrangement)
+      {
+         EOArrangement arrangement = (EOArrangement) deletearrangement.getData();
+         deletenametextfield.setText(arrangement.getName());
+         this.deletearrangement = arrangement;
+      }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());     
       super.setVisible(visible);
    }

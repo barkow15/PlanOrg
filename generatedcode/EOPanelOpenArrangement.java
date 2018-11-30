@@ -117,7 +117,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       eventtypemultiselect.setBounds(970, 60, 300, 240);
       this.add(eventtypemultiselect);
       
-      JButton createbutton=new JButton("Åben");
+      JButton createbutton=new JButton("?ben");
       System.out.println(this.gui.getWidth()-160);
       createbutton.setBounds(1170, 310, 100, 20);
       createbutton.addActionListener(

@@ -1,18 +1,12 @@
-import javax.swing.*; 
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
-import java.awt.Graphics;
-
-import java.time.LocalDateTime;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.*;
 //Expected width: 300
 //Expected Height: 400
 class EOGUIDateTimePicker extends JPanel

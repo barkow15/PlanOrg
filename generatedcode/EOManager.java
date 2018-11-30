@@ -88,6 +88,10 @@ public class EOManager {
             break;                    
          case DELETEARRANGEMENT:
             gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
+         case SAVEDELETEARRANGEMENT:
+            EOArrangement savedeletearrangement = (EOArrangement) EOOperation.SAVEDELETEARRANGEMENT.getData();
+            //Databasekald
+            gui.getBreadcrumb().reset();
             break;
          case ADMFACILITATOR:
             FacilitatorContactInfo[] allFacilConInfo1 = db.getAllFacilitatorContactInfo();
