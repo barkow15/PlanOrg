@@ -1,4 +1,4 @@
-Hvordan vores program virker
+***Hvordan vores program virker
 Vores program kan groft sagt opdeles i 4 dele.
 
 Paneler (EOPanelXX: Taler med EOGUI)
@@ -16,7 +16,16 @@ Dvs. hvis man f.eks. trykker på en knap i vores panel: EOPanelStartMenu hvor der
 - EOManager.runCommand returnere EOOperation.CREATEARRANGEMENT til EOGUI som nu indeholder de facilitatorer der skal vises på panelet.
 - EOGUI læser hvilke enum DisplayType som EOOperation.CREATEARRANGEMENT indeholder og viser dette panel, samtidig blier EOOperation.CREATEARRANGEMENT sendt videre til panelt som så kan tage data ud af EOOperation.CREATEARRANGEMENT
 
-Eksport/Import CSV:
+***Kundens krav
+For at møde kundens krav, har vi lavet det så man kan oprette arrangementer, et arrangement kan så indeholde en eller flere begivenheder, hvor en begivenhed igen kan indeholde et eller flere begivenhedstyper. En begivenhedstype er defineret uden for arrangement. Det er helt valgfrist om man ønsker at tilføje en begivenhed til et arrangement eller ej. Man kan til hver en tid bruge beskrivelses tekst feltet til at skrive hvad der skal ske.
+
+Da PlanOrgan er i kontakt med forskellige aktører, så har vi 3 forskellige kontakt typer i vores program: 
+
+ExternalContactInfo: Bruges til eksterne samarbejdspartnere
+CustomerContactInfo: Bruges til kunden som har bestilt arrangementet
+FacilitatorContactInfo: Angiver en medarbejder, som står for afholdese af en begiven eller et arrangement
+
+***Eksport/Import CSV:
 Vi har i vores program valgt at bruge ";" som seperator istedet for det som man normalt antager er standard ",". Ref: https://en.wikipedia.org/wiki/Comma-separated_values
 
 Vores CSV fil bliver generet ud fra formatet
@@ -60,7 +69,7 @@ Derefter flytter vi til at læse fra den linie der er ved det næste arrangement.
 
 På den måde slutter vores import med at være et array af EOArrangement[]. Vi truncater derefter databasen hos facilitatoren og indsætter alle EOArrangements.
 
-Nedarv:
+***Nedarv:
 Vi har brugt nedarvning flere steder i vores program, et eksempel er fra vores abstract class ContactInfo. Denne klasse danner basis for vores 3 andre contact klasser CustomerContactInfo, FacilitatorContactInfo og ExternalContactInfo. 
 Grunden til at vi har brugt nedarv i lige præcis det her tilfælde er at alle klasserne skal kunne sætte  id (fra databasen), kontakt personens- navn, telefonnummer, email og generel information. ExternalContanctInfo og CustomerContactInfo er klasser som arver fra ContactInfo og har derudover i deres klasser muligheden for at gemme hvilke firma kontakt personen er fra.
 
@@ -71,7 +80,7 @@ Et andet eksempel er EOPanel her arver vi fra javax.swing.JPanel for at lave vor
 
 Hvor Object data er vores Enum
 
-Interface:
+***Interface:
 Vi har brugt interface en hel del steder, f.eks. bruger vi EOGUIMultiSelectInterface i f.eks EOArrangement, EOEvent, etc. grunden til det er at vi i klassen EOGUIMultiSelect så kan modtage objekter af typen EOGUIMultiSelectInterface. I klassen EOGUIMultiSelect har vi en liste hvor vi udskriver getDisplayName() fra de EOGUIMultiSelectInterface objekter som denne modtager.
 
 Et andet eksempel på interface brug er EOCSVInterface, det kræver at klassen implementere public String exportCSV(), denne metode bruger vi så når vi skal eksportere data i klassen til en CSV fil. Denne bliver brugt i alle de klasser som vi har data for i databasen f.eks. EOArrangement, EOEvent, EOEventType, ContactInfo, CustomerContactInfo, ExternalContactInfo, FacilitatorContactInfo.
