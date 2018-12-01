@@ -87,6 +87,13 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
          case UPDATEARRANGEMENT:
+            FacilitatorContactInfo[] facilitators_updatearrangenemnt = db.getAllFacilitatorContactInfo();
+            System.out.println("Num facilitators" + facilitators_updatearrangenemnt.length);
+            EOEvent[] events_updatearrangenemn = null;
+            Object[] o_updatearrangenemnt = new Object[2];
+            o_updatearrangenemnt[0] = facilitators_updatearrangenemnt;
+            o_updatearrangenemnt[1] = events_updatearrangenemn;
+            EOOperation.UPDATEARRANGEMENT.setData(o_updatearrangenemnt);
             gui.getBreadcrumb().push(EOOperation.UPDATEARRANGEMENT);
             break;                    
          case DELETEARRANGEMENT:
@@ -98,7 +105,7 @@ public class EOManager {
             break;
          case ADMFACILITATOR:
             FacilitatorContactInfo[] allFacilConInfo1 = db.getAllFacilitatorContactInfo();
-
+            
             if(allFacilConInfo1 != null){
                EOOperation.ADMFACILITATOR.setData(allFacilConInfo1);
             }

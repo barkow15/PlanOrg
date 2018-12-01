@@ -178,9 +178,9 @@ public class EOPanelCreateArrangement extends EOPanel {
 	 * @param visible
 	 * @param data
 	 */
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
    protected void paintComponent(Graphics g)

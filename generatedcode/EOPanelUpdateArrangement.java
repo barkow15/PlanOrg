@@ -18,7 +18,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
    JTextArea descriptionjtextarea;
    EOGUIMultiSelect facilitatormultiselect;
    //Column3
-   EOGUIMultiSelect eventtypemultiselect;
+   EOGUIMultiSelect eventmultiselect;
 
    public EOPanelUpdateArrangement(EOGUI gui) {
       this.gui = gui;
@@ -132,14 +132,14 @@ public class EOPanelUpdateArrangement extends EOPanel {
       this.add(facilitatorbutton);
 
       //Column 4
-      JLabel eventtypelabel=new JLabel("Begivenhedstype(r):");
-      eventtypelabel.setBounds(970, 40, 200, 20);
-      eventtypelabel.setFont(this.gui.getFontsmall());
-      this.add(eventtypelabel);
+      JLabel eventlabel=new JLabel("Begivenhedstype(r):");
+      eventlabel.setBounds(970, 40, 200, 20);
+      eventlabel.setFont(this.gui.getFontsmall());
+      this.add(eventlabel);
 
-      eventtypemultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
-      eventtypemultiselect.setBounds(970, 60, 300, 240);
-      this.add(eventtypemultiselect);
+      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      eventmultiselect.setBounds(970, 60, 300, 240);
+      this.add(eventmultiselect);
 
       JButton editarrangementbutton=new JButton("Rediger");
       System.out.println(this.gui.getWidth()-160);
@@ -191,12 +191,29 @@ public class EOPanelUpdateArrangement extends EOPanel {
 	 * @param visible
 	 * @param data
 	 */
-   public void setVisible(boolean visible, Object data) {
-   System.out.println("VISIIIIIBLE");
-            gui.getBreadcrumb().reset();
-            gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);      
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
+      System.out.println("1");
+      if((currentEOOperation.getData()).getClass().isArray())
+      {
+      System.out.println("2");      
+          Object[] dataa = (Object[])(currentEOOperation.getData());
+          if(dataa.length > 1)
+          {
+      System.out.println("3");          
+            if(dataa[0] instanceof FacilitatorContactInfo[])
+            {
+         System.out.println("4");         
+               System.out.println("Length in setVisible: " + ((Object[])dataa[0]).length);
+               facilitatormultiselect.setList((EOGUIMultiSelectInterface[]) dataa[0]);
+            }
+            if(dataa[1] instanceof EOEvent[])
+            {
+               eventmultiselect.setList((EOEvent[]) dataa[1]);
+            }
+          }
+      }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
    protected void paintComponent(Graphics g)

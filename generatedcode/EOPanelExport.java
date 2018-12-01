@@ -138,13 +138,13 @@ public class EOPanelExport extends EOPanel {
       this.add(exportnotetextarea);
    }
 
-   public void setVisible(boolean visible, Object data) {
-      if(((EOOperation)data).getData() instanceof FacilitatorContactInfo[])
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
+      if(currentEOOperation.getData() instanceof FacilitatorContactInfo[])
       {
-         facilitatormultiselect.setList((FacilitatorContactInfo[])((EOOperation)data).getData());
+         facilitatormultiselect.setList((FacilitatorContactInfo[])(currentEOOperation.getData()));
       }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
   
    protected void paintComponent(Graphics g)

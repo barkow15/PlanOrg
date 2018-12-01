@@ -18,9 +18,9 @@ public class EOPanelDeleteEvent extends EOPanel {
      
    }
 
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
    	// TODO - implement PanelStartMenu.setVisible
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
    public void clearData() {

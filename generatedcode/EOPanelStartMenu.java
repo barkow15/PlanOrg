@@ -122,14 +122,14 @@ public class EOPanelStartMenu extends EOPanel {
 	 * @param visible
 	 * @param data
 	 */
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation ) {
    	// TODO - implement PanelStartMenu.setVisible
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
-      if(((EOOperation)data).getData() instanceof EOArrangement[])
+      if(currentEOOperation.getData() instanceof EOArrangement[])
       {
-         arrangementtable.setArrangements((EOArrangement[])((EOOperation)data).getData());
+         arrangementtable.setArrangements((EOArrangement[])currentEOOperation.getData());
       }
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
    
    protected void paintComponent(Graphics g)

@@ -144,11 +144,11 @@ public class EOPanelCreateEvent extends EOPanel {
       g.drawLine(866,45, 866, this.getHeight()-50);
    }
 
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
    	// TODO - implement PanelStartMenu.setVisible
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
    
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
 

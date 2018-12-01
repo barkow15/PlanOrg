@@ -204,10 +204,10 @@ public class EOPanelADMEventType extends EOPanel {
       this.add(externalcontactcompanyjtextfield);                         
    }
 
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
    	// TODO - implement PanelStartMenu.setVisible
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
    public void clearData() {

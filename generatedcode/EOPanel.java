@@ -10,15 +10,15 @@ import java.util.*;
 
 public class EOPanel extends JPanel
 {
-   Object data = null;
+   EOOperation currentEOOperation = null;
 
-   public Object getData()
+   public EOOperation getcurrentEOOperation()
    {
-      return(this.data);
+      return(this.currentEOOperation);
    }
 
-	public void setVisible(boolean visible, Object data) {
-		this.data = data;
+	public void setVisible(boolean visible, EOOperation currentEOOperation) {
+		this.currentEOOperation = currentEOOperation;
       super.setVisible(visible);
 	}
 }

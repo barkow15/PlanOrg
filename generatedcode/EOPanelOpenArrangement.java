@@ -18,7 +18,7 @@ public class EOPanelOpenArrangement extends EOPanel {
    JTextArea descriptionjtextarea;
    EOGUIMultiSelect facilitatormultiselect;
    //Column3
-   EOGUIMultiSelect eventtypemultiselect;
+   EOGUIMultiSelect eventmultiselect;
    
    public EOPanelOpenArrangement(EOGUI gui) {
       this.gui = gui;
@@ -108,14 +108,14 @@ public class EOPanelOpenArrangement extends EOPanel {
       this.add(facilitatorbutton);
       
       //Column 4      
-      JLabel eventtypelabel=new JLabel("Begivenhedstype(r):");
-      eventtypelabel.setBounds(970, 40, 200, 20);
-      eventtypelabel.setFont(this.gui.getFontsmall());
-      this.add(eventtypelabel);
+      JLabel eventlabel=new JLabel("Begivenheder:");
+      eventlabel.setBounds(970, 40, 200, 20);
+      eventlabel.setFont(this.gui.getFontsmall());
+      this.add(eventlabel);
       
-      eventtypemultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
-      eventtypemultiselect.setBounds(970, 60, 300, 240);
-      this.add(eventtypemultiselect);
+      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      eventmultiselect.setBounds(970, 60, 300, 240);
+      this.add(eventmultiselect);
       
       JButton createbutton=new JButton("?ben");
       System.out.println(this.gui.getWidth()-160);
@@ -169,10 +169,10 @@ public class EOPanelOpenArrangement extends EOPanel {
 	 * @param visible
 	 * @param data
 	 */
-   public void setVisible(boolean visible, Object data) {
-      if(((EOOperation)data).getData() instanceof EOArrangement)
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
+      if(currentEOOperation.getData() instanceof EOArrangement)
       {
-         EOArrangement arrangement = (EOArrangement)(((EOOperation)data).getData());
+         EOArrangement arrangement = (EOArrangement)(currentEOOperation.getData());
          //column1
          startdatetime.setDateTime(arrangement.getDateTimeStart());
          enddatetime.setDateTime(arrangement.getDateTimeEnd());
@@ -188,7 +188,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       }
 
       breadcrumb.setBreadcrumb(gui.getBreadcrumb()); 
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
 

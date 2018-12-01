@@ -34,16 +34,11 @@ public class EOPanelError extends EOPanel {
      
    }
 
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
    	// TODO - implement PanelStartMenu.setVisible
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
-
-   public void clearData() {
-   	// TODO - implement PanelCreateArrangement.clearData
-      throw new UnsupportedOperationException();
-   }
-   
+  
    protected void paintComponent(Graphics g)
    {
       super.paintComponent(g);

@@ -195,11 +195,11 @@ public class EOPanelADMFacilitator extends EOPanel {
 
    }
 
-   public void setVisible(boolean visible, Object data) {
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {
    	// TODO - implement PanelStartMenu.setVisible
-      if (data instanceof EOOperation)
+      if (currentEOOperation instanceof EOOperation)
       {
-         EOOperation facilitatorEnum=(EOOperation)data;
+         EOOperation facilitatorEnum=currentEOOperation;
          //Clear input Fields.
          if (EOOperation.ADMFACILITATOR == facilitatorEnum){
             nameText.setText("");
@@ -241,7 +241,7 @@ public class EOPanelADMFacilitator extends EOPanel {
          }
          
       }
-      EOOperation facilitatorEnum=(EOOperation)data;
+      EOOperation facilitatorEnum=currentEOOperation;
       if (EOOperation.SAVEEDITFACILITATOR == facilitatorEnum){
          nameText.setText("");
          phoneNumberText.setText("");
@@ -259,12 +259,12 @@ public class EOPanelADMFacilitator extends EOPanel {
          besked.showMessageDialog(null, "Facilitator Oprettet!");
       }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
-      super.setVisible(visible);
+      super.setVisible(visible, currentEOOperation);
    }
 
    public void clearData() {
       //Clear input Fields.
-      EOOperation facilitatorEnum=(EOOperation)data;
+      EOOperation facilitatorEnum=currentEOOperation;
       if (EOOperation.ADMFACILITATOR == facilitatorEnum){
          nameText.setText("");
          phoneNumberText.setText("");
