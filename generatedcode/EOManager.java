@@ -80,6 +80,12 @@ public class EOManager {
             gui.getBreadcrumb().pop();
             break;
          case OPENARRANGEMENT:
+            Object[] openarrangement_data = {
+               EOOperation.OPENARRANGEMENT.getData(),
+               db.getAllFacilitatorContactInfo(),
+               db.getAllFacilitatorContactInfo()
+            };
+            EOOperation.OPENARRANGEMENT.setData(openarrangement_data);
             gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
             break;               
          case CREATEARRANGEMENT:

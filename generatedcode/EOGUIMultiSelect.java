@@ -77,17 +77,41 @@ public class EOGUIMultiSelect extends JPanel
          return(r.toArray());
       }
    }
-   
+
    public void setList(EOGUIMultiSelectInterface[] options)
    {
+      setList(options, null);
+   }
+   
+   public void setList(EOGUIMultiSelectInterface[] options, EOGUIMultiSelectInterface[] selected)
+   {
       model = new DefaultListModel<>();
+      int selectedindex = 0;
+      int[] iselected = null;
+      if(selected != null)
+      {
+         iselected = new int[selected.length];
+      }
+      
       if(options != null)
       {
          for(int i = 0; i < options.length; i++)
          {
+            for(int j = 0; selected != null && j < selected.length; j++)
+            {
+               if(selected[j] == options[i])
+               {
+                  iselected[selectedindex] = i;
+                  selectedindex++;
+               }
+            }
             model.addElement(options[i]);
          }
       }
       list.setModel(model);
+      for(int j = 0; selected != null && j < iselected.length; j++)
+      {
+         list.addSelectionInterval(iselected[j], iselected[j]);
+      }
    }
 }

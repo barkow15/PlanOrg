@@ -164,27 +164,46 @@ public class EOPanelOpenArrangement extends EOPanel {
       this.add(customerphonenumertextfield);
 
    }
-	/**
-	 * 
-	 * @param visible
-	 * @param data
-	 */
+
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
-      if(currentEOOperation.getData() instanceof EOArrangement)
+      if(currentEOOperation == EOOperation.OPENARRANGEMENT)
       {
-         EOArrangement arrangement = (EOArrangement)(currentEOOperation.getData());
-         //column1
-         startdatetime.setDateTime(arrangement.getDateTimeStart());
-         enddatetime.setDateTime(arrangement.getDateTimeEnd());
-         arrangementtextfield.setText(arrangement.getName());
-         //Column2
-         if(arrangement.getCustomer() != null)
+         if(currentEOOperation.getData().getClass().isArray())
          {
-            customertextfield.setText(arrangement.getCustomer().getName());
-            customeremailtextfield.setText(arrangement.getCustomer().getEmail());
-            customerphonenumertextfield.setText(arrangement.getCustomer().getPhone());
+            Object[] edata = (Object[])currentEOOperation.getData();
+            if(edata.length == 3)
+            {
+               //We expect 
+               //0 = EOArrangement
+               EOArrangement arrangement = null;
+               if(edata[0] instanceof EOArrangement)
+               {
+                  arrangement = (EOArrangement)edata[0];
+                  //column1
+                  startdatetime.setDateTime(arrangement.getDateTimeStart());
+                  enddatetime.setDateTime(arrangement.getDateTimeEnd());
+                  arrangementtextfield.setText(arrangement.getName());
+                  //Column2
+                  if(arrangement.getCustomer() != null)
+                  {
+                     customertextfield.setText(arrangement.getCustomer().getName());
+                     customeremailtextfield.setText(arrangement.getCustomer().getEmail());
+                     customerphonenumertextfield.setText(arrangement.getCustomer().getPhone());
+                  }
+                  descriptionjtextarea.setText(arrangement.getDescription());
+               }
+               //1 = FacilitatorContactInfo[]
+               if(edata[1] instanceof FacilitatorContactInfo[])
+               {
+                  facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+               }
+               //2 = EOEvent[]
+               if(edata[2] instanceof EOEvent[])
+               {
+                  eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+               }
+            }
          }
-         descriptionjtextarea.setText(arrangement.getDescription());
       }
 
       breadcrumb.setBreadcrumb(gui.getBreadcrumb()); 
