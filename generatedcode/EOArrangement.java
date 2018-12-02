@@ -22,17 +22,17 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    
    public EOArrangement(int id, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, boolean ispayed, boolean isdone, FacilitatorContactInfo[] facilitators, EOEvent[] events, CustomerContactInfo customer)
    {
-      this.id = id;
-   	this.name = name;
-   	this.description = description;
-   	this.datetimestart = datetimestart;
-   	this.datetimeend = datetimeend;
-   	this.price = price;
-	   this.ispayed = ispayed;
-	   this.isdone = isdone;
-   	this.facilitators = facilitators;
-   	this.events = events;
-   	this.customer = customer;
+    this.id             = id;
+   	this.name           = name;
+   	this.description    = description;
+   	this.datetimestart  = datetimestart;
+   	this.datetimeend    = datetimeend;
+   	this.price          = price;
+    this.ispayed        = ispayed;
+    this.isdone         = isdone;
+   	this.facilitators   = facilitators;
+   	this.events         = events;
+   	this.customer       = customer;
    }
    
    /**
