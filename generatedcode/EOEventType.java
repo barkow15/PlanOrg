@@ -3,15 +3,13 @@ import java.time.format.DateTimeFormatter;
 
 public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 
-    private int id;
-	private String name;
-	private String description;   
-	private String locationstart;
-	private String locationend;
-	private int time;
-
+    private int     id;
+	private String  name;
+	private String  description;
+	private String  locationstart;
+	private String  locationend;
+	private int     time;
 	private ExternalContactInfo externalcontactinfo;
-
 	private double price;
 
 
