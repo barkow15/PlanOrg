@@ -1,15 +1,19 @@
 public enum EOOperation {
    START (null, "Start menu", EODisplayType.START), //Martin - Mangler DB
    STARTSHOWALL (null, "Start menu", EODisplayType.START), //Martin - Mangler DB
+   
    CREATEARRANGEMENT (null, "Opret Arrangement", EODisplayType.CREATEARRANGEMENT), //Marcus
    UPDATEARRANGEMENT (null, "Opdater Arrangement", EODisplayType.UPDATEARRANGEMENT), //Marcus
    DELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT), //Marcus
    SAVEDELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT), //Marcus
    OPENARRANGEMENT (null, "Vis Arrangement", EODisplayType.OPENARRANGEMENT), //Martin - Mangler DB
+   
    CREATEEVENT (null, "Opret Begivenhed", EODisplayType.CREATEEVENT),  //Rasmus
    UPDATEEVENT (null, "Opdater Begivenhed", EODisplayType.UPDATEEVENT),  //Rasmus
    DELETEEVENT (null, "Slet Begivenhed", EODisplayType.DELETEEVENT), //Rasmus
    SAVECREATEEVENT (null, "Gem Event", EODisplayType.START), //Rasmus
+   OPENEVENT (null, "Aaben Begivenhed", EODisplayType.OPENEVENT),  //Rasmus
+      
    IMPORT (null, "Importer", EODisplayType.IMPORT), //Martin - DONE
    IMPORTCSV (null, "Importer", EODisplayType.START), //Faelles  
    EXPORT (null, "Exporter", EODisplayType.EXPORT), //Martin - DONE
@@ -18,8 +22,12 @@ public enum EOOperation {
    UPDATEFACILITATOR (null,"Rediger Facilitator",EODisplayType.ADMFACILITATOR), //Frederik
    CREATEFACILITATOR (null,"Opret Facilitator",EODisplayType.ADMFACILITATOR), //Frederik
    DELETEFACILITATOR(null,"Slet facilitator",EODisplayType.ADMFACILITATOR), //Frederik
-    SAVEEDITFACILITATOR(null,"Gem Ændringer",EODisplayType.ADMFACILITATOR),//Frederik
+   SAVEEDITFACILITATOR(null,"Gem Opdatering",EODisplayType.ADMFACILITATOR),//Frederik
    ADMEVENTTYPE (null, "Administrer Begivenhedstyper", EODisplayType.ADMEVENTTYPE), //Martin
+   CREATEEVENTTYPE (null,"Opret Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
+   UPDATEEVENTTYPE (null,"Rediger Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
+   SAVEEDITEVENTTYPE(null,"Gem Opdatering",EODisplayType.ADMFACILITATOR),//Frederik
+   DELETEEVENTTYPE(null,"Slet Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
    ERROR (null, "Fejl Skaerm", EODisplayType.ERROR); //Martin
  
    private Object data = null;

@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EODatabaseInterface {
    Connection conn = null;
@@ -62,27 +63,148 @@ public class EODatabaseInterface {
 	 * @param sortby
 	 * @param pagenumber
 	 */
-   public void getEOArrangements(String sortby, int pagenumber) {
-   	// TODO - implement EODatabaseInterface.getEOArrangements
-      throw new UnsupportedOperationException();
+   public EOArrangement[] getEOArrangements(boolean includeIsDone) {
+   	System.out.println("DB method \"Test\" running...");
+      ResultSet rs = null;
+      String sql = null;
+      if(includeIsDone)
+      {
+         sql = "SELECT * FROM EOArrangements ORDER BY id";
+      }
+      else
+      {
+         sql = "SELECT * FROM EOArrangements LIMIT is payed = 2 ORDER BY id";
+      }
+      int rows = numRows(sql);
+      rs = querySql(sql);
+      EOArrangement[] arrangements = new EOArrangement[rows];
+      for(int i = 0; i < rows; i++)
+      {
+         arrangements[i] = null;
+      }
+      DateTimeFormatter formatterNew = DateTimeFormatter.ofPattern("yyyy-LL-dd HH:mm:ss");
+      
+      try
+      {
+         
+         for(int i = 0; rs.next(); i++)
+         {
+               arrangements[i] = new EOArrangement(
+               rs.getInt("id"), 
+               rs.getString("name"), 
+               rs.getString("description"), 
+               LocalDateTime.parse(rs.getString("datetimestart"), formatterNew), 
+               LocalDateTime.parse(rs.getString("datetimeend"), formatterNew), 
+               rs.getDouble("price"), 
+               rs.getInt("ispayed") == 2, 
+               rs.getInt("isdone") == 2, 
+               getFacilitatorsContactInfo(rs.getInt("id")), 
+               getEOEvents(rs.getInt("id")), 
+               getCustomerContactInfo(rs.getInt("EOCustomerContactInfo_idEOContactInfo"))
+            );
+            System.out.println("id: " +  rs.getInt("idEOContactInfo") + " Deleted: " + rs.getString("deletedStatus") + " Name: " + rs.getString("name"));
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      return(arrangements);
+   }
+
+	/**
+	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud som h�re til et specifikt arrangement
+	 *  og returnere et array af FacilitatorContactInfo objekter
+	 */
+	public FacilitatorContactInfo[] getFacilitatorsContactInfo(int arrangementid) {
+		FacilitatorContactInfo[] facilArr = null;
+		int rowCount;
+
+		rowCount 	 = 0;
+		rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
+
+		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
+		ResultSet rs = this.querySql(sql);
+
+		try
+		{
+			// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
+			if(rowCount != 0){
+				// Initialisere array facilArr på størrelsen defineret i "rowCount"
+				facilArr = new FacilitatorContactInfo[rowCount];
+
+				int i = 0;
+				while(rs.next()){
+					facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
+					++i;
+				}
+				// Luk DB forbindelse efter query er kørt færdig
+				this.closeConnection(rs);
+			}
+			// Hvis facilConInfoArr ikke er null skal det returneres som String i konsollen
+			//if(facilArr != null) {
+			//System.out.println(facilArr[0]);
+			//}
+		}
+		catch(Exception e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		}
+		return facilArr;
+	}
+
+   //Ref: https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java
+   public int numRows(String sql)
+   {
+      if(sql == null)
+      {
+         return(0);
+      }
+      int size = 0;
+      try {
+         conn = DriverManager.getConnection(this.dbPathRelative);
+			System.out.println("DB CONNECTION OPENED");
+
+			PreparedStatement pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, 
+         ResultSet.CONCUR_READ_ONLY);
+
+			System.out.println("EXECUTING SQL QUERY ...");
+			ResultSet rs = pstmt.executeQuery();
+      
+          rs.last();
+          size = rs.getRow();
+          rs.beforeFirst();
+      }
+      catch(Exception ex) {
+          return 0;
+      }
+      return size;
    }
 
 	/**
 	 * 
-	 * @param arrangementid
+	 * Returns all Events that are associated with an arrangement
 	 */
-   public void getEOEvents(int arrangementid) {
-   	// TODO - implement EODatabaseInterface.getEOEvents
-      throw new UnsupportedOperationException();
+   public EOEvent[] getEOEvents(int arrangementid) {
+   	return(null);
    }
 
 	/**
 	 * 
-	 * @param eventid
+	 * Returns all EventTypes that are associated with an Event
 	 */
-   public void getEOEventTypes(int eventid) {
-   	// TODO - implement EODatabaseInterface.getEOEventTypes
-      throw new UnsupportedOperationException();
+   public EOEventType[] getEOEventTypes(int eventid) {
+   	return(null);
+   }
+
+	/**
+	 * 
+	 * Returns all events in the database
+    */
+   public EOEventType[] getEOEventTypes() {
+      return(null);
    }
 
 	/**
@@ -247,7 +369,7 @@ public class EODatabaseInterface {
 	 * @param description
 	 * @param price
 	 */
-	public void createEOEvenType(String locationstart, String locationend, int time, String name, ExternalContactInfo externalcontact, String description, double price) {
+	public void createEOEvenType(EOEventType eventtype) {
 		// TODO - implement EODatabaseInterface.createEOEvenType
 		  throw new UnsupportedOperationException();
 	}
@@ -263,7 +385,7 @@ public class EODatabaseInterface {
 	 * @param description
 	 * @param price
 	 */
-	public void updateEOEvenType(int eventtypeid, String locationstart, String locationend, int time, String name, ExternalContactInfo externalcontact, String description, double price) {
+	public void updateEOEvenType(EOEventType eventtype) {
 		// TODO - implement EODatabaseInterface.updateEOEvenType
 		  throw new UnsupportedOperationException();
 	}
@@ -272,7 +394,7 @@ public class EODatabaseInterface {
 	 * 
 	 * @param eventtypeid
 	 */
-	public void deleteEOEvenType(int eventtypeid) {
+	public void deleteEOEvenType(EOEventType eventtype) {
 		// TODO - implement EODatabaseInterface.deleteEOEvenType
 		  throw new UnsupportedOperationException();
 	}
@@ -702,8 +824,7 @@ public class EODatabaseInterface {
 	 *
 	 * @param cCIObj
 	 */
-	public CustomerContactInfo getCustomerContactInfo(CustomerContactInfo cCIObj) {
-		int id = cCIObj.getId();
+	public CustomerContactInfo getCustomerContactInfo(int id) {
 		String sql = "";
 
 		sql += "SELECT * FROM 'EOCustomerContactInfo'";

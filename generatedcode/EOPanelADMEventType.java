@@ -12,7 +12,20 @@ public class EOPanelADMEventType extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;   
    EOGUIMultiSelect eventtypemultiselect;
+   
+   JTextField namejtextfield = null;
+   JTextField startadrjtextfield = null;
+   JTextField endadrjtextfield = null;
+   JTextField timejtextfield = null;
+   JTextField pricejtextfield = null;
+   JTextArea notejtextarea = null;
+   JTextField externalcontactnamejtextfield = null;
+   JTextField externalcontactphonejtextfield = null;
+   JTextField externalcontactemailjtextfield = null;
+   JTextArea externalcontactenotejtextarea = null;
+   JTextField externalcontactcompanyjtextfield = null;
 
+   
    public EOPanelADMEventType(EOGUI gui) {
       this.gui = gui;
       this.setLayout(null);
@@ -23,7 +36,7 @@ public class EOPanelADMEventType extends EOPanel {
       breadcrumb.setVisible(true);
       this.add(breadcrumb);
 
-      JButton exportbutton = new JButton("Gem");
+      JButton exportbutton = new JButton("Tilbage");
       exportbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
       exportbutton.addActionListener(
                new ActionListener()
@@ -34,19 +47,7 @@ public class EOPanelADMEventType extends EOPanel {
                   }
                });
       this.add(exportbutton);
-      
-      JButton cancelbutton=new JButton("Annuller");
-      cancelbutton.setBounds(this.gui.getWidth()-230, 5, 100, 30);
-      cancelbutton.addActionListener(
-               new ActionListener()
-               {
-                  public void actionPerformed(ActionEvent e)
-                  {
-                     gui.runCommand(EOOperation.START);
-                  }
-               });
-      this.add(cancelbutton);
-     
+         
      //Column1//
       JLabel facilitatorslabel = new JLabel("Begivenhedstyper:");
       facilitatorslabel.setBounds(10, 40, 300, 20);
@@ -59,25 +60,41 @@ public class EOPanelADMEventType extends EOPanel {
       this.add(eventtypemultiselect);
       
       JButton deleteeventtypebutton=new JButton("Slet");
-      deleteeventtypebutton.setBounds(10, 310, 100, 30);
+      deleteeventtypebutton.setBounds(160,400,150,50);
       deleteeventtypebutton.addActionListener(
                new ActionListener()
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                       Object[] seventtype = eventtypemultiselect.getSelected();
+                       if (seventtype != null) {
+                          EOOperation.DELETEEVENTTYPE.setData(seventtype[0]);
+                          gui.runCommand(EOOperation.DELETEEVENTTYPE);
+                       }
+                       else
+                       {
+                          gui.dialogbox("Du har ikke valgt nogle begivenhedstype");
+                       }
                   }
                });
       this.add(deleteeventtypebutton);
 
       JButton editeventtypebutton=new JButton("Rediger");
-      editeventtypebutton.setBounds(210, 310, 100, 30);
+      editeventtypebutton.setBounds(10,400,150,50);
       editeventtypebutton.addActionListener(
                new ActionListener()
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                       Object[] seventtype = eventtypemultiselect.getSelected();
+                       if (seventtype != null) {
+                          EOOperation.UPDATEEVENTTYPE.setData(seventtype[0]);
+                          gui.runCommand(EOOperation.UPDATEEVENTTYPE);
+                       }
+                       else
+                       {
+                          gui.dialogbox("Du har ikke valgt nogle begivenhedstype");
+                       }
                   }
                });
       this.add(editeventtypebutton);   
@@ -88,7 +105,7 @@ public class EOPanelADMEventType extends EOPanel {
       namelabel.setFont(this.gui.getFontsmall());
       this.add(namelabel);
       
-      JTextField namejtextfield = new JTextField();
+      namejtextfield = new JTextField();
       namejtextfield.setBounds(330, 60, 300, 20);
       namejtextfield.setFont(this.gui.getFontsmall());
       this.add(namejtextfield);  
@@ -98,7 +115,7 @@ public class EOPanelADMEventType extends EOPanel {
       startadrlabel.setFont(this.gui.getFontsmall());
       this.add(startadrlabel);
       
-      JTextField startadrjtextfield = new JTextField();
+      startadrjtextfield = new JTextField();
       startadrjtextfield.setBounds(330, 100, 300, 20);
       startadrjtextfield.setFont(this.gui.getFontsmall());
       this.add(startadrjtextfield);
@@ -108,7 +125,7 @@ public class EOPanelADMEventType extends EOPanel {
       endadrlabel.setFont(this.gui.getFontsmall());
       this.add(endadrlabel);
       
-      JTextField endadrjtextfield = new JTextField();
+      endadrjtextfield = new JTextField();
       endadrjtextfield.setBounds(330, 140, 300, 20);
       endadrjtextfield.setFont(this.gui.getFontsmall());
       this.add(endadrjtextfield);  
@@ -118,7 +135,7 @@ public class EOPanelADMEventType extends EOPanel {
       timelabel.setFont(this.gui.getFontsmall());
       this.add(timelabel);
       
-      JTextField timejtextfield = new JTextField();
+      timejtextfield = new JTextField();
       timejtextfield.setBounds(330, 180, 300, 20);
       timejtextfield.setFont(this.gui.getFontsmall());
       this.add(timejtextfield);
@@ -128,7 +145,7 @@ public class EOPanelADMEventType extends EOPanel {
       pricelabel.setFont(this.gui.getFontsmall());
       this.add(pricelabel);
       
-      JTextField pricejtextfield = new JTextField();
+      pricejtextfield = new JTextField();
       pricejtextfield.setBounds(330, 220, 300, 20);
       pricejtextfield.setFont(this.gui.getFontsmall());
       this.add(pricejtextfield);
@@ -139,11 +156,47 @@ public class EOPanelADMEventType extends EOPanel {
       this.add(notelabel);      
 
 
-      JTextArea notejtextarea = new JTextArea();
+      notejtextarea = new JTextArea();
       notejtextarea.setBounds(330, 260, 300, 200);
       notejtextarea.setBorder(gui.getDefaultBorder());           
       notejtextarea.setFont(this.gui.getFontsmall());
       this.add(notejtextarea);   
+
+      JButton createEventTypeButton = new JButton("Gem ændring");
+      createEventTypeButton.setBounds(470,550,150,50);
+      createEventTypeButton.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                     try
+                     {
+                        EOOperation.SAVEEDITEVENTTYPE.setData(new EOEventType(
+                           ((EOEventType)EOOperation.UPDATEEVENTTYPE.getData()).getId(), 
+                           namejtextfield.getText(), 
+                           notejtextarea.getText(), 
+                           startadrjtextfield.getText(), 
+                           endadrjtextfield.getText(), 
+                           Integer.valueOf(timejtextfield.getText()), 
+                           Double.valueOf(pricejtextfield.getText()), 
+                           new ExternalContactInfo(
+                              ((EOEventType)EOOperation.UPDATEEVENTTYPE.getData()).getId(), 
+                              externalcontactnamejtextfield.getText(), 
+                              externalcontactphonejtextfield.getText(), 
+                              externalcontactemailjtextfield.getText(), 
+                              externalcontactenotejtextarea.getText(), 
+                              externalcontactcompanyjtextfield.getText()
+                           )
+                        ));
+                        gui.runCommand(EOOperation.SAVEEDITEVENTTYPE);
+                     }
+                     catch(Exception createexception)
+                     {
+                        gui.dialogbox("Time og pris skal angives som tal");
+                     }
+                 }
+              });
+      this.add(createEventTypeButton);  
                          
      //Column3//
       JLabel externalcontactlabel = new JLabel("Ekstern kontakt");
@@ -156,7 +209,7 @@ public class EOPanelADMEventType extends EOPanel {
       externalcontactnamelabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactnamelabel);
 
-      JTextField externalcontactnamejtextfield = new JTextField();
+      externalcontactnamejtextfield = new JTextField();
       externalcontactnamejtextfield.setBounds(650, 100, 300, 20);
       externalcontactnamejtextfield.setFont(this.gui.getFontsmall());
       this.add(externalcontactnamejtextfield);
@@ -166,7 +219,7 @@ public class EOPanelADMEventType extends EOPanel {
       externalcontactphonelabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactphonelabel);
 
-      JTextField externalcontactphonejtextfield = new JTextField();
+      externalcontactphonejtextfield = new JTextField();
       externalcontactphonejtextfield.setBounds(650, 140, 300, 20);
       externalcontactphonejtextfield.setFont(this.gui.getFontsmall());
       this.add(externalcontactphonejtextfield);
@@ -176,7 +229,7 @@ public class EOPanelADMEventType extends EOPanel {
       externalcontactemaillabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactemaillabel);
 
-      JTextField externalcontactemailjtextfield = new JTextField();
+      externalcontactemailjtextfield = new JTextField();
       externalcontactemailjtextfield.setBounds(650, 180, 300, 20);
       externalcontactemailjtextfield.setFont(this.gui.getFontsmall());
       this.add(externalcontactemailjtextfield);
@@ -187,7 +240,7 @@ public class EOPanelADMEventType extends EOPanel {
       this.add(externalcontactenotelabel);
 
 
-      JTextArea externalcontactenotejtextarea = new JTextArea();
+      externalcontactenotejtextarea = new JTextArea();
       externalcontactenotejtextarea.setBounds(650, 220, 300, 200);
       externalcontactenotejtextarea.setFont(this.gui.getFontsmall());
       externalcontactenotejtextarea.setBorder(gui.getDefaultBorder());
@@ -198,21 +251,97 @@ public class EOPanelADMEventType extends EOPanel {
       externalcontactcompanylabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactcompanylabel);  
       
-      JTextField externalcontactcompanyjtextfield = new JTextField();
+      externalcontactcompanyjtextfield = new JTextField();
       externalcontactcompanyjtextfield.setBounds(650, 440, 300, 20);
       externalcontactcompanyjtextfield.setFont(this.gui.getFontsmall());
-      this.add(externalcontactcompanyjtextfield);                         
+      this.add(externalcontactcompanyjtextfield);   
+      
+      createEventTypeButton = new JButton("Opret Ny Begivenhedstype");
+      createEventTypeButton.setBounds (650,550,250,50);
+      createEventTypeButton.addActionListener(
+              new ActionListener()
+              {
+                 public void actionPerformed(ActionEvent e)
+                 {
+                     try
+                     {
+                        EOOperation.CREATEEVENTTYPE.setData(new EOEventType(
+                           -1, 
+                           namejtextfield.getText(), 
+                           notejtextarea.getText(), 
+                           startadrjtextfield.getText(), 
+                           endadrjtextfield.getText(), 
+                           Integer.valueOf(timejtextfield.getText()), 
+                           Double.valueOf(pricejtextfield.getText()), 
+                           new ExternalContactInfo(
+                              -1, 
+                              externalcontactnamejtextfield.getText(), 
+                              externalcontactphonejtextfield.getText(), 
+                              externalcontactemailjtextfield.getText(), 
+                              externalcontactenotejtextarea.getText(), 
+                              externalcontactcompanyjtextfield.getText()
+                           )
+                        ));
+                        gui.runCommand(EOOperation.CREATEEVENTTYPE);
+                     }
+                     catch(Exception createexception)
+                     {
+                        gui.dialogbox("Time og pris skal angives som tal");
+                     }
+                 }
+              });
+      this.add(createEventTypeButton);                             
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
-   	// TODO - implement PanelStartMenu.setVisible
+      //Shows the facilitator list
+   	if(currentEOOperation == EOOperation.ADMEVENTTYPE)
+      {
+         if(currentEOOperation.getData() instanceof EOEventType[])
+         {
+            eventtypemultiselect.setList((EOEventType[])EOOperation.ADMEVENTTYPE.getData());
+         }
+         if(currentEOOperation == EOOperation.UPDATEEVENTTYPE)
+         {
+            
+            if(currentEOOperation.getData() instanceof EOEventType)
+            {
+               EOEventType eoeventtype = (EOEventType)currentEOOperation.getData(); 
+               namejtextfield.setText(eoeventtype.getName()); 
+               notejtextarea.setText(eoeventtype.getDescription()); 
+               startadrjtextfield.setText(eoeventtype.getLocationStart()); 
+               endadrjtextfield.setText(eoeventtype.getLocationEnd()); 
+               timejtextfield.setText(Integer.toString(eoeventtype.getTime())); 
+               pricejtextfield.setText(Double.toString(eoeventtype.getPrice())); 
+               if(eoeventtype.getExternalContactInfo() != null)
+               {  
+                  ExternalContactInfo external = eoeventtype.getExternalContactInfo();
+                  externalcontactnamejtextfield.setText(external.getName()); 
+                  externalcontactphonejtextfield.setText(external.getPhone()); 
+                  externalcontactemailjtextfield.setText(external.getEmail()); 
+                  externalcontactenotejtextarea.setText(external.getInfo()); 
+                  externalcontactcompanyjtextfield.setText(external.getCompany());
+               }
+            }
+         }
+         if(currentEOOperation == EOOperation.DELETEEVENTTYPE)
+         {
+            //We deleted something so we reset all writeable fields
+            namejtextfield.setText(""); 
+            notejtextarea.setText(""); 
+            startadrjtextfield.setText(""); 
+            endadrjtextfield.setText(""); 
+            timejtextfield.setText(""); 
+            pricejtextfield.setText(""); 
+            externalcontactnamejtextfield.setText(""); 
+            externalcontactphonejtextfield.setText(""); 
+            externalcontactemailjtextfield.setText(""); 
+            externalcontactenotejtextarea.setText(""); 
+            externalcontactcompanyjtextfield.setText("");
+         }
+      }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible, currentEOOperation);
-   }
-
-   public void clearData() {
-   	// TODO - implement PanelCreateArrangement.clearData
-      throw new UnsupportedOperationException();
    }
 
    protected void paintComponent(Graphics g)
@@ -220,7 +349,7 @@ public class EOPanelADMEventType extends EOPanel {
       super.paintComponent(g);
       g.drawLine(00,38, this.getWidth(), 38);
       g.drawLine(320,45, 320, this.getHeight()-50); 
-      g.drawLine(640,45, 640, this.getHeight()-50);
+      g.drawLine(640,45, 640, this.getHeight()-250);
       g.drawLine(960,45, 960, this.getHeight()-50);          
    }      
 }

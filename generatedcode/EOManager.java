@@ -44,12 +44,14 @@ public class EOManager {
                gui.getBreadcrumb().reset();
             }
             break;
+//Import            
          case IMPORT:
             gui.getBreadcrumb().push(EOOperation.IMPORT);
             break; 
          case IMPORTCSV:
             gui.getBreadcrumb().pop();
             break;             
+//Export         
          case EXPORT:
             // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
 
@@ -59,9 +61,7 @@ public class EOManager {
                EOOperation.EXPORT.setData(allFacilConInfo);
             }else{
                //EOOperation.EXPORT.setData(allFacilConInfo)
-            }
-
-         
+            }        
             gui.getBreadcrumb().push(EOOperation.EXPORT);
             break;
          case SAVECSV:
@@ -79,6 +79,7 @@ public class EOManager {
             }
             gui.getBreadcrumb().pop();
             break;
+//Arrangement
          case OPENARRANGEMENT:
             Object[] openarrangement_data = {
                EOOperation.OPENARRANGEMENT.getData(),
@@ -93,43 +94,28 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
          case UPDATEARRANGEMENT:
-            FacilitatorContactInfo[] facilitators_updatearrangenemnt = db.getAllFacilitatorContactInfo();
-            System.out.println("Num facilitators" + facilitators_updatearrangenemnt.length);
-            EOEvent[] events_updatearrangenemn = null;
-            Object[] o_updatearrangenemnt = new Object[2];
-            o_updatearrangenemnt[0] = facilitators_updatearrangenemnt;
-            o_updatearrangenemnt[1] = events_updatearrangenemn;
-            EOOperation.UPDATEARRANGEMENT.setData(o_updatearrangenemnt);
+            Object[] updatearrangement_data = {
+               EOOperation.OPENARRANGEMENT.getData(),
+               db.getAllFacilitatorContactInfo(),
+               db.getAllFacilitatorContactInfo()
+            };
+            EOOperation.UPDATEARRANGEMENT.setData(updatearrangement_data);
             gui.getBreadcrumb().push(EOOperation.UPDATEARRANGEMENT);
-            break;                    
-         case DELETEARRANGEMENT:
-            gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
+            break;
          case SAVEDELETEARRANGEMENT:
-            EOArrangement savedeletearrangement = (EOArrangement) EOOperation.SAVEDELETEARRANGEMENT.getData();
+            if(EOOperation.SAVEDELETEARRANGEMENT.getData() instanceof EOArrangement)
+            {
+               //db.deleteEOArrangement((EOArrangement)EOOperation.DELETEARRANGEMENT.getData());
+            }
             //Databasekald
             gui.getBreadcrumb().reset();
             break;
+         case DELETEARRANGEMENT:
+            gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
+//ADM Facilitators            
          case ADMFACILITATOR:
-            FacilitatorContactInfo[] allFacilConInfo1 = db.getAllFacilitatorContactInfo();
-            
-            if(allFacilConInfo1 != null){
-               EOOperation.ADMFACILITATOR.setData(allFacilConInfo1);
-            }
-            else{
-               //EOOperation.EXPORT.setData(allFacilConInfo)
-            }
+            EOOperation.ADMFACILITATOR.setData(db.getAllFacilitatorContactInfo());
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
-
-            break;
-         case UPDATEFACILITATOR:
-            gui.getBreadcrumb().push(EOOperation.UPDATEFACILITATOR);
-            db.getFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.UPDATEFACILITATOR.getData());
-            break;
-         case ADMEVENTTYPE:
-            gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
-            break;
-         case CREATEEVENT:
-            gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
             break;
          case CREATEFACILITATOR:
             db.createFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.CREATEFACILITATOR.getData());
@@ -141,7 +127,10 @@ public class EOManager {
          case DELETEFACILITATOR:
             db.deleteFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.DELETEFACILITATOR.getData());
             break;
-         case SAVEEDITFACILITATOR:
+         case UPDATEFACILITATOR:
+            db.getFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.UPDATEFACILITATOR.getData());
+            break;
+         case SAVEEDITFACILITATOR: //This metode is used when UPDATEFACILITATOR saves its data
             db.updateFacilitatorContactInfo((FacilitatorContactInfo) EOOperation.SAVEEDITFACILITATOR.getData());
             FacilitatorContactInfo[] allFacilConInfoSave = db.getAllFacilitatorContactInfo();
             if(allFacilConInfoSave != null){
@@ -149,6 +138,43 @@ public class EOManager {
             }
             System.out.println(EOOperation.SAVEEDITFACILITATOR);
             break;
+//ADM EventTypes            
+         case ADMEVENTTYPE:
+            EOOperation.ADMEVENTTYPE.setData(db.getEOEventTypes());
+            gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
+            break;
+         case CREATEEVENTTYPE:
+            if(EOOperation.CREATEEVENTTYPE.getData() instanceof EOEventType)
+            {
+               db.createEOEvenType((EOEventType) EOOperation.CREATEEVENTTYPE.getData());
+               EOOperation.CREATEEVENTTYPE.setData(db.getEOEventTypes());
+            }
+            break;
+         case UPDATEEVENTTYPE:
+               EOOperation.UPDATEEVENTTYPE.setData(db.getEOEventTypes());
+            break;
+         case SAVEEDITEVENTTYPE:
+            if(EOOperation.SAVEEDITEVENTTYPE.getData() instanceof EOEventType)
+            {
+               db.updateEOEvenType((EOEventType) EOOperation.SAVEEDITEVENTTYPE.getData());
+               EOOperation.SAVEEDITEVENTTYPE.setData(db.getEOEventTypes());
+            }
+            break;
+         case DELETEEVENTTYPE:
+            if(EOOperation.DELETEEVENTTYPE.getData() instanceof EOEventType)
+            {
+               db.deleteEOEvenType((EOEventType) EOOperation.DELETEEVENTTYPE.getData());
+               EOOperation.DELETEEVENTTYPE.setData(db.getEOEventTypes());
+            }
+            break;
+
+//Event
+         case CREATEEVENT:
+            gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
+            break;
+            
+
+
          default:
             break;
       }

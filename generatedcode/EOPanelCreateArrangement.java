@@ -18,7 +18,7 @@ public class EOPanelCreateArrangement extends EOPanel {
     JTextArea descriptionjtextarea;
     EOGUIMultiSelect facilitatormultiselect;
     //Column3
-    EOGUIMultiSelect eventtypemultiselect;
+    EOGUIMultiSelect eventemultiselect;
 
    public EOPanelCreateArrangement(EOGUI gui) {
       this.gui = gui;
@@ -37,6 +37,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                {
                    public void actionPerformed(ActionEvent e)
                    {
+                     //If any events that are associated with the arrangement has been created we delete em
                        gui.runCommand(EOOperation.START);
                    }
                });
@@ -106,7 +107,7 @@ public class EOPanelCreateArrangement extends EOPanel {
        facilitatormultiselect.setBounds(650, 300, 300, 160);
        this.add(facilitatormultiselect);
 
-       JButton facilitatorbutton=new JButton("Åben");
+       JButton facilitatorbutton=new JButton("Aaben");
        facilitatorbutton.setBounds(850, 470, 100, 20);
        facilitatorbutton.addActionListener(
                new ActionListener()
@@ -119,18 +120,50 @@ public class EOPanelCreateArrangement extends EOPanel {
        this.add(facilitatorbutton);
 
        //Column 4
-       JLabel eventtypelabel=new JLabel("Begivenhedstype(r):");
+       JLabel eventtypelabel=new JLabel("Begivenheder:");
        eventtypelabel.setBounds(970, 40, 200, 20);
        eventtypelabel.setFont(this.gui.getFontsmall());
        this.add(eventtypelabel);
 
-       eventtypemultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
-       eventtypemultiselect.setBounds(970, 60, 300, 240);
-       this.add(eventtypemultiselect);
+       eventemultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+       eventemultiselect.setBounds(970, 60, 300, 240);
+       this.add(eventemultiselect);
 
-       JButton createarrangementbutton=new JButton("?ben");
+       JButton deletearrangementbutton=new JButton("Slet");
+       deletearrangementbutton.setBounds(970, 310, 60, 20);
+       deletearrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       Object[] sevent = eventemultiselect.getSelected();
+                       if (sevent != null) {
+                          EOOperation.DELETEEVENT.setData(sevent[0]);
+                          gui.runCommand(EOOperation.DELETEEVENT);
+                       }
+                       else
+                       {
+                          gui.dialogbox("Du har ikke valgt nogle begivenhed");
+                       }
+                   }
+               });
+       this.add(deletearrangementbutton);
+       
+       JButton updatearrangementbutton=new JButton("Rediger");
+       updatearrangementbutton.setBounds(1030, 310, 90, 20);
+       updatearrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       gui.runCommand(EOOperation.UPDATEEVENT);
+                   }
+               });
+       this.add(updatearrangementbutton);
+
+       JButton createarrangementbutton=new JButton("Opret");
        System.out.println(this.gui.getWidth()-160);
-       createarrangementbutton.setBounds(1170, 310, 100, 20);
+       createarrangementbutton.setBounds(1120, 310, 75, 20);
        createarrangementbutton.addActionListener(
                new ActionListener()
                {
@@ -139,7 +172,19 @@ public class EOPanelCreateArrangement extends EOPanel {
                        gui.runCommand(EOOperation.CREATEEVENT);
                    }
                });
-       this.add(createarrangementbutton);
+       this.add(createarrangementbutton);              
+
+       JButton openarrangementbutton=new JButton("Aaben");
+       openarrangementbutton.setBounds(1195, 310, 75, 20);
+       openarrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       gui.runCommand(EOOperation.OPENEVENT);
+                   }
+               });
+       this.add(openarrangementbutton);
 
        JLabel customernamelabel=new JLabel("Kundenavn:");
        customernamelabel.setBounds(970, 330, 120, 20);

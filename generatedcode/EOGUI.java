@@ -62,14 +62,18 @@ public class EOGUI {
       //Setting up our different screens
       // screens = new JPanel[8];
       screens = new HashMap<EODisplayType, EOPanel>();
-      screens.put(EODisplayType.START, new EOPanelStartMenu(this));      
+      screens.put(EODisplayType.START, new EOPanelStartMenu(this));     
+       
       screens.put(EODisplayType.CREATEARRANGEMENT, new EOPanelCreateArrangement(this)); 
       screens.put(EODisplayType.UPDATEARRANGEMENT, new EOPanelUpdateArrangement(this)); 
       screens.put(EODisplayType.DELETEARRANGEMENT, new EOPanelDeleteArrangement(this));
       screens.put(EODisplayType.OPENARRANGEMENT, new EOPanelOpenArrangement(this));       
+      
       screens.put(EODisplayType.CREATEEVENT, new EOPanelCreateEvent(this)); 
       screens.put(EODisplayType.UPDATEEVENT, new EOPanelUpdateEvent(this)); 
       screens.put(EODisplayType.DELETEEVENT, new EOPanelDeleteEvent(this));  
+      screens.put(EODisplayType.OPENEVENT, new EOPanelOpenEvent(this)); 
+      
       screens.put(EODisplayType.ADMEVENTTYPE, new EOPanelADMEventType(this)); 
       screens.put(EODisplayType.ADMFACILITATOR, new EOPanelADMFacilitator(this)); 
       screens.put(EODisplayType.EXPORT, new EOPanelExport(this));
@@ -142,6 +146,11 @@ public class EOGUI {
    public boolean isAdministrator()
    {
       return(usertype == 1);
+   }
+   
+   public void dialogbox(String msg)
+   {
+      JOptionPane.showMessageDialog(frame, msg);
    }
 
 }

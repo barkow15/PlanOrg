@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class EOPanelDeleteArrangement extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
-   JTextField deletenametextfield;
+   JLabel deletenamevaluejlabel;
    EOArrangement deletearrangement;
 
    public EOPanelDeleteArrangement(EOGUI gui) {
@@ -57,16 +57,16 @@ public class EOPanelDeleteArrangement extends EOPanel {
 
       //Name
       JLabel deletenamelabel=new JLabel("Navn:");
-      deletenamelabel.setBounds(550, 275, 50, 30);
+      deletenamelabel.setBounds(550, 275, 70, 30);
       deletenamelabel.setFont(this.gui.getFontsmall());
 
       this.add(deletenamelabel);
 
-      deletenametextfield=new JTextField();
-      deletenametextfield.setBounds(600, 275, 150, 30);
-      deletenametextfield.setFont(this.gui.getFontsmall());
+      deletenamevaluejlabel=new JLabel();
+      deletenamevaluejlabel.setBounds(600, 275, 650, 30);
+      deletenamevaluejlabel.setFont(this.gui.getFontsmall());
 
-      this.add(deletenametextfield);
+      this.add(deletenamevaluejlabel);
 
 
    
@@ -81,7 +81,7 @@ public class EOPanelDeleteArrangement extends EOPanel {
       if(deletearrangement.getData() instanceof EOArrangement)
       {
          EOArrangement arrangement = (EOArrangement) deletearrangement.getData();
-         deletenametextfield.setText(arrangement.getName());
+         deletenamevaluejlabel.setText(arrangement.getName());
          this.deletearrangement = arrangement;
       }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());     
