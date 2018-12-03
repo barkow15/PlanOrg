@@ -1,4 +1,8 @@
-import java.util.ArrayList;
+// Import dependencies
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+
 
 public class RunDB {
     public static void main(String[] args){
@@ -8,8 +12,86 @@ public class RunDB {
         /*********************************/
         /** Arrangements DB TESTS START **/
         /*********************************/
+        /*
+         Lav nye instanser af CCI og FCI og gem i variabler til tests af oprettelse af arrangement
+        */
+        CustomerContactInfo     aci = new CustomerContactInfo(
+                    1,
+                    "Customer Test",
+                    "67189182",
+                    "mathias@test.dk",
+                    "Test Firma",
+                    "Bla"
+        );
+        ExternalContactInfo     eci  = new ExternalContactInfo(
+                1,
+                "Hejsa",
+                "12345678",
+                "bla bla",
+                "Hey",
+                "Firma"
+        );
+        FacilitatorContactInfo  afi  = new FacilitatorContactInfo(
+                2,
+                "- Name of test -",
+                "12345678",
+                "test@test.dk",
+                "Bla"
+        );
+        FacilitatorContactInfo[] facilArr = new FacilitatorContactInfo[1];
+        facilArr[0] = afi;
 
-        //EOArrangement ar = new EOArrangement(1, "Nøgenbadning", "Blablabla", "16:00");
+        EOEvent[] eventsArr               = new EOEvent[2];
+        EOEventType[] eventTypesArr1      = new EOEventType[2];
+        EOEventType[] eventTypesArr2      = new EOEventType[2];
+        eventTypesArr1[0] = new EOEventType(1, "Bla", "Blabla", "Hørsholm", "Hørsholm", 10,  200, eci);
+        eventTypesArr1[1] = new EOEventType(2, "Bla", "Blabla", "Hørsholm", "Hørsholm", 10,  200, eci);
+        eventTypesArr1[0] = new EOEventType(3, "Bla", "Blabla", "Hørsholm", "Hørsholm", 10,  200, eci);
+        eventTypesArr1[1] = new EOEventType(4, "Bla", "Blabla", "Hørsholm", "Hørsholm", 10,  200, eci);
+
+        // Formatering af dato
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime dateTimeStart1 = LocalDateTime.parse( "2018-02-16 06:00:00", formatter);
+        LocalDateTime dateTimeEnd1   = LocalDateTime.parse( "2018-02-16 16:00:00", formatter);
+        eventsArr[0] = new EOEvent(1,
+                "Nøgenbadning",
+                dateTimeStart1,
+                dateTimeEnd1,
+                20.00,
+                eventTypesArr1
+        );
+
+        LocalDateTime dateTimeStart2 = LocalDateTime.parse( "2018-02-16 06:00:00", formatter);
+        LocalDateTime dateTimeEnd2   = LocalDateTime.parse( "2018-02-16 16:00:00", formatter);
+        eventsArr[1] = new EOEvent(
+                2,
+                "Livet som popstjerne med Erann DD",
+                dateTimeStart2,
+                dateTimeEnd2,
+                20.00,
+                eventTypesArr2
+        );
+
+        // Lav en instans af EOArrangement
+        LocalDateTime dateTimeStartArrangement  = LocalDateTime.parse( "2018-02-16 06:00:00", formatter);
+        LocalDateTime dateTimeEndArrangement    = LocalDateTime.parse( "2018-02-16 06:00:00", formatter);
+        EOArrangement           ar  = new EOArrangement(
+                1,
+                "Nøgenbadning",
+                "Blablabla",
+                dateTimeStartArrangement,
+                dateTimeEndArrangement,
+                100,
+                false,
+                true,
+                facilArr,
+                eventsArr,
+                db.getCustomerContactInfo(aci)
+        );
+
+        // Kør db test
+        db.createEOArrangement(ar);
 
         /*******************************/
         /** Arrangements DB TESTS END **/
@@ -40,9 +122,9 @@ public class RunDB {
         // <-- DELETE -->
         /*
         if(db.deleteFacilitatorContactInfo(fi)){
-            System.out.println("Deleted Customer Contact Info");
+            System.out.println("Deleted Facilitator Contact Info");
         }else{
-            System.out.println("Could not delete customer contact info. Try again.");
+            System.out.println("Could not delete facilitator contact info. Try again.");
         }
         */
 

@@ -87,18 +87,94 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param events
-	 * @param customer
-	 * @param name
-	 * @param description
-	 * @param datetimestart
-	 * @param datetimeend
-	 * @param price
+	 * @param aObj
+	 *
 	 */
-   public void createEOArrangement(EOEvent[] events, CustomerContactInfo customer, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price) {
-   	// TODO - implement EODatabaseInterface.createEOArrangement
-      throw new UnsupportedOperationException();
-   }
+	public boolean createEOArrangement(EOArrangement aObj) {
+
+		/* Variabler initialisering start */
+			EOArrangement a 		  = aObj;
+			boolean  returnvalue 	  = false;
+			String	 SQL			  = "";
+
+			String 	deletedStatus	  = "2";
+			String 	name 			  = a.getName();
+			String	desc			  = a.getDescription();
+			String	dateStart		  = "" + a.getDateTimeStart();
+			String	dateEnd			  = "" + a.getDateTimeEnd();
+			String  price 			  = "" + a.getPrice();
+			boolean doneStatus		  = a.isDone();
+			int 	doneStatusInt	  = 0;
+			boolean payedStatus		  = a.isPayed();
+			int 	payedStatusInt	  = 0;
+
+			if(doneStatus){
+				// Får værdien 2 hvis den arrangementet er afholdt
+				doneStatusInt = 2;
+			}else{
+				// Får værdien 3 hvis arrangementet IKKE er afholdt
+				doneStatusInt = 3;
+			}
+			if(payedStatus){
+				// Får værdien 2 hvis arrangementet er betalt
+				payedStatusInt = 2;
+			}else{
+				// Får værdien 3 hvis arrangementet IKKE er betalt
+				payedStatusInt = 3;
+			}
+		/* Variable initialisering slut */
+
+		/* Array variables initialisering start */
+			EOEvent[] eventsArr		  = aObj.getEvents();
+
+			int eventsArrSize 		  = eventsArr.length;
+			// Hvis der er 0 events på arrangementet sættes eventsArr til null
+			if(eventsArrSize == 0){
+				eventsArr = null;
+			}
+
+			FacilitatorContactInfo[] facilArr = aObj.getFacilitators();
+			int facilArrSize = facilArr.length;
+			// Hvis der er 0 facilitatorer på arrangementet sættes facilArr til null
+			if(facilArrSize == 0){
+				facilArr = null;
+			}
+		/* Array variables initialisering slut */
+
+		/* Konsol test eventsarray */
+		/*
+			for(int i = 0; i < eventsArrSize; i++){
+				if(eventsArr[i] != null){
+					System.out.println(eventsArr[i].getPrice());
+				}
+			}
+		*/
+		/* Konsol test facilitatorsarray */
+		/*
+			for(int i = 0; i < facilArrSize; i++){
+				if(facilArr[i] != null){
+					System.out.println(facilArr[i].getInfo());
+				}
+			}
+		*/
+
+		SQL += "INSERT INTO 'EOArrangements' (name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) VALUES (";
+		SQL += "'" + name 			+ "',";
+		SQL += "'" + desc 			+ "',";
+		SQL += "'" + dateStart 		+ "',";
+		SQL += "'" + dateEnd 		+ "',";
+		SQL += "'" + doneStatusInt 	+ "',";
+		SQL += "'" + payedStatus 	+ "',";
+		SQL += "'" + price 			+ "')";
+		/*
+		if(executeSql(SQL) == 1){
+		   returnvalue = true;
+		}else{
+		   returnvalue = false;
+		} */
+
+		return returnvalue;
+	}
 
 	/**
 	 * 
@@ -551,16 +627,15 @@ public class EODatabaseInterface {
 	 */
    public boolean createCustomerContactInfo(CustomerContactInfo cCIObj) {
    	   CustomerContactInfo c 	= cCIObj;
-
    	   boolean  returnvalue 	= false;
+	   String	SQL				= "";
 
-   	   String 	deletedStatus	= "2";
+	   String 	deletedStatus	= "2";
 	   String 	name 			= c.getName();
 	   String	phone			= c.getPhone();
 	   String	email			= c.getEmail();
 	   String	company			= c.getCompany();
 	   String	info			= c.getInfo();
-	   String	SQL				= "";
 
 	   SQL += "INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES (";
 	   SQL += "'" + deletedStatus 	+ "',";
