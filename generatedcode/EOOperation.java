@@ -18,16 +18,20 @@ public enum EOOperation {
    IMPORTCSV (null, "Importer", EODisplayType.START), //Faelles  
    EXPORT (null, "Exporter", EODisplayType.EXPORT), //Martin - DONE
    SAVECSV (null, "Gem CSV", EODisplayType.START), //Faelles 
+   
    ADMFACILITATOR (null, "Administrer Facilitatorer", EODisplayType.ADMFACILITATOR), //Frederik
    UPDATEFACILITATOR (null,"Rediger Facilitator",EODisplayType.ADMFACILITATOR), //Frederik
    CREATEFACILITATOR (null,"Opret Facilitator",EODisplayType.ADMFACILITATOR), //Frederik
-   DELETEFACILITATOR(null,"Slet facilitator",EODisplayType.ADMFACILITATOR), //Frederik
+   DELETEFACILITATOR (null,"Slet facilitator",EODisplayType.ADMFACILITATOR), //Frederik
    SAVEEDITFACILITATOR(null,"Gem Opdatering",EODisplayType.ADMFACILITATOR),//Frederik
+   OPENFACILITATOR (null,"Vis Facilitator",EODisplayType.OPENFACILITATOR),
+  
    ADMEVENTTYPE (null, "Administrer Begivenhedstyper", EODisplayType.ADMEVENTTYPE), //Martin
    CREATEEVENTTYPE (null,"Opret Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
    UPDATEEVENTTYPE (null,"Rediger Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
    SAVEEDITEVENTTYPE(null,"Gem Opdatering",EODisplayType.ADMFACILITATOR),//Frederik
    DELETEEVENTTYPE(null,"Slet Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
+   
    ERROR (null, "Fejl Skaerm", EODisplayType.ERROR); //Martin
  
    private Object data = null;

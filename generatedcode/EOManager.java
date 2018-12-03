@@ -54,9 +54,8 @@ public class EOManager {
 //Export         
          case EXPORT:
             // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
-
             FacilitatorContactInfo[] allFacilConInfo = db.getAllFacilitatorContactInfo();
-         
+        
             if(allFacilConInfo != null){
                EOOperation.EXPORT.setData(allFacilConInfo);
             }else{
@@ -66,16 +65,19 @@ public class EOManager {
             break;
          case SAVECSV:
             EOOperation.EXPORT.setData(null);
-            EOCSV eocsv = (EOCSV)EOOperation.SAVECSV.getData();
-            try
+            if(EOOperation.SAVECSV.getData() instanceof EOCSV)
             {
-               eocsv.createCSV();
-               operation = EOOperation.START;
-            }
-            catch(Exception e)
-            {
-               System.out.println("CSV file failed to be created: " + e.getMessage());
-               operation = EOOperation.ERROR;
+               try
+               {
+                  EOCSV eocsv = (EOCSV)EOOperation.SAVECSV.getData();
+                  eocsv.createCSV();
+                  operation = EOOperation.START;
+               }
+               catch(Exception e)
+               {
+                  System.out.println("CSV file failed to be created: " + e.getMessage());
+                  operation = EOOperation.ERROR;
+               }
             }
             gui.getBreadcrumb().pop();
             break;
@@ -137,6 +139,9 @@ public class EOManager {
                EOOperation.SAVEEDITFACILITATOR.setData(allFacilConInfoSave);
             }
             System.out.println(EOOperation.SAVEEDITFACILITATOR);
+            break;
+         case OPENFACILITATOR:
+            gui.getBreadcrumb().push(EOOperation.OPENFACILITATOR);
             break;
 //ADM EventTypes            
          case ADMEVENTTYPE:

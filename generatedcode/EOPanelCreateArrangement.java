@@ -103,7 +103,7 @@ public class EOPanelCreateArrangement extends EOPanel {
        facilitatorlabel.setFont(this.gui.getFontsmall());
        this.add(facilitatorlabel);
 
-       facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160));
+       facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160), ListSelectionModel.SINGLE_SELECTION);
        facilitatormultiselect.setBounds(650, 300, 300, 160);
        this.add(facilitatormultiselect);
 
@@ -114,7 +114,15 @@ public class EOPanelCreateArrangement extends EOPanel {
                {
                    public void actionPerformed(ActionEvent e)
                    {
-                       gui.runCommand(EOOperation.CREATEEVENT);
+                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                     {
+                        EOOperation.OPENFACILITATOR.setData((FacilitatorContactInfo)facilitatormultiselect.getSelected()[0]);
+                        gui.runCommand(EOOperation.OPENFACILITATOR);
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal vælge en facilitator hvis du vil se information omkring denne.");
+                     }
                    }
                });
        this.add(facilitatorbutton);

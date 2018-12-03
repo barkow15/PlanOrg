@@ -20,6 +20,9 @@ public class EOBreadcrumb
       return(this.stackcounter);
    }
    
+   /**
+   * Index starting at 0
+   */
    public EOOperation getIndex(int i)
    {
       if(i>stackcounter)

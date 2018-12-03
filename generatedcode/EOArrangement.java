@@ -145,15 +145,16 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    public String exportCSV()
    {
       String str = 
-         "EOArrangement; " + 
-         Integer.toString(getId()) + "; " + 
-         getName() + "; " + 
-         getDescription() + "; " + 
-         getDateTimeStart().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "; " +
-         getDateTimeEnd().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "; " +
-         Double.toString(getPrice()) + "; " + 
-         Boolean.toString(isPayed()) + "; " + 
-         Boolean.toString(isDone()) + "\n"; 
+         EOCSV.formatField("EOArrangement") + ",  " + 
+         EOCSV.formatField(getId()) + ", " + 
+         EOCSV.formatField(getName()) + ", " + 
+         EOCSV.formatField(getDescription()) + ", " + 
+         EOCSV.formatField(getDateTimeStart()) + ", " +
+         EOCSV.formatField(getDateTimeEnd()) + ", " +
+         EOCSV.formatField(getPrice()) + ", " + 
+         EOCSV.formatField(isPayed()) + ", " + 
+         EOCSV.formatField(isDone()) + "\n";
+          
          str += getCustomer().exportCSV();
          FacilitatorContactInfo[] f = getFacilitators();
          if(f != null)

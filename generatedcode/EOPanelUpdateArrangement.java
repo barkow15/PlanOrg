@@ -126,7 +126,15 @@ public class EOPanelUpdateArrangement extends EOPanel {
               {
                  public void actionPerformed(ActionEvent e)
                  {
-                    gui.runCommand(EOOperation.CREATEEVENT);
+                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                     {
+                        EOOperation.OPENFACILITATOR.setData((FacilitatorContactInfo)facilitatormultiselect.getSelected()[0]);
+                        gui.runCommand(EOOperation.OPENFACILITATOR);
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal vælge en facilitator hvis du vil se information omkring denne.");
+                     }
                  }
               });
       this.add(facilitatorbutton);

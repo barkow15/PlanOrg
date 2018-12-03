@@ -102,7 +102,15 @@ public class EOPanelOpenArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.CREATEEVENT);
+                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                     {
+                        EOOperation.OPENFACILITATOR.setData((FacilitatorContactInfo)facilitatormultiselect.getSelected()[0]);
+                        gui.runCommand(EOOperation.OPENFACILITATOR);
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal vælge en facilitator hvis du vil se information omkring denne.");
+                     }
                   }
                });
       this.add(facilitatorbutton);
@@ -193,14 +201,28 @@ public class EOPanelOpenArrangement extends EOPanel {
                   descriptionjtextarea.setText(arrangement.getDescription());
                }
                //1 = FacilitatorContactInfo[]
-               if(edata[1] instanceof FacilitatorContactInfo[])
+               if(edata[1] instanceof FacilitatorContactInfo[] && edata[1] != null)
                {
-                  facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                  if(arrangement == null)
+                  {
+                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1]);
+                  }
+                  else
+                  {
+                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                  }
                }
                //2 = EOEvent[]
-               if(edata[2] instanceof EOEvent[])
+               if(edata[2] instanceof EOEvent[] && edata[2] != null)
                {
-                  eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+                  if(arrangement == null)
+                  {
+                     eventmultiselect.setList((EOEvent[])edata[2]);
+                  }
+                  else
+                  {
+                     eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+                  }
                }
             }
          }

@@ -11,8 +11,8 @@ public class EOPanelExport extends EOPanel {
    EOGUIDateTimePicker enddatetime;
    EOGUIMultiSelect facilitatormultiselect;
    JCheckBox exportprice;
-   FacilitatorContactInfo[] f;
    EOGUIBreadcrumb breadcrumb;
+   EOGUIMultiSelect arrangementmultiselect;
    
    public EOPanelExport(EOGUI gui) {
       this.gui = gui;
@@ -24,19 +24,27 @@ public class EOPanelExport extends EOPanel {
       breadcrumb.setVisible(true);
       this.add(breadcrumb);
       
-      JButton exportbutton = new JButton("Export");
-      exportbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
-      exportbutton.addActionListener(
+      JButton backbutton = new JButton("Tilbage");
+      backbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
+      backbutton.addActionListener(
                new ActionListener()
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     //We take all data from the panel
+                     gui.runCommand(EOOperation.START);
+                  }
+               });
+      this.add(backbutton);
+          
+      //Column1//
+      JButton exportallbutton = new JButton("Eksporter alt data i programmet");
+      exportallbutton.setBounds(10, 43, 300, 30);
+      exportallbutton.addActionListener(
+               new ActionListener()
+               {
+                  public void actionPerformed(ActionEvent e)
+                  {
                      try{
-                        LocalDateTime sdatetime = startdatetime.getDateTime();
-                        LocalDateTime edatetime = enddatetime.getDateTime();
-                        exportprice.isSelected();
-                        Object[] selecteditems = facilitatormultiselect.getSelected();
                         File file = null;
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setSelectedFile(new File("EOEksport.CSV"));
@@ -47,19 +55,8 @@ public class EOPanelExport extends EOPanel {
                            String filename=fileChooser.getSelectedFile().getName();
                            file = new File(path, filename);
                           
-                           FacilitatorContactInfo[] fci = null;
-                           if(selecteditems != null)
-                           {
-                              int len = selecteditems.length;
-                              fci = new FacilitatorContactInfo[len];
-                              for(int i = 0; i < selecteditems.length; i++)
-                              {
-                                 fci[i] = (FacilitatorContactInfo)selecteditems[i];
-                              }
-                           }
-                           EOOperation.SAVECSV.setData(new EOCSV(sdatetime, edatetime, fci, exportprice.isSelected(), file));
+                           EOOperation.SAVECSV.setData(new EOCSV(file));
                         
-                           exportprice.setSelected(false);
                            //We leave the page by calling SAVECSV
                            gui.runCommand(EOOperation.SAVECSV);
                         }
@@ -73,68 +70,144 @@ public class EOPanelExport extends EOPanel {
                      }
                   }
                });
-      this.add(exportbutton);
+      this.add(exportallbutton);
+               
+      //Column 2//
+      JLabel exportfacilitatorarrangementlabel = new JLabel("Facilitatorer:");
+      exportfacilitatorarrangementlabel.setBounds(330, 40, 100, 20);
+      exportfacilitatorarrangementlabel.setFont(this.gui.getFontsmall());
+      this.add(exportfacilitatorarrangementlabel);
+      //Example data, here we need to load data from database
+   
+                        
+      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      facilitatormultiselect.setBounds(330, 60, 300, 240);
+      this.add(facilitatormultiselect);
       
-      JButton cancelbutton=new JButton("Annuller");
-      cancelbutton.setBounds(this.gui.getWidth()-230, 5, 100, 30);
-      cancelbutton.addActionListener(
+      exportprice = new JCheckBox("Inkluder priser");
+      exportprice.setSelected(false);
+      exportprice.setBounds(330, 300, 150, 20);
+      this.add(exportprice);
+
+      JCheckBox exportdone = new JCheckBox("Inkluder afholdte");
+      exportdone.setSelected(false);
+      exportdone.setBounds(330, 320, 150, 20);
+      this.add(exportdone);
+      
+      JButton exportfacilitatorarrangementbutton = new JButton("<html>Eksporter de arangementer som den/de<br/>valgte facilitatorer er tilknyttet</html>");
+      exportfacilitatorarrangementbutton.setBounds(330, 340, 300, 60);
+      exportfacilitatorarrangementbutton.addActionListener(
                new ActionListener()
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                        if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                        {
+                           Object[] fe = facilitatormultiselect.getSelected();
+                           FacilitatorContactInfo[] f = new FacilitatorContactInfo[fe.length];
+                           for(int i = 0; i < fe.length; i++)
+                           {
+                              f[i] = (FacilitatorContactInfo) fe[i];
+                           }
+                           File file = null;
+                           JFileChooser fileChooser = new JFileChooser();
+                           fileChooser.setSelectedFile(new File("EOEksport.CSV"));
+                           //Prompt user for where file needs to be saved
+                           if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+                           {
+                              String path=fileChooser.getCurrentDirectory().getAbsolutePath();
+                              String filename=fileChooser.getSelectedFile().getName();
+                              file = new File(path, filename);
+                             
+                              EOOperation.SAVECSV.setData(
+                                 new EOCSV(
+                                    f, 
+                                    exportprice.isSelected(), 
+                                    exportdone.isSelected(), 
+                                    file
+                                 )
+                               );
+                           
+                              //We leave the page by calling SAVECSV
+                              gui.runCommand(EOOperation.SAVECSV);
+                           }
+                        }
+                        else
+                        {
+                           gui.dialogbox("Du skal minimum vælge minimum en facilitator før du kan eksportere.");
+                        }
                   }
                });
-      this.add(cancelbutton); 
-      
-      //Column1//
-      JLabel startdatetimelabel = new JLabel("Start dato/tid");
-      startdatetimelabel.setBounds(10, 40, 400, 20);
-      startdatetimelabel.setFont(this.gui.getFontsmall());
-      this.add(startdatetimelabel);
-      
-      startdatetime = new EOGUIDateTimePicker(LocalDateTime.now());
-      startdatetime.setBounds(10, 60, 300, 400);
-      this.add(startdatetime);
-      //Column 2// 
-      JLabel enddatetimelabel = new JLabel("Slut dato/tid");
-      enddatetimelabel.setBounds(330, 40, 100, 20);
-      enddatetimelabel.setFont(this.gui.getFontsmall());
-      this.add(enddatetimelabel);
-      
-      enddatetime = new EOGUIDateTimePicker(LocalDateTime.now().plusDays(7));
-      enddatetime.setBounds(330, 60, 300, 400);
-      this.add(enddatetime);
+      this.add(exportfacilitatorarrangementbutton);
    
       //Column 3//   
-      JLabel facilitatorslabel = new JLabel("Facilitator(er)");
-      facilitatorslabel.setBounds(650, 40, 100, 20);
-      facilitatorslabel.setFont(this.gui.getFontsmall());
-      this.add(facilitatorslabel);       
+      JLabel exportarrangementlabel = new JLabel("Arrangementer:");
+      exportarrangementlabel.setBounds(650, 40, 100, 20);
+      exportarrangementlabel.setFont(this.gui.getFontsmall());
+      this.add(exportarrangementlabel);
       
-      //Example data, here we need to load data from database
-   
-                        
-      facilitatormultiselect = new EOGUIMultiSelect(f, new Dimension(300, 240));
-      facilitatormultiselect.setBounds(650, 60, 300, 240);
-      this.add(facilitatormultiselect);
-      
-      exportprice = new JCheckBox("Vis priser");
-      exportprice.setSelected(false);
-      exportprice.setBounds(650, 310, 100, 20);
-      this.add(exportprice);
+      arrangementmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      arrangementmultiselect.setBounds(650, 60, 300, 240);
+      this.add(arrangementmultiselect);
+       
+      JButton exportarrangementfacilitatorbutton = new JButton("Eksporter bestemte arrangementer");
+      exportarrangementfacilitatorbutton.setBounds(650, 300, 300, 30);
+      exportarrangementfacilitatorbutton.addActionListener(
+               new ActionListener()
+               {
+                  public void actionPerformed(ActionEvent e)
+                  {
+                        if(arrangementmultiselect.getSelected() != null && arrangementmultiselect.getSelected().length > 0)
+                        {
+                           Object[] ae = arrangementmultiselect.getSelected();
+                           EOArrangement[] a = new EOArrangement[ae.length];
+                           for(int i = 0; i < ae.length; i++)
+                           {
+                              a[i] = (EOArrangement) ae[i];
+                           }
+                           File file = null;
+                           JFileChooser fileChooser = new JFileChooser();
+                           fileChooser.setSelectedFile(new File("EOEksport.CSV"));
+                           //Prompt user for where file needs to be saved
+                           if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+                           {
+                              String path=fileChooser.getCurrentDirectory().getAbsolutePath();
+                              String filename=fileChooser.getSelectedFile().getName();
+                              file = new File(path, filename);
+                             
+                              EOOperation.SAVECSV.setData(
+                                 new EOCSV(
+                                    a, 
+                                    file
+                                 )
+                               );
+                           
+                              //We leave the page by calling SAVECSV
+                              gui.runCommand(EOOperation.SAVECSV);
+                           }
+                        }
+                        else
+                        {
+                           gui.dialogbox("Du skal minimum vælge minimum et arrangement før du kan eksportere.");
+                        }
+                  }
+               });
+      this.add(exportarrangementfacilitatorbutton);      
+
       
       //Column 4//
       JTextArea exportnotetextarea = new JTextArea(
-         "Vaelg den tidsperiode du oensker at eksportere og de facilitatorer som der er med i arrangementerne.\n\n" +
-         "Efter du har eksporteret data, kan du sende CSV filen til den/de facilitatorer som skal afholde arrangementet. Som kan aabne filen i deres Event Organizer program.\n\n" +
-         "Som standard er prisen for de forskellige dele af arrangementet ikke synlige."
+         "Der er 3 forskellige eksport valgmuligheder.\n\n" + 
+         "1) eksporter alt data i programmet.\nHvis du ønsker at arbejde på data sammen med en kollega er det nogen gange en bedre ide at arbejde i den samme database. Det kan gøres ved at ligge databasen på et netvaerks areal og rette i database.ini filen. Spoerg din it-administrator for hjaelp. \n\n"+
+         "2) eksporter arrangementer ud fra tilknyttet facilitatorer.\nAlle de arrangementer en eller flere  af de valgte facilitator er tilknyttet eksporteres.\nSaet hak ud for inkluder priser / afholdte hvis du eonsker at eksportere disse.\n\n"+
+         "3) eksporter Arrangementer.\nVælg de arrangementer på listen du ønsker at eksportere.\nDu har også mulighed for at eksportere dette hvis du går ind under et arrangement et andet sted i programmet.\n"
          );
       exportnotetextarea.setFont(this.gui.getFontsmall());
       exportnotetextarea.setLineWrap(true);
       exportnotetextarea.setWrapStyleWord(true);
       exportnotetextarea.setBounds(970, 60, 300, 300);
       exportnotetextarea.setBackground(new Color(0, 0, 0, 0));
+      exportnotetextarea.setEditable(false);
       this.add(exportnotetextarea);
    }
 

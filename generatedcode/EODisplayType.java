@@ -11,6 +11,7 @@ public enum EODisplayType {
    EXPORT,
    IMPORT,
    ADMFACILITATOR,
+   OPENFACILITATOR,
    ERROR,
    ADMEVENTTYPE;
 }

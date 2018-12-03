@@ -70,12 +70,12 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
    public String exportCSV()
    {
       String str = 
-         "EOEvent; " + 
-         Integer.toString(id) + "; " + 
-         description + "; " + 
-         getDateTimeStart().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "; " +
-         getDateTimeEnd().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "; " +
-         Double.toString(getPrice()) + "\n";
+         EOCSV.formatField("EOEvent") + ", " + 
+         EOCSV.formatField(id) + ", " + 
+         EOCSV.formatField(description) + ", " + 
+         EOCSV.formatField(getDateTimeStart()) + ", " +
+         EOCSV.formatField(getDateTimeEnd()) + ", " +
+         EOCSV.formatField(getPrice()) + "\n";
       EOEventType[] e = getEventTypes();
       if(e != null)
       {

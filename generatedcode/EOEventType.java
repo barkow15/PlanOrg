@@ -65,14 +65,14 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 
    public String exportCSV(){
       String str =
-         "EOEventType; " +
-         Integer.toString(id) + "; " + 
-         name + "; " + 
-         description + "; " +
-         locationstart + "; " +
-         locationend + "; " +
-         Integer.toString(time) + "; " +
-         Double.toString(price);
+         EOCSV.formatField("EOEventType") + ", " +
+         EOCSV.formatField(id) + ", " + 
+         EOCSV.formatField(name) + ", " + 
+         EOCSV.formatField(description) + ", " +
+         EOCSV.formatField(locationstart) + ", " +
+         EOCSV.formatField(locationend) + ", " +
+         EOCSV.formatField(time) + ", " +
+         EOCSV.formatField(price) + "\n";
          if(getExternalContactInfo() != null)
          {
             str += getExternalContactInfo().exportCSV();
