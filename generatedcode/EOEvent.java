@@ -50,15 +50,15 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
          {
             if(i > 0)
             {
-               str += ", " + e[i].exportCSV();
+               str += ", " + e[i].getName();
             }
             else
             {
-               str += e[i].exportCSV();
+               str += e[i].getName();
             }
          }
       }
-      str += " (" + getDateTimeStart().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "-" + getDateTimeEnd().format(DateTimeFormatter.ofPattern("w/M y k:mm")) + ")";
+      str += "" + getDateTimeStart().format(DateTimeFormatter.ofPattern("d/M k:mm")) + "-" + getDateTimeEnd().format(DateTimeFormatter.ofPattern("d/M k:mm")) + "";
       return(str);
    }   
    

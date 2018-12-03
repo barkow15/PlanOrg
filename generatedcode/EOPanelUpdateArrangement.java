@@ -145,22 +145,67 @@ public class EOPanelUpdateArrangement extends EOPanel {
       eventlabel.setFont(this.gui.getFontsmall());
       this.add(eventlabel);
 
-      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
       eventmultiselect.setBounds(970, 60, 300, 240);
       this.add(eventmultiselect);
 
-      JButton editarrangementbutton=new JButton("Rediger");
-      System.out.println(this.gui.getWidth()-160);
-      editarrangementbutton.setBounds(1170, 310, 100, 20);
-      editarrangementbutton.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
-                 {
-                    gui.runCommand(EOOperation.CREATEEVENT);
-                 }
-              });
-      this.add(editarrangementbutton);
+       JButton deletearrangementbutton=new JButton("Slet");
+       deletearrangementbutton.setBounds(970, 300, 60, 20);
+       deletearrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       Object[] sevent = eventmultiselect.getSelected();
+                       if (sevent != null) {
+                          EOOperation.DELETEEVENT.setData(sevent[0]);
+                          gui.runCommand(EOOperation.DELETEEVENT);
+                       }
+                       else
+                       {
+                          gui.dialogbox("Du har ikke valgt nogle begivenhed");
+                       }
+                   }
+               });
+       this.add(deletearrangementbutton);
+       
+       JButton updatearrangementbutton=new JButton("Rediger");
+       updatearrangementbutton.setBounds(1030, 300, 90, 20);
+       updatearrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       gui.runCommand(EOOperation.UPDATEEVENT);
+                   }
+               });
+       this.add(updatearrangementbutton);
+
+       JButton createarrangementbutton=new JButton("Opret");
+       System.out.println(this.gui.getWidth()-160);
+       createarrangementbutton.setBounds(1120, 300, 75, 20);
+       createarrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       gui.runCommand(EOOperation.CREATEEVENT);
+                   }
+               });
+       this.add(createarrangementbutton);              
+
+       JButton openarrangementbutton=new JButton("Aaben");
+       openarrangementbutton.setBounds(1195, 300, 75, 20);
+       openarrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       gui.runCommand(EOOperation.OPENEVENT);
+                   }
+               });
+       this.add(openarrangementbutton);
+
 
       JLabel customernamelabel=new JLabel("Kundenavn:");
       customernamelabel.setBounds(970, 330, 120, 20);
@@ -200,7 +245,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
-      if(currentEOOperation == EOOperation.OPENARRANGEMENT)
+      if(currentEOOperation == EOOperation.UPDATEARRANGEMENT)
       {
          if(currentEOOperation.getData().getClass().isArray())
          {
@@ -216,6 +261,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
                   //column1
                   startdatetime.setDateTime(arrangement.getDateTimeStart());
                   enddatetime.setDateTime(arrangement.getDateTimeEnd());
+                  System.out.println("Textfield = " + arrangement.getName());
                   arrangementtextfield.setText(arrangement.getName());
                   //Column2
                   if(arrangement.getCustomer() != null)
@@ -227,14 +273,28 @@ public class EOPanelUpdateArrangement extends EOPanel {
                   descriptionjtextarea.setText(arrangement.getDescription());
                }
                //1 = FacilitatorContactInfo[]
-               if(edata[1] instanceof FacilitatorContactInfo[])
+               if(edata[1] instanceof FacilitatorContactInfo[] && edata[1] != null)
                {
-                  facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                  if(arrangement == null)
+                  {
+                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1]);
+                  }
+                  else
+                  {
+                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                  }
                }
                //2 = EOEvent[]
-               if(edata[2] instanceof EOEvent[])
+               if(edata[2] instanceof EOEvent[] && edata[2] != null)
                {
-                  eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+                  if(arrangement == null)
+                  {
+                     eventmultiselect.setList((EOEvent[])edata[2]);
+                  }
+                  else
+                  {
+                     eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+                  }
                }
             }
          }

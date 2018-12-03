@@ -121,11 +121,11 @@ public class EOPanelOpenArrangement extends EOPanel {
       eventlabel.setFont(this.gui.getFontsmall());
       this.add(eventlabel);
       
-      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
       eventmultiselect.setBounds(970, 60, 300, 240);
       this.add(eventmultiselect);
       
-      JButton createbutton=new JButton("?ben");
+      JButton createbutton=new JButton("Aaben");
       System.out.println(this.gui.getWidth()-160);
       createbutton.setBounds(1170, 310, 100, 20);
       createbutton.addActionListener(
@@ -133,7 +133,15 @@ public class EOPanelOpenArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.CREATEEVENT);
+                     if(eventmultiselect.getSelected() != null && eventmultiselect.getSelected().length > 0)
+                     {
+                        EOOperation.OPENEVENT.setData((EOEvent)eventmultiselect.getSelected()[0]);
+                        gui.runCommand(EOOperation.OPENEVENT);
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal vælge en begivenhed hvis du vil se information omkring denne.");
+                     }
                   }
                });
       this.add(createbutton);
