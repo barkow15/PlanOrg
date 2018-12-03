@@ -187,19 +187,19 @@ public class EODatabaseInterface {
 	 * @param datetimeend
 	 * @param price
 	 */
-   public void updateEOArrangement(int arrangementid, EOEvent[] events, CustomerContactInfo customer, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price) {
-   	// TODO - implement EODatabaseInterface.updateEOArrangement
-      throw new UnsupportedOperationException();
-   }
+	public void updateEOArrangement(int arrangementid, EOEvent[] events, CustomerContactInfo customer, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price) {
+		// TODO - implement EODatabaseInterface.updateEOArrangement
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
 	 * @param arrangementid
 	 */
-   public void deleteEOArrangement(int arrangementid) {
-   	// TODO - implement EODatabaseInterface.deleteEOArrangement
-      throw new UnsupportedOperationException();
-   }
+	public void deleteEOArrangement(int arrangementid) {
+		// TODO - implement EODatabaseInterface.deleteEOArrangement
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
@@ -209,10 +209,10 @@ public class EODatabaseInterface {
 	 * @param price
 	 * @param description
 	 */
-   public void createEOEvent(EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
-   	// TODO - implement EODatabaseInterface.createEOEvent
-      throw new UnsupportedOperationException();
-   }
+	public void createEOEvent(EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
+		// TODO - implement EODatabaseInterface.createEOEvent
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
@@ -223,19 +223,19 @@ public class EODatabaseInterface {
 	 * @param price
 	 * @param description
 	 */
-   public void updateEOEvent(int eventid, EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
-   	// TODO - implement EODatabaseInterface.updateEOEvent
-      throw new UnsupportedOperationException();
-   }
+	public void updateEOEvent(int eventid, EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
+		// TODO - implement EODatabaseInterface.updateEOEvent
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
 	 * @param eventid
 	 */
-   public void deleteEOEvent(int eventid) {
-   	// TODO - implement EODatabaseInterface.deleteEOEvent
-      throw new UnsupportedOperationException();
-   }
+	public void deleteEOEvent(int eventid) {
+		// TODO - implement EODatabaseInterface.deleteEOEvent
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
@@ -247,10 +247,10 @@ public class EODatabaseInterface {
 	 * @param description
 	 * @param price
 	 */
-   public void createEOEvenType(String locationstart, String locationend, int time, String name, ExternalContactInfo externalcontact, String description, double price) {
-   	// TODO - implement EODatabaseInterface.createEOEvenType
-      throw new UnsupportedOperationException();
-   }
+	public void createEOEvenType(String locationstart, String locationend, int time, String name, ExternalContactInfo externalcontact, String description, double price) {
+		// TODO - implement EODatabaseInterface.createEOEvenType
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
@@ -263,25 +263,25 @@ public class EODatabaseInterface {
 	 * @param description
 	 * @param price
 	 */
-   public void updateEOEvenType(int eventtypeid, String locationstart, String locationend, int time, String name, ExternalContactInfo externalcontact, String description, double price) {
-   	// TODO - implement EODatabaseInterface.updateEOEvenType
-      throw new UnsupportedOperationException();
-   }
+	public void updateEOEvenType(int eventtypeid, String locationstart, String locationend, int time, String name, ExternalContactInfo externalcontact, String description, double price) {
+		// TODO - implement EODatabaseInterface.updateEOEvenType
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
 	 * @param eventtypeid
 	 */
-   public void deleteEOEvenType(int eventtypeid) {
-   	// TODO - implement EODatabaseInterface.deleteEOEvenType
-      throw new UnsupportedOperationException();
-   }
+	public void deleteEOEvenType(int eventtypeid) {
+		// TODO - implement EODatabaseInterface.deleteEOEvenType
+		  throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
 	 * @param fCIObj
 	 */
-   public boolean createFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
+	public boolean createFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
 
 	   FacilitatorContactInfo f = fCIObj;
 	   boolean  returnvalue 	= false;
@@ -307,14 +307,14 @@ public class EODatabaseInterface {
 	   }
 
 	   return returnvalue;
-   }
+	}
 
 	/**
-	 * 
+	 *
 	 * @param fCIObj
 	 */
-   public boolean deleteFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
-	    int 	id 			= fCIObj.getId();
+	public boolean deleteFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
+		int 	id 			= fCIObj.getId();
 		boolean returnvalue = false;
 		String 	sql 		= "";
 
@@ -329,7 +329,7 @@ public class EODatabaseInterface {
 		}
 
 		return returnvalue;
-   }
+	}
 
 	/**
 	 * 
