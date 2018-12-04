@@ -59,6 +59,7 @@ public class RunDB {
                 dateTimeStart1,
                 dateTimeEnd1,
                 20.00,
+                null,
                 eventTypesArr1
         );
 
@@ -70,6 +71,7 @@ public class RunDB {
                 dateTimeStart2,
                 dateTimeEnd2,
                 20.00,
+                null,
                 eventTypesArr2
         );
 
@@ -101,7 +103,7 @@ public class RunDB {
         /*******************************************/
         /** FacilitatorContactInfo DB TESTS START **/
         /*******************************************/
-        FacilitatorContactInfo fi = new FacilitatorContactInfo(2,"- Name of test -", "12345678", "test@test.dk","Bla");
+        FacilitatorContactInfo fi = new FacilitatorContactInfo(1,"Test mand 1", "12345678", "test@test.dk","Bla");
         // <-- CREATE -->
         /*
         if(db.createFacilitatorContactInfo(fi)){
@@ -110,14 +112,11 @@ public class RunDB {
             System.out.println("Error");
         }
         */
-
         // <-- GET -->
-        /*
-        FacilitatorContactInfo facilitator = db.getFacilitatorContactInfo(1);
+        FacilitatorContactInfo facilitator = db.getFacilitatorContactInfo(fi);
         if(facilitator != null) {
             System.out.println(facilitator.getName());
         }
-        */
 
         // <-- DELETE -->
         /*
@@ -139,8 +138,10 @@ public class RunDB {
         */
 
         // <-- GET ALL -->
-        /*
-        FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
+        //FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
+        // <-- GET ALL FROM ARRANGEMENT WITH ID -->
+        FacilitatorContactInfo[] facilAll = db.getFacilitatorsContactInfo(1);
+
         if(facilAll != null) {
             for (int i = 0; i < facilAll.length; i++) {
                 //System.out.println(facilAll[0].getName());
@@ -158,7 +159,8 @@ public class RunDB {
         }else{
             System.out.println("No data or error.");
         }
-        */
+
+
 
         /*****************************************/
         /** FacilitatorContactInfo DB TESTS END **/
@@ -168,15 +170,15 @@ public class RunDB {
         /****************************************/
         /** CustomerContactInfo DB TESTS START **/
         /****************************************/
-
-        CustomerContactInfo ci = new CustomerContactInfo(1,"Customer Test", "67189182", "mathias@test.dk", "Test Firma", "Bla");
+        CustomerContactInfo ci = new CustomerContactInfo(1,"Test kunde 3", "67189182", "mathias@test.dk", "Test Firma", "Bla");
         // <-- CREATE -->
         /*
         if(db.createCustomerContactInfo(ci)){
             System.out.println("Created customer");
         }else{
             System.out.println("Error");
-        }*/
+        }
+        */
 
 
         // <-- DELETE -->
@@ -233,15 +235,15 @@ public class RunDB {
         /****************************************/
         /** ExternalContactInfo DB TESTS START **/
         /****************************************/
-        ExternalContactInfo ei = new ExternalContactInfo(1,"Test Testesen", "12345678", "test@test.dk", "Bla","Bla Inc.");
+        ExternalContactInfo ei = new ExternalContactInfo(1,"Test Ekstern kontakt 1", "12345678", "test@test.dk", "Bla","Bla Inc.");
         // <-- CREATE -->
         /*
         if(db.createExternalContactInfo(ei)){
             System.out.println("Created external contact");
         }else{
             System.out.println("Error");
-        }*/
-
+        }
+        */
 
         // <-- GET -->
         /*
@@ -293,6 +295,7 @@ public class RunDB {
             System.out.println("No data or error.");
         }
         */
+
 
         /**************************************/
         /** ExternalContactInfo DB TESTS END **/
