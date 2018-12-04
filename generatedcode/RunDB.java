@@ -86,10 +86,10 @@ public class RunDB {
                 dateTimeEndArrangement,
                 100,
                 false,
-                true,
+                false,
                 facilArr,
                 eventsArr,
-                db.getCustomerContactInfo(aci)
+                db.getCustomerContactInfo(1)
         );
 
         // Kør db test

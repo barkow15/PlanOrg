@@ -175,7 +175,7 @@ public class EODatabaseInterface {
       }
       int size = 0;
       try {
-         conn = DriverManager.getConnection(this.dbPathRelative);
+         conn = DriverManager.getConnection(this.dbPathAbsolute);
 			System.out.println("DB CONNECTION OPENED");
 
 			PreparedStatement pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -290,7 +290,20 @@ public class EODatabaseInterface {
 				}
 			}
 		*/
-
+		SQL = "begin transaction" +
+				"begin try " +
+				"  INSERT INTO TableA (id) VALUES (1) " +
+				"  INSERT INTO TableB (id) VALUES (1) " +
+				"  UPDATE TableC SET id=1 WHERE id=2 " +
+				"\n" +
+				"  commit transaction\n" +
+				"\n" +
+				"end try\n" +
+				"\n" +
+				"begin catch\n" +
+				"  raiserror('Message here', 16, 1) " +
+				"  rollback transaction " +
+				"end catch";
 		SQL += "INSERT INTO 'EOArrangements' (name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) VALUES (";
 		SQL += "'" + name 			+ "',";
 		SQL += "'" + desc 			+ "',";
@@ -980,7 +993,7 @@ public class EODatabaseInterface {
 
 	  try
 	  {
-		 conn = DriverManager.getConnection(this.dbPathRelative);
+		 conn = DriverManager.getConnection(this.dbPathAbsolute);
 		 System.out.println("DB CONNECTION OPENED");
 
 		 pstmt = conn.prepareStatement(sql);
@@ -1017,7 +1030,7 @@ public class EODatabaseInterface {
 		try
 		{
 			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-			conn = DriverManager.getConnection(this.dbPathRelative);
+			conn = DriverManager.getConnection(this.dbPathAbsolute);
 			System.out.println("DB CONNECTION OPENED");
 
 			pstmt = conn.prepareStatement(sql);
