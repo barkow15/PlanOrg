@@ -15,7 +15,10 @@ public class EOPanelOpenArrangement extends EOPanel {
    JTextField customertextfield;
    JTextField customeremailtextfield;
    JTextField customerphonenumertextfield;
+   JTextField customerfirmtextfield;
+   JTextArea customerinfojtextarea;  
    JTextArea descriptionjtextarea;
+
    EOGUIMultiSelect facilitatormultiselect;
    //Column3
    EOGUIMultiSelect eventmultiselect;
@@ -63,7 +66,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       add(enddatetime);
 
       //Column 3
-      JLabel arrangementnamelabel=new JLabel("Arrangement navn:");
+      JLabel arrangementnamelabel=new JLabel("Startl:");
       arrangementnamelabel.setBounds(650, 40, 120, 20);
       arrangementnamelabel.setFont(this.gui.getFontsmall());
       this.add(arrangementnamelabel);
@@ -90,53 +93,32 @@ public class EOPanelOpenArrangement extends EOPanel {
       facilitatorlabel.setBounds(650, 280, 100, 20);
       facilitatorlabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorlabel);
-      
-      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160));
+       
+      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160), ListSelectionModel.SINGLE_SELECTION);
       facilitatormultiselect.setBounds(650, 300, 300, 160);
+      facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);
       this.add(facilitatormultiselect);
 
-      JButton facilitatorbutton=new JButton("Aaben");
-      facilitatorbutton.setBounds(850, 470, 100, 20);
-      facilitatorbutton.addActionListener(
-               new ActionListener()
-               {
-                  public void actionPerformed(ActionEvent e)
-                  {
-                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
-                     {
-                        EOOperation.OPENFACILITATOR.setData((FacilitatorContactInfo)facilitatormultiselect.getSelected()[0]);
-                        gui.runCommand(EOOperation.OPENFACILITATOR);
-                     }
-                     else
-                     {
-                        gui.dialogbox("Du skal vælge en facilitator hvis du vil se information omkring denne.");
-                     }
-                  }
-               });
-      this.add(facilitatorbutton);
-      
+      JLabel facilitatorhelplabel=new JLabel("* Hoejre klik for at se info");
+      facilitatorhelplabel.setBounds(650, 460, 200, 20);
+      facilitatorhelplabel.setFont(this.gui.getFontsmall());
+      this.add(facilitatorhelplabel);
+     
       //Column 4      
       JLabel eventlabel=new JLabel("Begivenheder:");
       eventlabel.setBounds(970, 40, 200, 20);
       eventlabel.setFont(this.gui.getFontsmall());
       this.add(eventlabel);
       
-      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
       eventmultiselect.setBounds(970, 60, 300, 240);
+      eventmultiselect.addMouseListener(gui, EOOperation.OPENEVENT);      
       this.add(eventmultiselect);
       
-      JButton createbutton=new JButton("?ben");
-      System.out.println(this.gui.getWidth()-160);
-      createbutton.setBounds(1170, 310, 100, 20);
-      createbutton.addActionListener(
-               new ActionListener()
-               {
-                  public void actionPerformed(ActionEvent e)
-                  {
-                     gui.runCommand(EOOperation.CREATEEVENT);
-                  }
-               });
-      this.add(createbutton);
+      JLabel eventhelplabel=new JLabel("* Hoejre klik for at se info");
+      eventhelplabel.setBounds(970, 300, 200, 20);
+      eventhelplabel.setFont(this.gui.getFontsmall());
+      this.add(eventhelplabel);
       
       JLabel customernamelabel=new JLabel("Kundenavn:");
       customernamelabel.setBounds(970, 330, 120, 20);
@@ -171,22 +153,43 @@ public class EOPanelOpenArrangement extends EOPanel {
       customerphonenumertextfield.setFont(this.gui.getFontsmall());
       this.add(customerphonenumertextfield);
 
+      JLabel customerfirmlabel=new JLabel("Kundens Firma:");
+      customerfirmlabel.setBounds(970, 450, 100, 20);
+      customerfirmlabel.setFont(this.gui.getFontsmall());
+      this.add(customerfirmlabel);
+
+      customerfirmtextfield=new JTextField();
+      customerfirmtextfield.setEditable(false);         
+      customerfirmtextfield.setBounds(970, 470, 300, 20);
+      customerfirmtextfield.setFont(this.gui.getFontsmall());
+      this.add(customerfirmtextfield);
+ 
+      JLabel customerinfolabel=new JLabel("Kunde note:");
+      customerinfolabel.setBounds(970, 490, 100, 20);
+      customerinfolabel.setFont(this.gui.getFontsmall());
+      this.add(customerinfolabel);
+      
+      customerinfojtextarea=new JTextArea();
+      customerinfojtextarea.setEditable(false);  
+      customerinfojtextarea.setBounds(970, 510, 300, 130);
+      customerinfojtextarea.setBorder(gui.getDefaultBorder());
+      customerinfojtextarea.setFont(this.gui.getFontsmall());
+      this.add(customerinfojtextarea);       
+
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
+         System.out.println("setVisible 0");      
       if(currentEOOperation == EOOperation.OPENARRANGEMENT)
       {
-         if(currentEOOperation.getData().getClass().isArray())
-         {
-            Object[] edata = (Object[])currentEOOperation.getData();
-            if(edata.length == 3)
-            {
+         System.out.println("setVisible 1");
                //We expect 
                //0 = EOArrangement
                EOArrangement arrangement = null;
-               if(edata[0] instanceof EOArrangement)
+               if(EOOperation.OPENARRANGEMENT.getData() instanceof EOArrangement)
                {
-                  arrangement = (EOArrangement)edata[0];
+         System.out.println("setVisible 2");
+                  arrangement = (EOArrangement)EOOperation.OPENARRANGEMENT.getData();
                   //column1
                   startdatetime.setDateTime(arrangement.getDateTimeStart());
                   enddatetime.setDateTime(arrangement.getDateTimeEnd());
@@ -197,34 +200,20 @@ public class EOPanelOpenArrangement extends EOPanel {
                      customertextfield.setText(arrangement.getCustomer().getName());
                      customeremailtextfield.setText(arrangement.getCustomer().getEmail());
                      customerphonenumertextfield.setText(arrangement.getCustomer().getPhone());
+                     customerfirmtextfield.setText(arrangement.getCustomer().getCompany());
+                     customerinfojtextarea.setText(arrangement.getCustomer().getInfo());
                   }
                   descriptionjtextarea.setText(arrangement.getDescription());
-               }
-               //1 = FacilitatorContactInfo[]
-               if(edata[1] instanceof FacilitatorContactInfo[] && edata[1] != null)
-               {
-                  if(arrangement == null)
+                  if(arrangement.getFacilitators() != null)
                   {
-                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1]);
+                     facilitatormultiselect.setList(arrangement.getFacilitators());
                   }
-                  else
+                  if(arrangement.getEvents() != null)
                   {
-                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                     eventmultiselect.setList(arrangement.getEvents());
                   }
-               }
-               //2 = EOEvent[]
-               if(edata[2] instanceof EOEvent[] && edata[2] != null)
-               {
-                  if(arrangement == null)
-                  {
-                     eventmultiselect.setList((EOEvent[])edata[2]);
-                  }
-                  else
-                  {
-                     eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
-                  }
-               }
-            }
+
+
          }
       }
 

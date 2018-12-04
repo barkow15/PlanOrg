@@ -16,16 +16,39 @@ public class EOManager {
 	 * @param operation
 	 */
    public EOOperation runCommand(EOOperation operation) {
+      //Test data
+            ExternalContactInfo extc = new ExternalContactInfo(-1, "Skipper Jack", "99990000", "skipper@hvalfangeren.dk", "Jack er normalt at traeffe mellem 9 - 10. Hvis du ringer foer kl 8 saa foer du verbale taesk af skipperen", "Den Gule Skipper");   
+            CustomerContactInfo c = new CustomerContactInfo(-1, "Kunde 1", "22224444", "kunde@kunde.dk", "Er fra en stor virksomhed", "Coca cola");
+  
+            FacilitatorContactInfo[] facilitator = new FacilitatorContactInfo[3];
+            facilitator[0] = new FacilitatorContactInfo(1, "Martin Nikolajsen", "22224444", "kunde@kunde.dk", "Arbejder bedre derhjemme :)");
+            facilitator[1] = new FacilitatorContactInfo(2, "Rasmus Neo Lassen", "22224444", "kunde@kunde.dk", "Her er der en tekst om facilitatoren");
+            facilitator[2] = new FacilitatorContactInfo(3, "Frederik Nyborg", "22224444", "kunde@kunde.dk", "Her er der endnu en facilitator beskrivelse");
+            FacilitatorContactInfo[] facilitatorselected = new FacilitatorContactInfo[1];
+            facilitatorselected[0] = facilitator[1];
+            EOEventType[] eventtypes = new EOEventType[2];
+            eventtypes[0] = new EOEventType(1, "Kano tur", "Kunderne er glade for den her", "holstebro rasteplads", "Ringsted", 38, 500, extc);
+            eventtypes[1] = new EOEventType(2, "Vandski", "Ekstrem!", "Roskildefjor", "Roskilde", 38, 500, extc);
+            EOEvent[] events = new EOEvent[2];
+            events[0] = new EOEvent(1, "description", LocalDateTime.now(), LocalDateTime.now(), 100, facilitatorselected, eventtypes);
+            events[1] = new EOEvent(1, "Mere description", LocalDateTime.now(), LocalDateTime.now(), 100, facilitator, eventtypes);      
+            EOArrangement[] arrangements = new EOArrangement[5];
+            arrangements[0] = new EOArrangement(1, "START 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, facilitator, events, c);
+            arrangements[1] = new EOArrangement(2, "START 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, c);
+            arrangements[2] = new EOArrangement(3, "START 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, facilitator, null, null);
+            arrangements[3] = new EOArrangement(4, "START 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, events, null); 
+            
+            EOArrangement[] ssarrangements = new EOArrangement[5];
+            ssarrangements[0] = new EOArrangement(1, "STARTSHOWALL 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
+            ssarrangements[1] = new EOArrangement(2, "STARTSHOWALL 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);
+            ssarrangements[2] = new EOArrangement(3, "STARTSHOWALL 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
+            ssarrangements[3] = new EOArrangement(4, "STARTSHOWALL 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);                
       System.out.println("EOManager.runCommand(" + operation + ")");
       // TODO - implement EOManager.runCommand
       switch(operation)
       {
          case START:
-            EOArrangement[] arrangements = new EOArrangement[5];
-            arrangements[0] = new EOArrangement(1, "START 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
-            arrangements[1] = new EOArrangement(2, "START 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
-            arrangements[2] = new EOArrangement(3, "START 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);
-            arrangements[3] = new EOArrangement(4, "START 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, null);                        
+                      
             EOOperation.START.setData(arrangements);         
             if(gui != null)
             {
@@ -33,11 +56,7 @@ public class EOManager {
             }
             break;
          case STARTSHOWALL:
-            EOArrangement[] ssarrangements = new EOArrangement[5];
-            ssarrangements[0] = new EOArrangement(1, "STARTSHOWALL 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
-            ssarrangements[1] = new EOArrangement(2, "STARTSHOWALL 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);
-            ssarrangements[2] = new EOArrangement(3, "STARTSHOWALL 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
-            ssarrangements[3] = new EOArrangement(4, "STARTSHOWALL 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);                        
+                    
             EOOperation.STARTSHOWALL.setData(ssarrangements);         
             if(gui != null)
             {
@@ -83,12 +102,6 @@ public class EOManager {
             break;
 //Arrangement
          case OPENARRANGEMENT:
-            Object[] openarrangement_data = {
-               EOOperation.OPENARRANGEMENT.getData(),
-               db.getAllFacilitatorContactInfo(),
-               db.getAllFacilitatorContactInfo()
-            };
-            EOOperation.OPENARRANGEMENT.setData(openarrangement_data);
             gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
             break;               
          case CREATEARRANGEMENT:
@@ -97,9 +110,9 @@ public class EOManager {
             break;
          case UPDATEARRANGEMENT:
             Object[] updatearrangement_data = {
-               EOOperation.OPENARRANGEMENT.getData(),
+               EOOperation.UPDATEARRANGEMENT.getData(),
                db.getAllFacilitatorContactInfo(),
-               db.getAllFacilitatorContactInfo()
+               null
             };
             EOOperation.UPDATEARRANGEMENT.setData(updatearrangement_data);
             gui.getBreadcrumb().push(EOOperation.UPDATEARRANGEMENT);
@@ -111,6 +124,7 @@ public class EOManager {
             }
             //Databasekald
             gui.getBreadcrumb().reset();
+            operation = EOOperation.START;
             break;
          case DELETEARRANGEMENT:
             gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
@@ -172,12 +186,16 @@ public class EOManager {
                EOOperation.DELETEEVENTTYPE.setData(db.getEOEventTypes());
             }
             break;
-
+         case OPENEVENTTYPE:
+            gui.getBreadcrumb().push(EOOperation.OPENEVENTTYPE);
+            break;
 //Event
          case CREATEEVENT:
             gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
             break;
-            
+         case OPENEVENT:
+            gui.getBreadcrumb().push(EOOperation.OPENEVENT);
+            break;            
 
 
          default:

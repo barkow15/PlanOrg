@@ -87,9 +87,10 @@ public class EOGUIBreadcrumb extends JPanel
             size = getTextDimensions(labellink[i], medium, breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setBounds(x, 0, (int)size.getWidth(), (int)size.getHeight());
             final EOOperation eoope = breadcrumb.getIndex(i);
+            final int ipos = breadcrumb.getStackCounter() - i;
             labellink[i].addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                  gui.runCommand(eoope);
+                  gui.runCommand(gui.getBreadcrumb().pop(ipos));
                 }
                 
                 public void mouseEntered(MouseEvent e) {

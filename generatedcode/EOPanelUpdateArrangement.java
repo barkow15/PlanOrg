@@ -15,6 +15,8 @@ public class EOPanelUpdateArrangement extends EOPanel {
    JTextField customertextfield;
    JTextField customeremailtextfield;
    JTextField customerphonenumertextfield;
+   JTextField customerfirmtextfield;
+   JTextArea customerinfojtextarea;     
    JTextArea descriptionjtextarea;
    EOGUIMultiSelect facilitatormultiselect;
    //Column3
@@ -116,28 +118,9 @@ public class EOPanelUpdateArrangement extends EOPanel {
       this.add(facilitatorlabel);
 
       facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160));
+      facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);    
       facilitatormultiselect.setBounds(650, 300, 300, 160);
       this.add(facilitatormultiselect);
-
-      JButton facilitatorbutton=new JButton("Ã…ben");
-      facilitatorbutton.setBounds(850, 470, 100, 20);
-      facilitatorbutton.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
-                 {
-                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
-                     {
-                        EOOperation.OPENFACILITATOR.setData((FacilitatorContactInfo)facilitatormultiselect.getSelected()[0]);
-                        gui.runCommand(EOOperation.OPENFACILITATOR);
-                     }
-                     else
-                     {
-                        gui.dialogbox("Du skal vælge en facilitator hvis du vil se information omkring denne.");
-                     }
-                 }
-              });
-      this.add(facilitatorbutton);
 
       //Column 4
       JLabel eventlabel=new JLabel("Begivenheder:");
@@ -145,22 +128,63 @@ public class EOPanelUpdateArrangement extends EOPanel {
       eventlabel.setFont(this.gui.getFontsmall());
       this.add(eventlabel);
 
-      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      eventmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
+      eventmultiselect.addMouseListener(gui, EOOperation.OPENEVENT);    
       eventmultiselect.setBounds(970, 60, 300, 240);
       this.add(eventmultiselect);
 
-      JButton editarrangementbutton=new JButton("Rediger");
-      System.out.println(this.gui.getWidth()-160);
-      editarrangementbutton.setBounds(1170, 310, 100, 20);
-      editarrangementbutton.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
-                 {
-                    gui.runCommand(EOOperation.CREATEEVENT);
-                 }
-              });
-      this.add(editarrangementbutton);
+       JButton deletearrangementbutton=new JButton("Slet");
+       deletearrangementbutton.setBounds(970, 300, 85, 20);
+       deletearrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                     if(eventmultiselect.getSelected() != null && eventmultiselect.getSelected().length > 0)
+                     {
+                        EOOperation.DELETEEVENT.setData((EOEvent)eventmultiselect.getSelected()[0]);
+                        gui.runCommand(EOOperation.DELETEEVENT);
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal vælge en begivenhed for at kunne slette den.");
+                     }
+                   }
+               });
+       this.add(deletearrangementbutton);
+       
+       JButton updatearrangementbutton=new JButton("Rediger");
+       updatearrangementbutton.setBounds(1030, 300, 115, 20);
+       updatearrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                     if(eventmultiselect.getSelected() != null && eventmultiselect.getSelected().length > 0)
+                     {
+                        EOOperation.UPDATEEVENT.setData((EOEvent)eventmultiselect.getSelected()[0]);
+                        gui.runCommand(EOOperation.UPDATEEVENT);
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal vælge en begivenhed for at kunne opdatere den.");
+                     }
+                   }
+               });
+       this.add(updatearrangementbutton);
+
+       JButton createarrangementbutton=new JButton("Opret");
+       System.out.println(this.gui.getWidth()-160);
+       createarrangementbutton.setBounds(1120, 300, 100, 20);
+       createarrangementbutton.addActionListener(
+               new ActionListener()
+               {
+                   public void actionPerformed(ActionEvent e)
+                   {
+                       gui.runCommand(EOOperation.CREATEEVENT);
+                   }
+               });
+       this.add(createarrangementbutton);              
 
       JLabel customernamelabel=new JLabel("Kundenavn:");
       customernamelabel.setBounds(970, 330, 120, 20);
@@ -192,7 +216,26 @@ public class EOPanelUpdateArrangement extends EOPanel {
       customerphonenumertextfield.setFont(this.gui.getFontsmall());
       this.add(customerphonenumertextfield);
 
+      JLabel customerfirmlabel=new JLabel("Kundens Firma:");
+      customerfirmlabel.setBounds(970, 450, 100, 20);
+      customerfirmlabel.setFont(this.gui.getFontsmall());
+      this.add(customerfirmlabel);
 
+      customerfirmtextfield=new JTextField();     
+      customerfirmtextfield.setBounds(970, 470, 300, 20);
+      customerfirmtextfield.setFont(this.gui.getFontsmall());
+      this.add(customerfirmtextfield);
+ 
+      JLabel customerinfolabel=new JLabel("Kunde note:");
+      customerinfolabel.setBounds(970, 490, 100, 20);
+      customerinfolabel.setFont(this.gui.getFontsmall());
+      this.add(customerinfolabel);
+      
+      customerinfojtextarea=new JTextArea();
+      customerinfojtextarea.setBounds(970, 510, 300, 130);
+      customerinfojtextarea.setBorder(gui.getDefaultBorder());
+      customerinfojtextarea.setFont(this.gui.getFontsmall());
+      this.add(customerinfojtextarea);  
    }
 	/**
 	 * 
@@ -200,7 +243,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
-      if(currentEOOperation == EOOperation.OPENARRANGEMENT)
+      if(currentEOOperation == EOOperation.UPDATEARRANGEMENT)
       {
          if(currentEOOperation.getData().getClass().isArray())
          {
@@ -223,18 +266,34 @@ public class EOPanelUpdateArrangement extends EOPanel {
                      customertextfield.setText(arrangement.getCustomer().getName());
                      customeremailtextfield.setText(arrangement.getCustomer().getEmail());
                      customerphonenumertextfield.setText(arrangement.getCustomer().getPhone());
+                     customerfirmtextfield.setText(arrangement.getCustomer().getCompany());
+                     customerinfojtextarea.setText(arrangement.getCustomer().getInfo());
                   }
                   descriptionjtextarea.setText(arrangement.getDescription());
                }
                //1 = FacilitatorContactInfo[]
-               if(edata[1] instanceof FacilitatorContactInfo[])
+               if(edata[1] instanceof FacilitatorContactInfo[] && edata[1] != null)
                {
-                  facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                  if(arrangement == null)
+                  {
+                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1]);
+                  }
+                  else
+                  {
+                     facilitatormultiselect.setList((FacilitatorContactInfo[])edata[1], arrangement.getFacilitators());
+                  }
                }
                //2 = EOEvent[]
-               if(edata[2] instanceof EOEvent[])
+               if(edata[2] instanceof EOEvent[] && edata[2] != null)
                {
-                  eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+                  if(arrangement == null)
+                  {
+                     eventmultiselect.setList((EOEvent[])edata[2]);
+                  }
+                  else
+                  {
+                     eventmultiselect.setList((EOEvent[])edata[2], arrangement.getEvents());
+                  }
                }
             }
          }
