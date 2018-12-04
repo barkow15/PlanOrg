@@ -8,8 +8,8 @@ import java.time.format.DateTimeFormatter;
 public class EODatabaseInterface {
    Connection conn = null;
 
-   String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/database.db";
-   String dbPathRelative = "jdbc:sqlite:database.db";
+   String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
+   String dbPathRelative = "jdbc:sqlite:finaldb.db";
 
    public void test()
    {
@@ -60,8 +60,8 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param sortby
-	 * @param pagenumber
+	 * @param includeIsDone
+	 *
 	 */
    public EOArrangement[] getEOArrangements(boolean includeIsDone) {
    	System.out.println("DB method \"Test\" running...");
@@ -114,7 +114,7 @@ public class EODatabaseInterface {
    }
 
 	/**
-	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud som h�re til et specifikt arrangement
+	 *  Metode til at hente alle EOFacilitatorContactInfo rows ud som hører til et specifikt arrangement
 	 *  og returnere et array af FacilitatorContactInfo objekter
 	 */
 	public FacilitatorContactInfo[] getFacilitatorsContactInfo(int arrangementid) {
@@ -124,7 +124,12 @@ public class EODatabaseInterface {
 		rowCount 	 = 0;
 		rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
 
-		String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
+		String sql =
+			"SELECT EOF.* " +
+			"FROM EOArrangements_has_EOFacilitatorContactInfo EOF_h_EOF " +
+			"LEFT OUTER JOIN " +
+			"EOFacilitatorContactInfo EOF ON EOF.idEOContactInfo = EOF_h_EOF.EOFacilitatorContactInfo_idFacilitatorContactInfo " +
+			"WHERE EOF_h_EOF.EOArrangements_idEOArrangements = " + arrangementid;
 		ResultSet rs = this.querySql(sql);
 
 		try
@@ -136,7 +141,13 @@ public class EODatabaseInterface {
 
 				int i = 0;
 				while(rs.next()){
-					facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
+					facilArr[i] = new FacilitatorContactInfo(
+							rs.getInt("idEOContactInfo"),
+							rs.getString("name"),
+							rs.getString("phone"),
+							rs.getString("email"),
+							rs.getString("info")
+					);
 					++i;
 				}
 				// Luk DB forbindelse efter query er kørt færdig
@@ -361,13 +372,8 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param locationstart
-	 * @param locationend
-	 * @param time
-	 * @param name
-	 * @param externalcontact
-	 * @param description
-	 * @param price
+	 * @param eventtype
+	 *
 	 */
 	public void createEOEvenType(EOEventType eventtype) {
 		// TODO - implement EODatabaseInterface.createEOEvenType
@@ -376,14 +382,8 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param eventtypeid
-	 * @param locationstart
-	 * @param locationend
-	 * @param time
-	 * @param name
-	 * @param externalcontact
-	 * @param description
-	 * @param price
+	 * @param eventtype
+	 *
 	 */
 	public void updateEOEvenType(EOEventType eventtype) {
 		// TODO - implement EODatabaseInterface.updateEOEvenType
@@ -392,7 +392,7 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param eventtypeid
+	 * @param eventtype
 	 */
 	public void deleteEOEvenType(EOEventType eventtype) {
 		// TODO - implement EODatabaseInterface.deleteEOEvenType
@@ -476,6 +476,23 @@ public class EODatabaseInterface {
 
 	   return returnvalue;
     }
+
+	/**
+	 *
+	 * @param id
+	 */
+	public FacilitatorContactInfo getFacilitatorContactInfo(int id) {
+		FacilitatorContactInfo fCIObj;
+		fCIObj = new FacilitatorContactInfo(
+				id,
+				null,
+				null,
+				null,
+				null
+		);
+
+		return this.getFacilitatorContactInfo(fCIObj);
+	}
 
 	/**
 	 *
@@ -664,7 +681,23 @@ public class EODatabaseInterface {
 
 	   return returnvalue;
     }
+	/**
+	 *
+	 * @param id
+	 */
+	public ExternalContactInfo getExternalContactInfo(int id) {
+		ExternalContactInfo eCIObj;
+		eCIObj = new ExternalContactInfo(
+				id,
+				null,
+				null,
+				null,
+				null,
+				null
+		);
 
+		return this.getExternalContactInfo(eCIObj);
+	}
 	/**
 	 *
 	 * @param eCIObj
@@ -819,13 +852,30 @@ public class EODatabaseInterface {
 
 	   return returnvalue;
     }
+	/**
+	 *
+	 * @param id
+	 */
+	public CustomerContactInfo getCustomerContactInfo(int id) {
+    	CustomerContactInfo cCIObj;
+    	cCIObj = new CustomerContactInfo(
+    			id,
+			null,
+			null,
+			null,
+			null,
+			null
+		);
 
+    	return this.getCustomerContactInfo(cCIObj);
+	}
 	/**
 	 *
 	 * @param cCIObj
 	 */
-	public CustomerContactInfo getCustomerContactInfo(int id) {
-		String sql = "";
+	public CustomerContactInfo getCustomerContactInfo(CustomerContactInfo cCIObj) {
+		String sql  = "";
+		int id 		= cCIObj.getId();
 
 		sql += "SELECT * FROM 'EOCustomerContactInfo'";
 		sql += "WHERE idEOContactInfo=" + id + " ";
