@@ -49,17 +49,7 @@ public class EOManager {
       switch(operation)
       {
          case START:
-            try{
-               if(db == null)
-               {
-                  System.out.println("db ==== NULLLL");
-               }
-               db.getEOArrangements(true);
-             }
-             catch(Exception eeee)
-             {
-               System.out.println(eeee.toString());
-             }
+             EOOperation.START.setData(db.getEOArrangements(false));
             //EOOperation.START.setData();         
             if(gui != null)
             {
