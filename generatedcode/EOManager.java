@@ -126,11 +126,18 @@ public class EOManager {
          case SAVEDELETEARRANGEMENT:
             if(EOOperation.SAVEDELETEARRANGEMENT.getData() instanceof EOArrangement)
             {
+               System.out.println("Slet arrangement");
                db.deleteEOArrangement((EOArrangement)EOOperation.DELETEARRANGEMENT.getData());
+               EOOperation.START.setData(db.getEOArrangements(false));
+               operation = EOOperation.START;
+            }
+            else
+            {
+               operation = EOOperation.ERROR;
             }
             //Databasekald
             gui.getBreadcrumb().reset();
-            operation = EOOperation.START;
+
             break;
          case DELETEARRANGEMENT:
             gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);

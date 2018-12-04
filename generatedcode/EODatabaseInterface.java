@@ -635,12 +635,18 @@ public class EODatabaseInterface {
 	 * @param arrangementid
 	 */
 	public boolean deleteEOArrangement(int arrangementid) {
-		
-      return(true);
+		String SQL = "DELETE EOArrangements.*,  EOArrangements_has_EOContactInfo.*, EOArrangements_has_EOEvents.*, EOArrangements_has_EOFacilitatorContactInfo.*, EOEvents.* "+
+                   "FROM EOArrangements, EOArrangements_has_EOContactInfo, EOArrangements_has_EOEvents, EOArrangements_has_EOFacilitatorContactInfo, EOEvents " +
+                   "WHERE EOArrangements.idEOArrangements = " + arrangementid + " AND " +
+                         "EOArrangements_idEOArrangements = EOArrangements_has_EOContactInfo.EOArrangements_idEOArrangements AND " +
+                         "EOArrangements_idEOArrangements = EOArrangements_has_EOEvents.EOArrangements_idEOArrangements AND " +
+                         "EOArrangements_idEOArrangements = EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements AND " +
+                         "EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents";
+      return(executeSql(SQL) == 1);
 	}
 
 	public boolean deleteEOArrangement(EOArrangement arrangement) {
-		return(deleteEOArrangement(arrangement.getId());
+		return(deleteEOArrangement(arrangement.getId()));
 	}
 
 	/**
