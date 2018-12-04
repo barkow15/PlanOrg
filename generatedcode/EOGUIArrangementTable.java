@@ -104,7 +104,7 @@ public class EOGUIArrangementTable extends JPanel
             String facilitators = "";
             if(f != null)
             {
-               for(int j = 0; i < f.length;j++)
+               for(int j = 0; j < f.length;j++)
                {
                   if(j == 0)
                   {
@@ -112,7 +112,10 @@ public class EOGUIArrangementTable extends JPanel
                   }
                   else
                   {
-                     facilitators = facilitators + ", " + f[j].getName();
+                     if(f[j] != null && f[j].getName() != null)
+                     {
+                        facilitators = facilitators + ", " + f[j].getName();
+                     }
                   }
                }
             }
@@ -124,6 +127,16 @@ public class EOGUIArrangementTable extends JPanel
             String sdate = arrangements[i].getDateTimeStart().getDayOfMonth() + "/" + arrangements[i].getDateTimeStart().getMonthValue() + " " + arrangements[i].getDateTimeStart().getYear();
             String edate = arrangements[i].getDateTimeEnd().getDayOfMonth() + "/" + arrangements[i].getDateTimeEnd().getMonthValue() + " " + arrangements[i].getDateTimeEnd().getYear();
             System.out.println(arrangements[i].getName());
+            String ispayed = "Nej";
+            if(arrangements[i].isPayed())
+            {
+               ispayed = "Ja";
+            }
+            String isdone = "Nej";
+            if(arrangements[i].isDone())
+            {
+               isdone = "Ja";
+            }            
             if(gui.isAdministrator())
             {
                String[] s = {
@@ -132,8 +145,8 @@ public class EOGUIArrangementTable extends JPanel
                   edate, 
                   arrangements[i].getName(), 
                   facilitators, 
-                  Boolean.toString(arrangements[i].isPayed()), 
-                  Boolean.toString(arrangements[i].isDone()), 
+                  ispayed, 
+                  isdone, 
                   "Aaben", "Rediger", "Slet"};
                try
                {
@@ -143,14 +156,15 @@ public class EOGUIArrangementTable extends JPanel
             }
             else
             {
+               
                String[] s = {
                   Integer.toString(arrangements[i].getId()), 
                   sdate, 
                   edate, 
                   arrangements[i].getName(), 
                   facilitators, 
-                  Boolean.toString(arrangements[i].isPayed()), 
-                  Boolean.toString(arrangements[i].isDone()), 
+                  ispayed, 
+                  isdone, 
                   "Aaben"};
                try
                {

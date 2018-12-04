@@ -12,7 +12,7 @@ public enum EOOperation {
    UPDATEEVENT (null, "Opdater Begivenhed", EODisplayType.UPDATEEVENT),  //Rasmus
    DELETEEVENT (null, "Slet Begivenhed", EODisplayType.DELETEEVENT), //Rasmus
    SAVECREATEEVENT (null, "Gem Event", EODisplayType.START), //Rasmus
-   OPENEVENT (null, "Aaben Begivenhed", EODisplayType.OPENEVENT),  //Rasmus
+   OPENEVENT (null, "Vis Begivenhed", EODisplayType.OPENEVENT),  //Rasmus
       
    IMPORT (null, "Importer", EODisplayType.IMPORT), //Martin - DONE
    IMPORTCSV (null, "Importer", EODisplayType.START), //Faelles  
@@ -27,11 +27,12 @@ public enum EOOperation {
    OPENFACILITATOR (null,"Vis Facilitator",EODisplayType.OPENFACILITATOR),
   
    ADMEVENTTYPE (null, "Administrer Begivenhedstyper", EODisplayType.ADMEVENTTYPE), //Martin
-   CREATEEVENTTYPE (null,"Opret Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
-   UPDATEEVENTTYPE (null,"Rediger Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
-   SAVEEDITEVENTTYPE(null,"Gem Opdatering",EODisplayType.ADMFACILITATOR),//Frederik
-   DELETEEVENTTYPE(null,"Slet Begivenhedstype",EODisplayType.ADMFACILITATOR), //Frederik
-   
+   CREATEEVENTTYPE (null,"Opret Begivenhedstype",EODisplayType.ADMEVENTTYPE), //Frederik
+   UPDATEEVENTTYPE (null,"Rediger Begivenhedstype",EODisplayType.ADMEVENTTYPE), //Frederik
+   SAVEEDITEVENTTYPE(null,"Gem Opdatering",EODisplayType.ADMEVENTTYPE),//Frederik
+   DELETEEVENTTYPE(null,"Slet Begivenhedstype",EODisplayType.ADMEVENTTYPE), //Frederik
+   OPENEVENTTYPE (null,"Vis Begivenhedstype",EODisplayType.OPENEVENTTYPE), //Frederik
+
    ERROR (null, "Fejl Skaerm", EODisplayType.ERROR); //Martin
  
    private Object data = null;

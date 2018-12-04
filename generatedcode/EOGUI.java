@@ -75,6 +75,7 @@ public class EOGUI {
       screens.put(EODisplayType.OPENEVENT, new EOPanelOpenEvent(this)); 
       
       screens.put(EODisplayType.ADMEVENTTYPE, new EOPanelADMEventType(this)); 
+      screens.put(EODisplayType.OPENEVENTTYPE, new EOPanelOpenEventType(this));       
       screens.put(EODisplayType.ADMFACILITATOR, new EOPanelADMFacilitator(this)); 
       screens.put(EODisplayType.OPENFACILITATOR, new EOPanelOpenFacilitator(this));       
       screens.put(EODisplayType.EXPORT, new EOPanelExport(this));

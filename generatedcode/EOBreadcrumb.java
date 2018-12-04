@@ -60,9 +60,29 @@ public class EOBreadcrumb
    
    public EOOperation pop()
    {
+      return(pop(1));
+      /*
       EOOperation e = stack[stackcounter-1];
       this.stack[stackcounter-1] = null;
       this.stackcounter--;
-      return(e);
+      return(e);*/
    }
+
+   public EOOperation pop(int num)
+   {
+      System.out.println("Stackcounter prior: " + num + " " + this.stackcounter);   
+      EOOperation eoop = null;
+      for(int i = 0; i < num; i++)
+      {
+         eoop = stack[stackcounter-1]; 
+         this.stack[stackcounter-1] = null;
+         this.stackcounter--;
+   
+      }
+      System.out.println("Stackcounter after:" + num + " " + this.stackcounter);
+      //EOOperation e = stack[stackcounter-num];
+      //this.stackcounter= this.stackcounter - num;
+      return(eoop);
+   }
+   
 }

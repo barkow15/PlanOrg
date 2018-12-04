@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.border.Border;
-
+import java.awt.event.*;
 public class EOGUIMultiSelect extends JPanel
 {
    JList<Object> list = null;
@@ -23,13 +23,20 @@ public class EOGUIMultiSelect extends JPanel
       this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
    }
 
+   
+   /**
+   * Default we use ListSelectionModel.MULTIPLE_INTERVAL_SELECTION selection, but you can parse ListSelectionModel.SINGLE_SELECTION to the constructor to only single selection possible.
+   * ListSelectionModel.SINGLE_SELECTION
+   * ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
+   */
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode)
    {
       this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION, BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
    }
 
-   public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode, Border border)
-   {   
+   
+   public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode, Border border) 
+   {
       super(new GridLayout(1,0));
       this.setBackground(Color.WHITE);
       this.setBorder(border);
@@ -45,7 +52,7 @@ public class EOGUIMultiSelect extends JPanel
    
       list = new JList<>(model);        
       //list.setPreferredSize(size);
-   
+       
       list.setCellRenderer(
          new DefaultListCellRenderer() {
             @Override
@@ -64,6 +71,30 @@ public class EOGUIMultiSelect extends JPanel
       this.add(scrollPane);
       //this.add(list);
    }
+   
+   //Adds a specific mouseadapter to the list
+   public void addMouseListener(MouseAdapter mouseadapter)
+   {
+      list.addMouseListener(mouseadapter);
+   }
+   
+   //Adds our generic EO mouse adapter to the list, till will set the data of the list in the EOOperation defined and do a runCommand with the EOOperation. If the user right clicks the cell
+   public void addMouseListener(EOGUI gui, EOOperation operation)
+   {
+      MouseAdapter mouseadapter = 
+         new java.awt.event.MouseAdapter()
+         {
+            public void mouseClicked(java.awt.event.MouseEvent e)
+            {
+               if(e.getButton() == MouseEvent.BUTTON3) {
+                     System.out.println("Right Click! " + ((EOGUIMultiSelectInterface)list.getModel().getElementAt(list.locationToIndex(e.getPoint()))).getDisplayName());
+                     operation.setData(((EOGUIMultiSelectInterface)list.getModel().getElementAt(list.locationToIndex(e.getPoint()))));
+                     gui.runCommand(operation);
+               }
+            }
+         };   
+      list.addMouseListener(mouseadapter);
+   }   
    
    public Object[] getSelected()
    {
