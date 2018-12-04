@@ -87,7 +87,7 @@ public class EOPanelADMEventType extends EOPanel {
                   public void actionPerformed(ActionEvent e)
                   {
                        Object[] seventtype = eventtypemultiselect.getSelected();
-                       if (seventtype != null) {
+                       if (seventtype != null && seventtype.length > 0) {
                           EOOperation.UPDATEEVENTTYPE.setData(seventtype[0]);
                           gui.runCommand(EOOperation.UPDATEEVENTTYPE);
                        }
@@ -171,8 +171,14 @@ public class EOPanelADMEventType extends EOPanel {
                  {
                      try
                      {
+                        EOEventType ceventtype = (EOEventType)((Object[])EOOperation.UPDATEEVENTTYPE.getData())[0];
+                        int cid = -1;
+                        if(ceventtype.getExternalContactInfo() != null)
+                        {
+                           cid = ceventtype.getExternalContactInfo().getId();
+                        }
                         EOOperation.SAVEEDITEVENTTYPE.setData(new EOEventType(
-                           ((EOEventType)EOOperation.UPDATEEVENTTYPE.getData()).getId(), 
+                           ceventtype.getId(), 
                            namejtextfield.getText(), 
                            notejtextarea.getText(), 
                            startadrjtextfield.getText(), 
@@ -180,7 +186,7 @@ public class EOPanelADMEventType extends EOPanel {
                            Integer.valueOf(timejtextfield.getText()), 
                            Double.valueOf(pricejtextfield.getText()), 
                            new ExternalContactInfo(
-                              ((EOEventType)EOOperation.UPDATEEVENTTYPE.getData()).getId(), 
+                              cid, 
                               externalcontactnamejtextfield.getText(), 
                               externalcontactphonejtextfield.getText(), 
                               externalcontactemailjtextfield.getText(), 
@@ -192,7 +198,7 @@ public class EOPanelADMEventType extends EOPanel {
                      }
                      catch(Exception createexception)
                      {
-                        gui.dialogbox("Time og pris skal angives som tal");
+                        gui.dialogbox("Time og pris skal angives som tal" + createexception.toString());
                      }
                  }
               });
@@ -295,33 +301,67 @@ public class EOPanelADMEventType extends EOPanel {
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
       //Shows the facilitator list
-   	if(currentEOOperation == EOOperation.ADMEVENTTYPE)
+   	if(currentEOOperation == EOOperation.ADMEVENTTYPE || currentEOOperation == EOOperation.SAVEEDITEVENTTYPE || currentEOOperation == EOOperation.CREATEEVENTTYPE)
       {
          if(currentEOOperation.getData() instanceof EOEventType[])
          {
-            eventtypemultiselect.setList((EOEventType[])EOOperation.ADMEVENTTYPE.getData());
+            namejtextfield.setText(""); 
+            notejtextarea.setText(""); 
+            startadrjtextfield.setText(""); 
+            endadrjtextfield.setText(""); 
+            timejtextfield.setText(""); 
+            pricejtextfield.setText(""); 
+            externalcontactnamejtextfield.setText(""); 
+            externalcontactphonejtextfield.setText(""); 
+            externalcontactemailjtextfield.setText(""); 
+            externalcontactenotejtextarea.setText(""); 
+            externalcontactcompanyjtextfield.setText("");
+            eventtypemultiselect.setList((EOEventType[])currentEOOperation.getData());
          }
-         if(currentEOOperation == EOOperation.UPDATEEVENTTYPE)
-         {
-            
-            if(currentEOOperation.getData() instanceof EOEventType)
+      }
+      if(currentEOOperation == EOOperation.SAVEEDITEVENTTYPE)
+      {
+         gui.dialogbox("Update Gemt!");
+      }
+      if(currentEOOperation == EOOperation.CREATEEVENTTYPE)
+      {
+         gui.dialogbox("Begivenhedstype Oprettet!");
+      }
+      if(currentEOOperation == EOOperation.UPDATEEVENTTYPE)
+      {
+            if(currentEOOperation.getData().getClass().isArray())
             {
-               EOEventType eoeventtype = (EOEventType)currentEOOperation.getData(); 
-               namejtextfield.setText(eoeventtype.getName()); 
-               notejtextarea.setText(eoeventtype.getDescription()); 
-               startadrjtextfield.setText(eoeventtype.getLocationStart()); 
-               endadrjtextfield.setText(eoeventtype.getLocationEnd()); 
-               timejtextfield.setText(Integer.toString(eoeventtype.getTime())); 
-               pricejtextfield.setText(Double.toString(eoeventtype.getPrice())); 
-               if(eoeventtype.getExternalContactInfo() != null)
-               {  
-                  ExternalContactInfo external = eoeventtype.getExternalContactInfo();
-                  externalcontactnamejtextfield.setText(external.getName()); 
-                  externalcontactphonejtextfield.setText(external.getPhone()); 
-                  externalcontactemailjtextfield.setText(external.getEmail()); 
-                  externalcontactenotejtextarea.setText(external.getInfo()); 
-                  externalcontactcompanyjtextfield.setText(external.getCompany());
-               }
+               Object[] data = (Object[])currentEOOperation.getData();
+               if(data.length == 2 &&
+                  data[0] instanceof EOEventType &&
+                  data[1] instanceof EOEventType[])
+               {
+                  EOEventType eoeventtype = (EOEventType)data[0]; 
+                  namejtextfield.setText(eoeventtype.getName()); 
+                  notejtextarea.setText(eoeventtype.getDescription()); 
+                  startadrjtextfield.setText(eoeventtype.getLocationStart()); 
+                  endadrjtextfield.setText(eoeventtype.getLocationEnd()); 
+                  timejtextfield.setText(Integer.toString(eoeventtype.getTime())); 
+                  pricejtextfield.setText(Double.toString(eoeventtype.getPrice())); 
+                  if(eoeventtype.getExternalContactInfo() != null)
+                  {  
+                     ExternalContactInfo external = eoeventtype.getExternalContactInfo();
+                     externalcontactnamejtextfield.setText(external.getName()); 
+                     externalcontactphonejtextfield.setText(external.getPhone()); 
+                     externalcontactemailjtextfield.setText(external.getEmail()); 
+                     externalcontactenotejtextarea.setText(external.getInfo()); 
+                     externalcontactcompanyjtextfield.setText(external.getCompany());
+                  }
+                  else
+                  {
+                     externalcontactnamejtextfield.setText(""); 
+                     externalcontactphonejtextfield.setText(""); 
+                     externalcontactemailjtextfield.setText(""); 
+                     externalcontactenotejtextarea.setText(""); 
+                     externalcontactcompanyjtextfield.setText("");
+                  }
+                  eventtypemultiselect.setList((EOEventType[])data[1]);
+              }
             }
          }
          if(currentEOOperation == EOOperation.DELETEEVENTTYPE)
@@ -338,8 +378,9 @@ public class EOPanelADMEventType extends EOPanel {
             externalcontactemailjtextfield.setText(""); 
             externalcontactenotejtextarea.setText(""); 
             externalcontactcompanyjtextfield.setText("");
+            eventtypemultiselect.setList((EOEventType[])EOOperation.DELETEEVENTTYPE.getData());
          }
-      }
+
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible, currentEOOperation);
    }

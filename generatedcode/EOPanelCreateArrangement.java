@@ -231,6 +231,18 @@ public class EOPanelCreateArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
+      if(currentEOOperation.getData().getClass().isArray())
+      {
+         Object[] obj = (Object[])currentEOOperation.getData();
+         if(obj[0] instanceof FacilitatorContactInfo[] && obj[0] != null)
+         {
+            facilitatormultiselect.setList((FacilitatorContactInfo[])obj[0]);
+         }
+         if(obj[1] instanceof EOEvent[] && obj[1] != null)
+         {
+            eventmultiselect.setList((EOEvent[])obj[1]);
+         }         
+      }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
       super.setVisible(visible, currentEOOperation);
    }

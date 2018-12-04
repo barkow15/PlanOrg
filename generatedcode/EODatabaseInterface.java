@@ -93,17 +93,19 @@ public class EODatabaseInterface {
                rs.getDouble("price"), 
                rs.getBoolean("ispayed"), 
                rs.getBoolean("isdone"), 
-               getFacilitatorsContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
-               getEOEventsFromEOArrangement(rs.getInt("idEOArrangements")), 
+               getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
+               getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
             );
          }
       }
       catch(Exception e)
       {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         
+         System.err.println("getEOArrangements: " +  e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
+      finally { this.closeConnection(rs);  }
       System.out.println("Returning data");
       return(arrangements);
    }
@@ -113,7 +115,7 @@ public class EODatabaseInterface {
       return(LocalDateTime.ofEpochSecond(datetime, 0, java.time.ZoneOffset.UTC));
    }
    
-   public FacilitatorContactInfo[] getFacilitatorsContactInfoFromEOArrangement(int arrangementid)
+   public FacilitatorContactInfo[] getFacilitatorContactInfoFromEOArrangement(int arrangementid)
    {
       ResultSet rs = null;
       String sql = null;
@@ -148,58 +150,15 @@ public class EODatabaseInterface {
       }
       catch(Exception e)
       {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.err.println("getFacilitatorContactInfoFromEOArrangement: " +  e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
+      finally { this.closeConnection(rs);  }
       System.out.println("Returning data");
       return(facilitators); 
    }
-   
-   public EOEvent[] getEOEventsFromEOArrangement(int arrangementid)
-   {
-      ResultSet rs = null;
-      String sql = null;
-      sql = "SELECT EOEvents.idEOEvents, "+ 
-             "EOEvents.description, " +
-             "EOEvents.dateTimeStart, " +
-             "EOEvents.dateTimeEnd, " +
-             "EOEvents.price " +
-             " FROM EOArrangements_has_EOEvents, EOEvents WHERE EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents";
-      System.out.println(sql);
-      int rows = numRows("SELECT count(*) FROM EOArrangements_has_EOEvents, EOEvents WHERE EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents");
-      System.out.println("Rows: " + rows);
-      rs = querySql(sql);
-      EOEvent[] events = new EOEvent[rows];
-      for(int i = 0; i < rows; i++)
-      {
-         events[i] = null;
-      }   
-
-      try
-      {
-         for(int i = 0; rs.next(); i++)
-         {        
-               events[i] = new EOEvent(
-               rs.getInt("idEOContactInfo"), 
-               rs.getString("description"), 
-               sqliteDateTimeConvert(rs.getInt("dateTimeStart")), 
-               sqliteDateTimeConvert(rs.getInt("dateTimeEnd")), 
-               rs.getDouble("price"),
-               getFacilitatorsContactInfoFromEOEvent(rs.getInt("idEOContactInfo")),
-               getEOEventTypesFromEOEvent(rs.getInt("idEOContactInfo"))
-            );
-         }
-      }
-      catch(Exception e)
-      {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-         System.exit(0);
-      }
-      System.out.println("Returning data");
-      return(events);
-   }
-   
-   public FacilitatorContactInfo[] getFacilitatorsContactInfoFromEOEvent(int eventid)
+     
+   public FacilitatorContactInfo[] getFacilitatorContactInfoFromEOEvent(int eventid)
    {
       ResultSet rs = null;
       String sql = null;
@@ -234,61 +193,14 @@ public class EODatabaseInterface {
       }
       catch(Exception e)
       {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.err.println("getFacilitatorContactInfoFromEOEvent: " +  e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
+      finally { this.closeConnection(rs);  }      
       System.out.println("Returning data");
       return(facilitators); 
    }
-   
-   public EOEventType[] getEOEventTypesFromEOEvent(int eventid)
-   {
-      ResultSet rs = null;
-      String sql = null;
-      sql = "SELECT EOEventtypes.idEOEventtypes, "+ 
-             "EOEventtypes.deletedStatus, " +
-             "EOEventtypes.name, " +
-             "EOEventtypes.description, " +
-             "EOEventtypes.locationStart, " +
-             "EOEventtypes.locationEnd, " +
-             "EOEventtypes.time, " +
-             "EOEventtypes.price, " +                                      
-             " FROM EOEvents_has_EOEventtypes, EOEventtypes WHERE EOEvents_has_EOEventtypes.EOEvents_idEOEvents = " + Integer.toString(eventid) + " AND EOEvents_has_EOEventtypes.EOEventtypes_idEOEventtypes = EOEventtypes.idEOEventtypes";
-      System.out.println(sql);
-      int rows = numRows("SELECT count(*) FROM EOEvents_has_EOEventtypes, EOEventtypes WHERE EOEvents_has_EOEventtypes.EOEvents_idEOEvents = " + Integer.toString(eventid) + " AND EOEvents_has_EOEventtypes.EOEventtypes_idEOEventtypes = EOEventtypes.idEOEventtypes");
-      System.out.println("Rows: " + rows);
-      rs = querySql(sql);
-      EOEventType[] eventtypes = new EOEventType[rows];
-      for(int i = 0; i < rows; i++)
-      {
-         eventtypes[i] = null;
-      }   
-
-      try
-      {
-         for(int i = 0; rs.next(); i++)
-         {                 
-               eventtypes[i] = new EOEventType(
-               rs.getInt("idEOContactInfo"), 
-               rs.getString("name"), 
-               rs.getString("description"), 
-               rs.getString("locationstart"), 
-               rs.getString("locationend"),
-               rs.getInt("time"),
-               rs.getDouble("price"),
-               getExternalContactInfoFromEOEventType(rs.getInt("idEOContactInfo"))
-            );
-         }
-      }
-      catch(Exception e)
-      {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-         System.exit(0);
-      }
-      System.out.println("Returning data");
-      return(eventtypes);
-   }
-   
+     
    public ExternalContactInfo getExternalContactInfoFromEOEventType(int eventtypeid)
    {
       ResultSet rs = null;
@@ -299,13 +211,14 @@ public class EODatabaseInterface {
              "EOExternalContactInfo.email, " +
              "EOExternalContactInfo.info, " +
              "EOExternalContactInfo.company " +             
-             " FROM EOEventtypes_has_EOExternalContactInfo, EOExternalContactInfo WHERE EOEventtypes_has_EOExternalContactInfo.EOEventtypes_idEOEventtypes = " + Integer.toString(eventtypeid) + " AND EOEventtypes_has_EOExternalContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = EOCustomerContactInfo.idEOContactInfo";
+             " FROM EOEventtypes_has_EOExternalContactInfo, EOExternalContactInfo WHERE EOEventtypes_has_EOExternalContactInfo.EOEventtypes_idEOEventtypes = " + Integer.toString(eventtypeid) + " AND EOEventtypes_has_EOExternalContactInfo.EOExternalContactInfo_idEOExternalContactInfo = EOExternalContactInfo.idEOContactInfo";
       rs = querySql(sql);
       ExternalContactInfo external = null;
       try
       {
          if(rs.next())
          {        
+               System.out.println(" WEEEEEEEEEEEEEEEEEEEEEEEF FOUND ONEEEEEEEEEEEEEEEEEE " + rs.getString("name"));
                external = new ExternalContactInfo(
                rs.getInt("idEOContactInfo"), 
                rs.getString("name"), 
@@ -318,9 +231,10 @@ public class EODatabaseInterface {
       }
       catch(Exception e)
       {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.err.println("getExternalContactInfoFromEOEventType: " +  e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
+      finally { this.closeConnection(rs);  }
       System.out.println("Returning data");
       return(external); 
    }
@@ -354,9 +268,10 @@ public class EODatabaseInterface {
       }
       catch(Exception e)
       {
-         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.err.println("getCustomerContactInfoFromEOArrangement" +  e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
+      finally { this.closeConnection(rs);  }
       System.out.println("Returning data");
       return(customers); 
    }
@@ -440,7 +355,7 @@ public class EODatabaseInterface {
            size = rs.getInt(cselector);         
          }   
       }
-      catch(Exception e){}   
+      catch(Exception e){}finally { this.closeConnection(rs);  }
       return(size);
    }
 
@@ -449,7 +364,47 @@ public class EODatabaseInterface {
 	 * Returns all Events that are associated with an arrangement
 	 */
    public EOEvent[] getEOEvents(int arrangementid) {
-   	return(null);
+      ResultSet rs = null;
+      String sql = null;
+      sql = "SELECT EOEvents.idEOEvents, "+ 
+             "EOEvents.description, " +
+             "EOEvents.dateTimeStart, " +
+             "EOEvents.dateTimeEnd, " +
+             "EOEvents.price " +
+             " FROM EOArrangements_has_EOEvents, EOEvents WHERE EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents";
+      System.out.println(sql);
+      int rows = numRows("SELECT count(*) FROM EOArrangements_has_EOEvents, EOEvents WHERE EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents");
+      System.out.println("Rows: " + rows);
+      rs = querySql(sql);
+      EOEvent[] events = new EOEvent[rows];
+      for(int i = 0; i < rows; i++)
+      {
+         events[i] = null;
+      }   
+
+      try
+      {
+         for(int i = 0; rs.next(); i++)
+         {        
+               events[i] = new EOEvent(
+               rs.getInt("idEOContactInfo"), 
+               rs.getString("description"), 
+               sqliteDateTimeConvert(rs.getInt("dateTimeStart")), 
+               sqliteDateTimeConvert(rs.getInt("dateTimeEnd")), 
+               rs.getDouble("price"),
+               getFacilitatorContactInfoFromEOEvent(rs.getInt("idEOContactInfo")),
+               getEOEventTypes(rs.getInt("idEOContactInfo"))
+            );
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      finally { this.closeConnection(rs);  }
+      System.out.println("Returning data");
+      return(events);
    }
 
 	/**
@@ -457,7 +412,51 @@ public class EODatabaseInterface {
 	 * Returns all EventTypes that are associated with an Event
 	 */
    public EOEventType[] getEOEventTypes(int eventid) {
-   	return(null);
+      ResultSet rs = null;
+      String sql = null;
+      sql = "SELECT EOEventtypes.idEOEventtypes, "+ 
+             "EOEventtypes.deletedStatus, " +
+             "EOEventtypes.name, " +
+             "EOEventtypes.description, " +
+             "EOEventtypes.locationStart, " +
+             "EOEventtypes.locationEnd, " +
+             "EOEventtypes.time, " +
+             "EOEventtypes.price " +                                      
+             " FROM EOEvents_has_EOEventtypes, EOEventtypes WHERE EOEvents_has_EOEventtypes.EOEvents_idEOEvents = " + Integer.toString(eventid) + " AND EOEvents_has_EOEventtypes.EOEventtypes_idEOEventtypes = EOEventtypes.idEOEventtypes";
+      System.out.println(sql);
+      int rows = numRows("SELECT count(*) FROM EOEvents_has_EOEventtypes, EOEventtypes WHERE EOEvents_has_EOEventtypes.EOEvents_idEOEvents = " + Integer.toString(eventid) + " AND EOEvents_has_EOEventtypes.EOEventtypes_idEOEventtypes = EOEventtypes.idEOEventtypes");
+      System.out.println("Rows: " + rows);
+      rs = querySql(sql);
+      EOEventType[] eventtypes = new EOEventType[rows];
+      for(int i = 0; i < rows; i++)
+      {
+         eventtypes[i] = null;
+      }   
+
+      try
+      {
+         for(int i = 0; rs.next(); i++)
+         {                 
+               eventtypes[i] = new EOEventType(
+               rs.getInt("idEOEventtypes"), 
+               rs.getString("name"), 
+               rs.getString("description"), 
+               rs.getString("locationstart"), 
+               rs.getString("locationend"),
+               rs.getInt("time"),
+               rs.getDouble("price"),
+               getExternalContactInfoFromEOEventType(rs.getInt("idEOEventtypes"))
+            );
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      finally { this.closeConnection(rs);  }
+      System.out.println("Returning data");
+      return(eventtypes);
    }
 
 	/**
@@ -465,7 +464,50 @@ public class EODatabaseInterface {
 	 * Returns all events in the database
     */
    public EOEventType[] getEOEventTypes() {
-      return(null);
+      ResultSet rs = null;
+      String sql = null;
+      sql = "SELECT EOEventtypes.idEOEventtypes, "+ 
+             "EOEventtypes.deletedStatus, " +
+             "EOEventtypes.name, " +
+             "EOEventtypes.description, " +
+             "EOEventtypes.locationStart, " +
+             "EOEventtypes.locationEnd, " +
+             "EOEventtypes.time, " +
+             "EOEventtypes.price " +                                      
+             " FROM EOEventtypes WHERE deletedStatus = 2";
+      System.out.println(sql);
+      int rows = numRows("SELECT count(*) FROM EOEventtypes");
+      rs = querySql(sql);
+      EOEventType[] eventtypes = new EOEventType[rows];
+      for(int i = 0; i < rows; i++)
+      {
+         eventtypes[i] = null;
+      }   
+
+      try
+      {
+         for(int i = 0; rs.next(); i++)
+         {                 
+               eventtypes[i] = new EOEventType(
+               rs.getInt("idEOEventtypes"), 
+               rs.getString("name"), 
+               rs.getString("description"), 
+               rs.getString("locationstart"), 
+               rs.getString("locationend"),
+               rs.getInt("time"),
+               rs.getDouble("price"),
+               getExternalContactInfoFromEOEventType(rs.getInt("idEOEventtypes"))
+            );
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      finally { this.closeConnection(rs);  }
+      System.out.println("Returning data");
+      return(eventtypes);
    }
 
 	/**
@@ -583,7 +625,7 @@ public class EODatabaseInterface {
 	 * @param datetimeend
 	 * @param price
 	 */
-	public void updateEOArrangement(int arrangementid, EOEvent[] events, CustomerContactInfo customer, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price) {
+	public void updateEOArrangement(EOArrangement arrangement) {
 		// TODO - implement EODatabaseInterface.updateEOArrangement
 		  throw new UnsupportedOperationException();
 	}
@@ -592,9 +634,13 @@ public class EODatabaseInterface {
 	 * 
 	 * @param arrangementid
 	 */
-	public void deleteEOArrangement(int arrangementid) {
-		// TODO - implement EODatabaseInterface.deleteEOArrangement
-		  throw new UnsupportedOperationException();
+	public boolean deleteEOArrangement(int arrangementid) {
+		
+      return(true);
+	}
+
+	public boolean deleteEOArrangement(EOArrangement arrangement) {
+		return(deleteEOArrangement(arrangement.getId());
 	}
 
 	/**
@@ -605,7 +651,7 @@ public class EODatabaseInterface {
 	 * @param price
 	 * @param description
 	 */
-	public void createEOEvent(EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
+	public void createEOEvent(EOEvent event) {
 		// TODO - implement EODatabaseInterface.createEOEvent
 		  throw new UnsupportedOperationException();
 	}
@@ -619,7 +665,7 @@ public class EODatabaseInterface {
 	 * @param price
 	 * @param description
 	 */
-	public void updateEOEvent(int eventid, EOEventType[] eventtypes, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, String description) {
+	public void updateEOEvent(EOEvent event) {
 		// TODO - implement EODatabaseInterface.updateEOEvent
 		  throw new UnsupportedOperationException();
 	}
@@ -638,28 +684,132 @@ public class EODatabaseInterface {
 	 * @param eventtype
 	 *
 	 */
-	public void createEOEvenType(EOEventType eventtype) {
-		// TODO - implement EODatabaseInterface.createEOEvenType
-		  throw new UnsupportedOperationException();
+	public boolean createEOEvenType(EOEventType eventtype) {
+	   boolean  returnvalue 	= false;
+
+	   String 	deletedStatus = "2";
+	   String 	name 			  = eventtype.getName();
+	   String	description   = eventtype.getDescription();
+	   String	locationStart = eventtype.getLocationStart();
+	   String	locationEnd   = eventtype.getLocationEnd();
+	   String	time			  = Integer.toString(eventtype.getTime());
+      String   price         = Double.toString(eventtype.getPrice());
+	   String	SQL				= "";
+      
+	   SQL += "INSERT INTO 'EOEventTypes' (deletedStatus, name, description, locationStart, locationEnd, time, price) VALUES (";
+	   SQL += "'" + deletedStatus 	+ "',";
+	   SQL += "'" + name 			+ "',";
+	   SQL += "'" + description 			+ "',";
+	   SQL += "'" + locationStart 			+ "',";
+	   SQL += "'" + locationEnd 			+ "',";
+	   SQL += "'" + time 			+ "',";
+	   SQL += "'" + price 			+ "')";
+      
+	   if(executeSql(SQL) == 1)
+      {
+         System.out.println("1");
+         int eventtypeid = getLastId("EOEventTypes", "idEOEventtypes");
+         System.out.println("Eventid: " + Integer.toString(eventtypeid));
+         if(eventtype.getExternalContactInfo() == null)
+         {
+            System.out.println("External == null");
+         }
+         if(eventtypeid > 0 && eventtype.getExternalContactInfo() != null)
+         {
+         System.out.println("2");
+            int externalid = createExternalContactInfo(eventtype.getExternalContactInfo());
+            if(externalid > 0)
+            {
+         System.out.println("3");
+               returnvalue = linkEOEventTypeExternalContactInfo(eventtypeid, externalid);
+            }
+         }
+      }
+
+	   return returnvalue;
 	}
+   
+   private boolean linkEOEventTypeExternalContactInfo(int eventtypeid, int externalid)
+   {
+      boolean returnvalue = false;
+      String SQL = "INSERT INTO EOEventtypes_has_EOExternalContactInfo (EOEventtypes_idEOEventtypes, EOExternalContactInfo_idEOExternalContactInfo) VALUES (" + Integer.toString(eventtypeid) +", "+Integer.toString(externalid)+")";
+	   if(executeSql(SQL) == 1){
+		   returnvalue = true;
+	   }
+	   return returnvalue;   
+   }
 
 	/**
 	 * 
 	 * @param eventtype
 	 *
 	 */
-	public void updateEOEvenType(EOEventType eventtype) {
-		// TODO - implement EODatabaseInterface.updateEOEvenType
-		  throw new UnsupportedOperationException();
+	public boolean updateEOEvenType(EOEventType eventtype) {
+	   boolean  returnvalue 	= false;
+
+	   String 	name 			  = eventtype.getName();
+	   String	description   = eventtype.getDescription();
+	   String	locationStart = eventtype.getLocationStart();
+	   String	locationEnd   = eventtype.getLocationEnd();
+	   String	time			  = Integer.toString(eventtype.getTime());
+      String   price         = Double.toString(eventtype.getPrice());
+      String   id            = Integer.toString(eventtype.getId());
+	   String	SQL			  = "";
+
+      SQL = "UPDATE 'EOEventTypes' SET ";
+	   SQL += "name='" + name 			+ "',";
+	   SQL += "description='" + description 			+ "',";
+	   SQL += "locationStart='" + locationStart 			+ "',";
+	   SQL += "locationEnd='" + locationEnd 			+ "',";
+	   SQL += "time='" + time 			+ "',";
+	   SQL += "price='" + price 			+ "' ";
+      SQL += "WHERE idEOEventtypes = " + id ;
+
+
+
+	   if(executeSql(SQL) == 1){
+		   returnvalue = true;
+         if(eventtype.getExternalContactInfo() != null)
+         {
+            if(eventtype.getExternalContactInfo().getId() == -1)
+            {
+               int externalid = createExternalContactInfo(eventtype.getExternalContactInfo());
+               if(externalid > 0)
+               {
+                  returnvalue = linkEOEventTypeExternalContactInfo(eventtype.getId(), externalid);
+               }
+            }
+            else
+            {
+               updateExternalContactInfo(eventtype.getExternalContactInfo());
+            }
+         }
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
 	}
 
 	/**
 	 * 
 	 * @param eventtype
 	 */
-	public void deleteEOEvenType(EOEventType eventtype) {
-		// TODO - implement EODatabaseInterface.deleteEOEvenType
-		  throw new UnsupportedOperationException();
+	public boolean deleteEOEvenType(EOEventType eventtype) {
+	   boolean  returnvalue 	= false;
+      System.out.println("deleteEOEvenType"); 
+	   String SQL = "UPDATE 'EOEventTypes' SET deletedStatus = 3 WHERE idEOEventtypes = " + eventtype.getId();
+      if(eventtype.getExternalContactInfo() != null)
+      {
+         deleteExternalContactInfo(eventtype.getExternalContactInfo());
+      }
+	   if(executeSql(SQL) == 1){
+		   returnvalue = true;
+	   }else{
+		   returnvalue = false;
+	   }
+
+	   return returnvalue;
 	}
 
 	/**
@@ -869,9 +1019,9 @@ public class EODatabaseInterface {
 	 * @param cECObj
 	 *
 	 */
-    public boolean createExternalContactInfo(ExternalContactInfo cECObj) {
+    public int createExternalContactInfo(ExternalContactInfo cECObj) {
 	   ExternalContactInfo e 	= cECObj;
-	   boolean  returnvalue 	= false;
+	   int  returnvalue 	= -1;
 
 	   String 	deletedStatus	= "2";
 	   String 	name 			= e.getName();
@@ -890,10 +1040,9 @@ public class EODatabaseInterface {
 	   SQL += "'" + info 			+ "',";
 	   SQL += "'" + company			+ "')";
 
-	   if(executeSql(SQL) == 1){
-		   returnvalue = true;
-	   }else{
-		   returnvalue = false;
+	   if(executeSql(SQL) == 1)
+      {
+         returnvalue = getLastId("EOExternalContactInfo", "idEOContactInfo");
 	   }
 
 	   return returnvalue;
@@ -995,6 +1144,8 @@ public class EODatabaseInterface {
 		// Return CustomerContactInfo
 		return contactInfo;
 	}
+
+
 
 	/**
 	 *  Metode til at hente alle EOExternalContactInfo rows ud
@@ -1236,6 +1387,29 @@ public class EODatabaseInterface {
 		return rowCount;
 	}
 
+   /**
+   * Returns last Id from an insert.
+   * Table: The table the insert has been in
+   * column: the auto incremental column
+   */
+   private int getLastId(String table, String column)
+   {
+      int returnvalue = -1;
+      ResultSet rs = null;
+      try
+      {
+         rs = querySql("SELECT * FROM "+table+" ORDER BY "+column+" DESC LIMIT 1");
+         if(rs.next())
+         {
+            System.out.println("Running id lookup");
+            returnvalue = rs.getInt(column);
+            System.out.println("id = " + Integer.toString(returnvalue));
+         }
+      }
+      catch(Exception ee){ System.out.println("getLastId: Error error"); }finally{ closeConnection(rs); }
+      return(returnvalue);
+   }
+
 	private int executeSql(String sql)
 	{
 	  int returnvalue = -1;
@@ -1264,7 +1438,7 @@ public class EODatabaseInterface {
 	  }
 	  catch (Exception e)
 	  {
-		 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		 System.err.println( e.getClass().getName() + ": " + e.getMessage() + " Sql: " + sql);
 
 		  returnvalue = -1;
 		 //System.exit(0);
@@ -1292,7 +1466,7 @@ public class EODatabaseInterface {
 		}
 		catch (Exception e)
 		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() + " Sql: " + sql);
 			System.exit(0);
 		}
 		return rs;

@@ -248,7 +248,7 @@ public class EOPanelADMFacilitator extends EOPanel {
          emailText.setText("");
          notesText.setText("");
          admFacilitatorMultiselect.setList((EOGUIMultiSelectInterface[])EOOperation.SAVEEDITFACILITATOR.getData());
-         besked.showMessageDialog(null,"Update Gemt!");
+         gui.dialogbox("Update Gemt!");
       }
       if (EOOperation.CREATEFACILITATOR == facilitatorEnum) {
          nameText.setText("");
@@ -256,7 +256,7 @@ public class EOPanelADMFacilitator extends EOPanel {
          emailText.setText("");
          notesText.setText("");
          admFacilitatorMultiselect.setList((EOGUIMultiSelectInterface[])EOOperation.CREATEFACILITATOR.getData());
-         besked.showMessageDialog(null, "Facilitator Oprettet!");
+         gui.dialogbox("Facilitator Oprettet!");
       }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible, currentEOOperation);

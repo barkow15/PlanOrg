@@ -178,17 +178,14 @@ public class EOPanelOpenArrangement extends EOPanel {
 
    }
 
-   public void setVisible(boolean visible, EOOperation currentEOOperation) {
-         System.out.println("setVisible 0");      
+   public void setVisible(boolean visible, EOOperation currentEOOperation) {     
       if(currentEOOperation == EOOperation.OPENARRANGEMENT)
       {
-         System.out.println("setVisible 1");
                //We expect 
                //0 = EOArrangement
                EOArrangement arrangement = null;
                if(EOOperation.OPENARRANGEMENT.getData() instanceof EOArrangement)
                {
-         System.out.println("setVisible 2");
                   arrangement = (EOArrangement)EOOperation.OPENARRANGEMENT.getData();
                   //column1
                   startdatetime.setDateTime(arrangement.getDateTimeStart());

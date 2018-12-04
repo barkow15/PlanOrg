@@ -106,6 +106,11 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
             break;               
          case CREATEARRANGEMENT:
+            Object[] createarrangement_data = {
+               db.getAllFacilitatorContactInfo(),
+               null
+            };
+            EOOperation.CREATEARRANGEMENT.setData(createarrangement_data);
             gui.getBreadcrumb().reset();
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
@@ -121,7 +126,7 @@ public class EOManager {
          case SAVEDELETEARRANGEMENT:
             if(EOOperation.SAVEDELETEARRANGEMENT.getData() instanceof EOArrangement)
             {
-               //db.deleteEOArrangement((EOArrangement)EOOperation.DELETEARRANGEMENT.getData());
+               db.deleteEOArrangement((EOArrangement)EOOperation.DELETEARRANGEMENT.getData());
             }
             //Databasekald
             gui.getBreadcrumb().reset();
@@ -166,25 +171,47 @@ public class EOManager {
          case CREATEEVENTTYPE:
             if(EOOperation.CREATEEVENTTYPE.getData() instanceof EOEventType)
             {
-               db.createEOEvenType((EOEventType) EOOperation.CREATEEVENTTYPE.getData());
-               EOOperation.CREATEEVENTTYPE.setData(db.getEOEventTypes());
+               if(db.createEOEvenType((EOEventType) EOOperation.CREATEEVENTTYPE.getData()))
+               {
+                  EOOperation.CREATEEVENTTYPE.setData(db.getEOEventTypes());
+               }
+               else
+               {
+                  operation = EOOperation.ERROR;
+               }
             }
             break;
          case UPDATEEVENTTYPE:
-               EOOperation.UPDATEEVENTTYPE.setData(db.getEOEventTypes());
+               Object[] updateeventtype_data = {
+                  EOOperation.UPDATEEVENTTYPE.getData(),
+                  db.getEOEventTypes()
+               };
+               EOOperation.UPDATEEVENTTYPE.setData(updateeventtype_data);
             break;
          case SAVEEDITEVENTTYPE:
             if(EOOperation.SAVEEDITEVENTTYPE.getData() instanceof EOEventType)
             {
-               db.updateEOEvenType((EOEventType) EOOperation.SAVEEDITEVENTTYPE.getData());
-               EOOperation.SAVEEDITEVENTTYPE.setData(db.getEOEventTypes());
+               if(db.updateEOEvenType((EOEventType) EOOperation.SAVEEDITEVENTTYPE.getData()))
+               {
+                  EOOperation.SAVEEDITEVENTTYPE.setData(db.getEOEventTypes());
+               }
+               else
+               {
+                  operation = EOOperation.ERROR;
+               }
             }
             break;
          case DELETEEVENTTYPE:
             if(EOOperation.DELETEEVENTTYPE.getData() instanceof EOEventType)
             {
-               db.deleteEOEvenType((EOEventType) EOOperation.DELETEEVENTTYPE.getData());
-               EOOperation.DELETEEVENTTYPE.setData(db.getEOEventTypes());
+               if(db.deleteEOEvenType((EOEventType) EOOperation.DELETEEVENTTYPE.getData()))
+               {
+                  EOOperation.DELETEEVENTTYPE.setData(db.getEOEventTypes());
+               }
+               else
+               {
+                  operation = EOOperation.ERROR;
+               }
             }
             break;
          case OPENEVENTTYPE:
