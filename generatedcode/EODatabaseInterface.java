@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class EODatabaseInterface {
    Connection conn = null;
 
-   String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
+   //String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
    String dbPathRelative = "jdbc:sqlite:finaldb.db";
 
    public void test()
@@ -65,16 +65,22 @@ public class EODatabaseInterface {
 	 */
    public EOArrangement[] getEOArrangements(boolean includeIsDone) {
    	System.out.println("DB method \"Test\" running...");
+      
+      return(null);
       ResultSet rs = null;
       String sql = null;
+      sql = "SELECT * FROM EOArrangements ORDER BY id isdone = " + Boolean.toString(includeIsDone);
+      /*
       if(includeIsDone)
       {
-         sql = "SELECT * FROM EOArrangements ORDER BY id";
+         
       }
       else
       {
-         sql = "SELECT * FROM EOArrangements LIMIT is payed = 2 ORDER BY id";
+         sql = "SELECT * FROM EOArrangements LIMIT is payed =  ORDER BY id";
       }
+      */
+      sql = "SELECT * FROM EOArrangements";
       int rows = numRows(sql);
       rs = querySql(sql);
       EOArrangement[] arrangements = new EOArrangement[rows];

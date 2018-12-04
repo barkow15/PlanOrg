@@ -6,9 +6,10 @@ public class EOManager {
    
    public EOManager()
    {
-
-      this.gui = new EOGUI(this);
+      //Database connections needs to be established before GUI!
       this.db = new EODatabaseInterface();
+      this.gui = new EOGUI(this);
+
 
    }
 	/**
@@ -48,8 +49,18 @@ public class EOManager {
       switch(operation)
       {
          case START:
-                      
-            EOOperation.START.setData(arrangements);         
+            try{
+               if(db == null)
+               {
+                  System.out.println("db ==== NULLLL");
+               }
+               db.getEOArrangements(true);
+             }
+             catch(Exception eeee)
+             {
+               System.out.println(eeee.toString());
+             }
+            //EOOperation.START.setData();         
             if(gui != null)
             {
                gui.getBreadcrumb().reset();
@@ -57,7 +68,7 @@ public class EOManager {
             break;
          case STARTSHOWALL:
                     
-            EOOperation.STARTSHOWALL.setData(ssarrangements);         
+            EOOperation.STARTSHOWALL.setData(db.getEOArrangements(true));         
             if(gui != null)
             {
                gui.getBreadcrumb().reset();
