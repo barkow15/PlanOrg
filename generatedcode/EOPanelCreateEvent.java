@@ -173,6 +173,7 @@ public class EOPanelCreateEvent extends EOPanel {
    
       beskrivelsenoterTextArea = new JTextArea();
       beskrivelsenoterTextArea.setBounds(650, 380, 300, 240);
+      beskrivelsenoterTextArea.setBorder(gui.getDefaultBorder());
       beskrivelsenoterTextArea.setFont(gui.getFontsmall());
       this.add(beskrivelsenoterTextArea);
      
@@ -214,6 +215,8 @@ public class EOPanelCreateEvent extends EOPanel {
          {
             eventtypemultiselect.setList((EOEventType[]) objects[1]);
          }
+         begivenhedsprisTextField.setText("");
+         beskrivelsenoterTextArea.setText("");
          
          
       }

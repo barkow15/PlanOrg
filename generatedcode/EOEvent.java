@@ -26,25 +26,55 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
 		return(eventtypes);
 	}
 
+   public void setEventTypes(EOEventType[] eventtypes)
+   {
+      this.eventtypes = eventtypes;
+   }
+
 	public LocalDateTime getDateTimeStart() {
 		return(datetimestart);
 	}
+   
+   public void setDateTimeStart(LocalDateTime datetimestart)
+   {
+      this.datetimestart = datetimestart;
+   }
 
 	public LocalDateTime getDateTimeEnd() {
 		return(datetimeend);
 	}
 
+   public void setDateTimeEnd(LocalDateTime datetimeend)
+   {
+      this.datetimeend = datetimeend;
+   }
+
    public double getPrice() {
 		return this.price;
 	}
+   
+   public void setPrice(double price)
+   {
+      this.price = price;
+   }
 
 	public String getDescription() {
 		return this.description;
 	}
    
+   public void setDescription(String description)
+   {
+      this.description = description;
+   }
+   
    public FacilitatorContactInfo[] getFacilitators()
    {
       return(facilitators);
+   }
+   
+   public void setFacilitators(FacilitatorContactInfo[] facilitators)
+   {
+      this.facilitators = facilitators;
    }
    
    public String getDisplayName()

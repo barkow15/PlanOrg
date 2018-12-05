@@ -250,22 +250,17 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    {
       if(this.events == null)
       {
-         System.out.println("-------------------------------Ingen andre begivenheder");
          this.events = new EOEvent[1];
          events[0] = event;
       }
       else
-      {
-         System.out.println("-------------------------------tilføjer begivenheder");      
-         EOEvent[] events = new EOEvent[this.events.length+1];
-         System.out.println("-------------------------------tilføjer begivenheder " + Integer.toString(this.events.length+1));         
+      {    
+         EOEvent[] events = new EOEvent[this.events.length+1];       
          for(int i = 0; i < this.events.length; i++)
          {
             events[i] = this.events[i];
          }
-         System.out.println("-------------------------------tilføjer begivenheder " + Integer.toString(this.events.length)); 
          events[this.events.length] = event;
-         System.out.println("-------------------------------tilføjer begivenheder " + Integer.toString(events.length)); 
          this.events = events;
       }
    }
@@ -276,7 +271,7 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
       EOEvent[] events = new EOEvent[this.events.length-1];
       for(int i = 0; i < this.events.length; i++)
       {
-         if(events[i].equals(event))
+         if(this.events[i].equals(event))
          {
             found = true;
          }
@@ -287,8 +282,19 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
       }
       if(found && this.events.length-1 == 0)
       {
-         events = null;
+         System.out.println("SÆTTER EVENT ARRAY == NULL");      
+         this.events = null;
       }
+      else if(found)
+      {
+         System.out.println("OPDATERE EVENT ARRAY");
+         this.events = events;
+      }
+      else
+      {
+         System.out.println("KUNNE IKKE FINDE EVENT");
+      }
+      
       return(found);
    }
 }

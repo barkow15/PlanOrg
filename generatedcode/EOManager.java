@@ -134,12 +134,31 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
          case UPDATEARRANGEMENT:
-            Object[] updatearrangement_data = {
-               EOOperation.UPDATEARRANGEMENT.getData(),
-               db.getAllFacilitatorContactInfo(),
-               null
-            };
-            EOOperation.UPDATEARRANGEMENT.setData(updatearrangement_data);
+            //New call to update
+            if(EOOperation.UPDATEARRANGEMENT.getData() instanceof EOArrangement)
+            {
+               System.out.println("New call to UPDATEARRANGEMENT");
+               Object[] updatearrangement_data = {
+                  db.getAllFacilitatorContactInfo(),
+                  EOOperation.UPDATEARRANGEMENT.getData()
+               };
+               EOOperation.UPDATEARRANGEMENT.setData(updatearrangement_data);
+            }
+            else //Refresh call
+            {
+               System.out.println("REFRESH call to UPDATEARRANGEMENT");
+               if(EOOperation.UPDATEARRANGEMENT.getData().getClass().isArray())
+               {
+                  Object[] updatearrangement_data = (Object[]) EOOperation.UPDATEARRANGEMENT.getData();
+                  if(updatearrangement_data[0] instanceof FacilitatorContactInfo[])
+                  {
+                     //We update the facilitatorcontactinfo list, since its not specific to the arrangement
+                     updatearrangement_data[0] = db.getAllFacilitatorContactInfo();
+                  }
+               }
+            }
+
+            
             gui.getBreadcrumb().push(EOOperation.UPDATEARRANGEMENT);
             break;
          case SAVEDELETEARRANGEMENT:
@@ -276,6 +295,16 @@ public class EOManager {
             break;
          case SAVECREATEEVENT:
             break;
+         case UPDATEEVENT:
+            Object[] updateevent_data = {
+               db.getAllFacilitatorContactInfo(),
+               db.getEOEventTypes(),
+               EOOperation.UPDATEEVENT.getData()
+            };
+            EOOperation.UPDATEEVENT.setData(updateevent_data);
+
+            gui.getBreadcrumb().push(EOOperation.UPDATEEVENT);
+            break;     
          case OPENEVENT:
             gui.getBreadcrumb().push(EOOperation.OPENEVENT);
             break;            

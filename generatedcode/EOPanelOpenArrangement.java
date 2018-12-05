@@ -18,7 +18,10 @@ public class EOPanelOpenArrangement extends EOPanel {
    JTextField customerfirmtextfield;
    JTextArea customerinfojtextarea;  
    JTextArea descriptionjtextarea;
-
+   JTextField pricetextfield;
+   JCheckBox ispayed;
+   JCheckBox isdone;
+   
    EOGUIMultiSelect facilitatormultiselect;
    //Column3
    EOGUIMultiSelect eventmultiselect;
@@ -66,7 +69,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       add(enddatetime);
 
       //Column 3
-      JLabel arrangementnamelabel=new JLabel("Startl:");
+      JLabel arrangementnamelabel=new JLabel("Navn:");
       arrangementnamelabel.setBounds(650, 40, 120, 20);
       arrangementnamelabel.setFont(this.gui.getFontsmall());
       this.add(arrangementnamelabel);
@@ -77,30 +80,52 @@ public class EOPanelOpenArrangement extends EOPanel {
       arrangementtextfield.setFont(this.gui.getFontsmall());
       this.add(arrangementtextfield);
 
+
+       JLabel pricelabel=new JLabel("Pris:");
+       pricelabel.setBounds(650, 80, 120, 20);
+       pricelabel.setFont(this.gui.getFontsmall());
+       this.add(pricelabel);
+
+       pricetextfield=new JTextField();
+       pricetextfield.setBounds(650, 100, 300, 20);
+       pricetextfield.setFont(this.gui.getFontsmall());
+       this.add(pricetextfield);
+
+       ispayed = new JCheckBox("Er betalt");
+       ispayed.setBounds(650, 120, 300, 20);
+       ispayed.setFont(this.gui.getFontsmall());
+       this.add(ispayed);
+       
+       isdone = new JCheckBox("Er afholdt");
+       isdone.setBounds(650, 140, 300, 20);
+       isdone.setFont(this.gui.getFontsmall());
+       this.add(isdone);       
+
+
       JLabel descriptionlabel=new JLabel("Beskrivelse/noter:");
-      descriptionlabel.setBounds(650, 80, 100, 20);
+      descriptionlabel.setBounds(650, 160, 100, 20);
       descriptionlabel.setFont(this.gui.getFontsmall());
       this.add(descriptionlabel);
       
       descriptionjtextarea=new JTextArea();
       descriptionjtextarea.setEditable(false);  
-      descriptionjtextarea.setBounds(650, 100, 300, 170);
+      descriptionjtextarea.setBounds(650, 180, 300, 170);
       descriptionjtextarea.setBorder(gui.getDefaultBorder());
       descriptionjtextarea.setFont(this.gui.getFontsmall());
       this.add(descriptionjtextarea); 
              
       JLabel facilitatorlabel=new JLabel("Facilitator(er):");
-      facilitatorlabel.setBounds(650, 280, 100, 20);
+      facilitatorlabel.setBounds(650, 360, 100, 20);
       facilitatorlabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorlabel);
        
       facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160), ListSelectionModel.SINGLE_SELECTION);
-      facilitatormultiselect.setBounds(650, 300, 300, 160);
+      facilitatormultiselect.setBounds(650, 380, 300, 160);
       facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);
       this.add(facilitatormultiselect);
 
       JLabel facilitatorhelplabel=new JLabel("* Hoejre klik for at se info");
-      facilitatorhelplabel.setBounds(650, 460, 200, 20);
+      facilitatorhelplabel.setBounds(650, 540, 200, 20);
       facilitatorhelplabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorhelplabel);
      
@@ -191,6 +216,9 @@ public class EOPanelOpenArrangement extends EOPanel {
                   startdatetime.setDateTime(arrangement.getDateTimeStart());
                   enddatetime.setDateTime(arrangement.getDateTimeEnd());
                   arrangementtextfield.setText(arrangement.getName());
+                  pricetextfield.setText(Double.toString(arrangement.getPrice()));
+                  ispayed.setSelected(arrangement.isPayed());
+                  isdone.setSelected(arrangement.isDone());
                   //Column2
                   if(arrangement.getCustomer() != null)
                   {
