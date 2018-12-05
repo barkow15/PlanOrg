@@ -10,29 +10,86 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    private int id;
 	private String name;
 	private String description;
-	private LocalDateTime datetimestart;
-	private LocalDateTime datetimeend;
+	private LocalDateTime datetimestart = null;
+	private LocalDateTime datetimeend = null;
 	private double price;
 
 	private boolean ispayed;
 	private boolean isdone;
-	private FacilitatorContactInfo[] facilitators;
-	private EOEvent[] events;
-	private CustomerContactInfo customer;
+	private FacilitatorContactInfo[] facilitators = null;
+	private EOEvent[] events = null;
+	private CustomerContactInfo customer = null;
+   
+   public EOArrangement()
+   {
+      //Empty EOArrangement, is used when an arrangement is created.
+      //100 kr is the default value for an arrangement
+      this(-1, "", "", null, null, 100, false, false, null, null, null);
+   }
    
    public EOArrangement(int id, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, boolean ispayed, boolean isdone, FacilitatorContactInfo[] facilitators, EOEvent[] events, CustomerContactInfo customer)
    {
-    this.id             = id;
+      this.id             = id;
    	this.name           = name;
    	this.description    = description;
    	this.datetimestart  = datetimestart;
    	this.datetimeend    = datetimeend;
    	this.price          = price;
-    this.ispayed        = ispayed;
-    this.isdone         = isdone;
+      this.ispayed        = ispayed;
+      this.isdone         = isdone;
    	this.facilitators   = facilitators;
    	this.events         = events;
    	this.customer       = customer;
+   }
+   
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+   
+   public void setDescription(String description)
+   {
+      this.description = description;
+   }
+   
+   public void setDateTimeStart(LocalDateTime datetimestart)
+   {
+      this.datetimestart = datetimestart;
+   }
+
+   public void setDateTimeEnd(LocalDateTime datetimeend)
+   {
+      this.datetimeend = datetimeend;
+   }
+   
+   public void setPrice(double price)
+   {
+      this.price = price;
+   }
+   
+   public void isPayed(boolean ispayed)
+   {
+      this.ispayed = ispayed;
+   }
+
+   public void isDone(boolean isdone)
+   {
+      this.isdone = isdone;
+   }
+   
+   public void setFacilitators(FacilitatorContactInfo[] facilitators)
+   {
+      this.facilitators = facilitators;
+   }
+   
+   public void setEvents(EOEvent[] events)
+   {
+      this.events = events;
+   }
+   
+   public void setCustomer(CustomerContactInfo customer)
+   {
+      this.customer = customer;
    }
    
    /**
@@ -174,5 +231,64 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
          }
       
       return("");
+   }
+   
+   /**
+   * The equals metode only works on object from the database, where an ID has been set.
+   */
+   public boolean equals(Object obj)
+   {
+      boolean returnvar = false;
+      if(obj instanceof EOArrangement)
+      {
+         returnvar = (((EOArrangement)obj).getId() == this.getId() && this.getId() != -1);
+      }
+      return(returnvar || super.equals(obj));
+   }
+   
+   public void addEvent(EOEvent event)
+   {
+      if(this.events == null)
+      {
+         System.out.println("-------------------------------Ingen andre begivenheder");
+         this.events = new EOEvent[1];
+         events[0] = event;
+      }
+      else
+      {
+         System.out.println("-------------------------------tilføjer begivenheder");      
+         EOEvent[] events = new EOEvent[this.events.length+1];
+         System.out.println("-------------------------------tilføjer begivenheder " + Integer.toString(this.events.length+1));         
+         for(int i = 0; i < this.events.length; i++)
+         {
+            events[i] = this.events[i];
+         }
+         System.out.println("-------------------------------tilføjer begivenheder " + Integer.toString(this.events.length)); 
+         events[this.events.length] = event;
+         System.out.println("-------------------------------tilføjer begivenheder " + Integer.toString(events.length)); 
+         this.events = events;
+      }
+   }
+   
+   public boolean deleteEvent(EOEvent event)
+   {
+      boolean found = false;
+      EOEvent[] events = new EOEvent[this.events.length-1];
+      for(int i = 0; i < this.events.length; i++)
+      {
+         if(events[i].equals(event))
+         {
+            found = true;
+         }
+         else
+         {
+            events[i] = this.events[i];
+         }
+      }
+      if(found && this.events.length-1 == 0)
+      {
+         events = null;
+      }
+      return(found);
    }
 }

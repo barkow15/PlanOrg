@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class EODatabaseInterface {
    Connection conn = null;
-
+   private boolean debug = false;
    //String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
    String dbPathRelative = "jdbc:sqlite:finaldb.db";
 
@@ -1407,9 +1407,9 @@ public class EODatabaseInterface {
          rs = querySql("SELECT * FROM "+table+" ORDER BY "+column+" DESC LIMIT 1");
          if(rs.next())
          {
-            System.out.println("Running id lookup");
+            if(this.debug) System.out.println("Running id lookup");
             returnvalue = rs.getInt(column);
-            System.out.println("id = " + Integer.toString(returnvalue));
+            if(this.debug) System.out.println("id = " + Integer.toString(returnvalue));
          }
       }
       catch(Exception ee){ System.out.println("getLastId: Error error"); }finally{ closeConnection(rs); }
@@ -1424,21 +1424,21 @@ public class EODatabaseInterface {
 	  try
 	  {
 		 conn = DriverManager.getConnection(this.dbPathRelative);
-		 System.out.println("DB CONNECTION OPENED");
+		 if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 		 pstmt = conn.prepareStatement(sql);
 
-		 System.out.println("EXECUTING SQL ...");
+		 if(this.debug) System.out.println("EXECUTING SQL ...");
 		 returnvalue = pstmt.executeUpdate();
 
-		 System.out.println("SQL SUCCESS: " + returnvalue);
+		 if(this.debug) System.out.println("SQL SUCCESS: " + returnvalue);
 		 //System.out.println(returnvalue);
-		  System.out.println("CLOSING DB CONNECTION ...");
+		 if(this.debug) System.out.println("CLOSING DB CONNECTION ...");
 
 		  if(conn != null)
 		  {
 			  conn.close();
-			  System.out.println("DB CONNECTION CLOSED");
+			  if(this.debug) System.out.println("DB CONNECTION CLOSED");
 		  }
 
 	  }
@@ -1461,11 +1461,11 @@ public class EODatabaseInterface {
 		{
 			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
 			conn = DriverManager.getConnection(this.dbPathRelative);
-			System.out.println("DB CONNECTION OPENED");
+			if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 			pstmt = conn.prepareStatement(sql);
 
-			System.out.println("EXECUTING SQL QUERY ...");
+			if(this.debug) System.out.println("EXECUTING SQL QUERY ...");
 			rs = pstmt.executeQuery();
 
 			return rs;
@@ -1484,10 +1484,10 @@ public class EODatabaseInterface {
 		{
 			if(conn != null)
 			{
-				System.out.println("CLOSING DB CONNECTION");
+				if(this.debug) System.out.println("CLOSING DB CONNECTION");
 				rs.close();
 				conn.close();
-				System.out.println("DB CONNECTION CLOSED");
+				if(this.debug) System.out.println("DB CONNECTION CLOSED");
 			}
 		}
 		catch(Exception e)

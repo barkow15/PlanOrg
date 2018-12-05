@@ -79,5 +79,18 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
          }
       return(str);
    }
+   
+   /**
+   * The equals metode only works on object from the database, where an ID has been set.
+   */
+   public boolean equals(Object obj)
+   {
+      boolean returnvar = false;
+      if(obj instanceof EOEventType)
+      {
+         returnvar = (((EOEventType)obj).getId() == this.getId() && this.getId() != -1);
+      }
+      return(returnvar || super.equals(obj));
+   }   
 
 }

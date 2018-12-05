@@ -154,7 +154,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
        this.add(deletearrangementbutton);
        
        JButton updatearrangementbutton=new JButton("Rediger");
-       updatearrangementbutton.setBounds(1030, 300, 115, 20);
+       updatearrangementbutton.setBounds(1055, 300, 115, 20);
        updatearrangementbutton.addActionListener(
                new ActionListener()
                {
@@ -175,7 +175,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
 
        JButton createarrangementbutton=new JButton("Opret");
        System.out.println(this.gui.getWidth()-160);
-       createarrangementbutton.setBounds(1120, 300, 100, 20);
+       createarrangementbutton.setBounds(1170, 300, 100, 20);
        createarrangementbutton.addActionListener(
                new ActionListener()
                {

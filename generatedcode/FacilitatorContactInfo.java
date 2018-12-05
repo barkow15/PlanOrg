@@ -16,5 +16,5 @@ public class FacilitatorContactInfo extends ContactInfo {
    public String exportCSV()
    {
       return(super.exportCSV("FacilitatorContactInfo") + "\n");
-   }   
+   }  
 }

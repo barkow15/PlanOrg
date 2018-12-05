@@ -55,6 +55,9 @@ public class EOManager {
             {
                gui.getBreadcrumb().reset();
             }
+            //We reset our EOOperations, that we want to have active as we are running in that content
+            EOOperation.CREATEARRANGEMENT.setData(null);
+            EOOperation.UPDATEARRANGEMENT.setData(null);            
             break;
          case STARTSHOWALL:
                     
@@ -106,11 +109,27 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
             break;               
          case CREATEARRANGEMENT:
-            Object[] createarrangement_data = {
-               db.getAllFacilitatorContactInfo(),
-               null
-            };
-            EOOperation.CREATEARRANGEMENT.setData(createarrangement_data);
+            if(EOOperation.CREATEARRANGEMENT.getData() == null)
+            {
+               Object[] createarrangement_data = {
+                  db.getAllFacilitatorContactInfo(),
+                  new EOArrangement()
+               };
+               EOOperation.CREATEARRANGEMENT.setData(createarrangement_data);
+            }
+            else
+            {
+               if(EOOperation.CREATEARRANGEMENT.getData().getClass().isArray())
+               {
+                  Object[] createarrangement_data = (Object[]) EOOperation.CREATEARRANGEMENT.getData();
+                  if(createarrangement_data[0] instanceof FacilitatorContactInfo[])
+                  {
+                     //We update the facilitatorcontactinfo list, since its not specific to the arrangement
+                     createarrangement_data[0] = db.getAllFacilitatorContactInfo();
+                  }
+               }
+               
+            }
             gui.getBreadcrumb().reset();
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
@@ -226,7 +245,36 @@ public class EOManager {
             break;
 //Event
          case CREATEEVENT:
+            //We get a EOArrangement object from either UPDATEARRANGEMENT or CREATEARRANGEMENT, that object we want to take with us, so we can save the EOEvent in it
+            if(EOOperation.CREATEEVENT.getData() instanceof EOArrangement)
+            {
+               Object[] createevent_data = {
+                 db.getAllFacilitatorContactInfo(),
+                 db.getEOEventTypes(),
+                 EOOperation.CREATEEVENT.getData()
+               };
+               EOOperation.CREATEEVENT.setData(createevent_data);
+            }
+            else  //If we dont get an EOArrangement Object, its a call back to the metode, in this case we want to update our facilitatorcontactinfo and eventtypes - But only if we got an EOArrangement object
+            {
+               if(EOOperation.CREATEEVENT.getData() != null && EOOperation.CREATEEVENT.getData().getClass().isArray())
+               {
+                  Object[] createevent_data = (Object[]) EOOperation.CREATEEVENT.getData();
+                  if(createevent_data.length == 3 && createevent_data[2] instanceof EOArrangement)
+                  {
+                     Object[] createevent_data1 = {
+                       db.getAllFacilitatorContactInfo(),
+                       db.getEOEventTypes(),
+                       createevent_data[2]
+                     };
+                     EOOperation.CREATEEVENT.setData(createevent_data1);
+                  }
+               }
+            }
+
             gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
+            break;
+         case SAVECREATEEVENT:
             break;
          case OPENEVENT:
             gui.getBreadcrumb().push(EOOperation.OPENEVENT);

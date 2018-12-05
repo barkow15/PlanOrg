@@ -46,7 +46,7 @@ public class EOPanelCreateArrangement extends EOPanel {
        this.add(cancelbutton);
 
 
-       JButton createbutton=new JButton("Opret");
+       JButton createbutton=new JButton("Gem");
        createbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
        createbutton.addActionListener(
                new ActionListener()
@@ -122,7 +122,7 @@ public class EOPanelCreateArrangement extends EOPanel {
        this.add(eventmultiselect);
 
        JButton deletearrangementbutton=new JButton("Slet");
-       deletearrangementbutton.setBounds(970, 310, 85, 20);
+       deletearrangementbutton.setBounds(970, 300, 85, 20);
        deletearrangementbutton.addActionListener(
                new ActionListener()
                {
@@ -130,6 +130,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                    {
                      if(eventmultiselect.getSelected() != null && eventmultiselect.getSelected().length > 0)
                      {
+                        updateArrangementObj();
                         EOOperation.DELETEEVENT.setData((EOEvent)eventmultiselect.getSelected()[0]);
                         gui.runCommand(EOOperation.DELETEEVENT);
                      }
@@ -142,7 +143,7 @@ public class EOPanelCreateArrangement extends EOPanel {
        this.add(deletearrangementbutton);
        
        JButton updatearrangementbutton=new JButton("Rediger");
-       updatearrangementbutton.setBounds(1030, 310, 115, 20);
+       updatearrangementbutton.setBounds(1055, 300, 115, 20);
        updatearrangementbutton.addActionListener(
                new ActionListener()
                {
@@ -150,6 +151,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                    {
                      if(eventmultiselect.getSelected() != null && eventmultiselect.getSelected().length > 0)
                      {
+                        updateArrangementObj();
                         EOOperation.UPDATEEVENT.setData((EOEvent)eventmultiselect.getSelected()[0]);
                         gui.runCommand(EOOperation.UPDATEEVENT);
                      }
@@ -163,12 +165,15 @@ public class EOPanelCreateArrangement extends EOPanel {
 
        JButton createarrangementbutton=new JButton("Opret");
        System.out.println(this.gui.getWidth()-160);
-       createarrangementbutton.setBounds(1120, 310, 100, 20);
+       createarrangementbutton.setBounds(1170, 300, 100, 20);
        createarrangementbutton.addActionListener(
                new ActionListener()
                {
                    public void actionPerformed(ActionEvent e)
                    {
+                       //EOOperation.CREATEEVENT.setData();
+                       updateArrangementObj();
+                       EOOperation.CREATEEVENT.setData(getCurrentArrangement());
                        gui.runCommand(EOOperation.CREATEEVENT);
                    }
                });
@@ -231,22 +236,153 @@ public class EOPanelCreateArrangement extends EOPanel {
 	 * @param data
 	 */
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
-      if(currentEOOperation.getData().getClass().isArray())
+      if(EOOperation.CREATEARRANGEMENT.getData().getClass().isArray())
       {
-         Object[] obj = (Object[])currentEOOperation.getData();
-         if(obj[0] instanceof FacilitatorContactInfo[] && obj[0] != null)
+         Object[] obj = (Object[])EOOperation.CREATEARRANGEMENT.getData();
+         EOArrangement arrangement = null;
+         if(obj.length == 2)
          {
-            facilitatormultiselect.setList((FacilitatorContactInfo[])obj[0]);
+            if(obj[1] instanceof EOArrangement && obj[1] != null)
+            {
+               arrangement = (EOArrangement) obj[1];
+               eventmultiselect.setList(arrangement.getEvents());
+
+               arrangementtextfield.setText(arrangement.getName());
+               descriptionjtextarea.setText(arrangement.getDescription());
+               startdatetime.setDateTime(arrangement.getDateTimeStart());
+               enddatetime.setDateTime(arrangement.getDateTimeEnd());
+               //Column2
+               if(arrangement.getCustomer() != null)
+               {
+                  customertextfield.setText(arrangement.getCustomer().getName());
+                  customeremailtextfield.setText(arrangement.getCustomer().getEmail());
+                  customerphonenumertextfield.setText(arrangement.getCustomer().getEmail());
+                  customerfirmtextfield.setText(arrangement.getCustomer().getCompany());
+                  customerinfojtextarea.setText(arrangement.getCustomer().getInfo());                                    
+               }
+               else
+               {
+                  customertextfield.setText("");
+                  customeremailtextfield.setText("");
+                  customerphonenumertextfield.setText("");
+                  customerfirmtextfield.setText("");
+                  customerinfojtextarea.setText("");  
+               }
+            }  
+            if(obj[0] instanceof FacilitatorContactInfo[] && obj[0] != null)
+            {
+               if(arrangement != null)
+               {
+                  facilitatormultiselect.setList((FacilitatorContactInfo[])obj[0], arrangement.getFacilitators());
+               }
+               else
+               {
+                  facilitatormultiselect.setList((FacilitatorContactInfo[])obj[0]);
+               }
+            }
          }
-         if(obj[1] instanceof EOEvent[] && obj[1] != null)
-         {
-            eventmultiselect.setList((EOEvent[])obj[1]);
-         }         
+       
       }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
       super.setVisible(visible, currentEOOperation);
    }
 
+   private EOArrangement getCurrentArrangement()
+   {
+      if(EOOperation.CREATEARRANGEMENT.getData().getClass().isArray())
+      {
+         Object[] obj = (Object[])EOOperation.CREATEARRANGEMENT.getData();
+         if(obj.length == 2)
+         {
+            if(obj[1] instanceof EOArrangement && obj[1] != null)
+            {
+               return((EOArrangement)obj[1]);
+            }
+         }
+      }
+      return(null);
+   }
+
+   /**
+   * If we leave the panel, we save the state of the arrangement object. The changes are not saved in the database before the user selects to save the data
+   */
+   private void updateArrangementObj()
+   {
+      if(EOOperation.CREATEARRANGEMENT.getData().getClass().isArray())
+      {
+         Object[] obj = (Object[])EOOperation.CREATEARRANGEMENT.getData();
+         if(obj.length == 2)
+         {
+            if(obj[1] instanceof EOArrangement && obj[1] != null)
+            {
+               EOArrangement arrangement = (EOArrangement) obj[1];
+               if(eventmultiselect.getList() != null && eventmultiselect.getList().length > 0)
+               {
+                     //This could be optimized by doing a cast
+                     EOEvent[] e = new EOEvent[eventmultiselect.getSelected().length];
+                     for(int i = 0; i < eventmultiselect.getSelected().length; i++)
+                     {
+                        e[i] = (EOEvent)(eventmultiselect.getSelected()[i]);
+                     }
+                  arrangement.setEvents(e);
+               }
+               else
+               {
+                  arrangement.setEvents(null);
+               }
+               if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+               {
+
+                     //This could be optimized by doing a cast
+                     FacilitatorContactInfo[] f = new FacilitatorContactInfo[facilitatormultiselect.getSelected().length];
+                     for(int i = 0; i < facilitatormultiselect.getSelected().length; i++)
+                     {
+                        f[i] = (FacilitatorContactInfo)(facilitatormultiselect.getSelected()[i]);
+                     }
+                     arrangement.setFacilitators(f);
+
+               }
+               else
+               {
+                  arrangement.setFacilitators(null);
+               }
+               arrangement.setName(arrangementtextfield.getText());
+               arrangement.setDescription(descriptionjtextarea.getText());
+               try
+               {
+                  arrangement.setDateTimeStart(startdatetime.getDateTime());
+               }catch(Exception sdt){}
+               try
+               {
+                  arrangement.setDateTimeEnd(enddatetime.getDateTime()); 
+               }catch(Exception edt){}
+               if(arrangement.getCustomer() != null)
+               {
+                  arrangement.getCustomer().setName(customertextfield.getText());
+                  arrangement.getCustomer().setEmail(customeremailtextfield.getText());
+                  arrangement.getCustomer().setEmail(customerphonenumertextfield.getText());
+                  arrangement.getCustomer().setCompany(customerfirmtextfield.getText());
+                  arrangement.getCustomer().setInfo(customerinfojtextarea.getText());                                    
+               }
+               else
+               {
+                  arrangement.setCustomer(
+                     new CustomerContactInfo(
+                        -1,
+                        customertextfield.getText(),
+                        customerphonenumertextfield.getText(),
+                        customeremailtextfield.getText(),
+                        customerinfojtextarea.getText(),
+                        customerfirmtextfield.getText()
+                     )
+                  );
+               }        
+            }
+         }
+      }
+            
+   }
+   
    protected void paintComponent(Graphics g)
    {
        super.paintComponent(g);

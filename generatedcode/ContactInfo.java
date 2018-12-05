@@ -25,12 +25,22 @@ public abstract class ContactInfo implements EOGUIMultiSelectInterface, EOCSVInt
 		return this.name;
 	}
 
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+
    /**
    Returns the name of the contact.
    */
 	public String getPhone() {
 		return this.phone;
 	}
+
+   public void setPhone(String phone)
+   {
+      this.phone = phone;
+   }
 
    /**
    Returns the email of the contact.
@@ -39,12 +49,22 @@ public abstract class ContactInfo implements EOGUIMultiSelectInterface, EOCSVInt
 		return this.email;
 	}
 
+   public void setEmail(String email)
+   {
+      this.email = email;
+   }
+
    /**
    Returns the any additional information about the contact.
    */
 	public String getInfo() {
 		return this.info;
 	}
+
+   public void setInfo(String info)
+   {
+      this.info = info;
+   }
 
    /**
    Returns the database identifier for the contact, this is a unique id for the contact.
@@ -90,6 +110,23 @@ public abstract class ContactInfo implements EOGUIMultiSelectInterface, EOCSVInt
          EOCSV.formatField(getEmail()) + ", " +
          EOCSV.formatField(getInfo()) + "\n";
       return(str);
-   }   
-
+   }
+   
+   /**
+   * The equals metode only works on object from the database, where an ID has been set.
+   */
+   public boolean equals(Object obj)
+   {
+      boolean returnvar = false;
+      //Ref: https://stackoverflow.com/questions/6304056/does-instanceof-return-true-if-instance-of-a-parent
+      if(obj instanceof ContactInfo)
+      {
+         ContactInfo f = (ContactInfo) obj;
+         if(this.getId() != -1 && f.getId() == this.getId())
+         {
+            returnvar = true;
+         }
+      }
+      return(returnvar || super.equals(obj));
+   }    
 }

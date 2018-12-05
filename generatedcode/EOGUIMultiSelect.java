@@ -12,6 +12,7 @@ public class EOGUIMultiSelect extends JPanel
 {
    JList<Object> list = null;
    DefaultListModel<Object> model = null;
+   EOGUIMultiSelectInterface[] options;
    
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options)
    {
@@ -38,6 +39,7 @@ public class EOGUIMultiSelect extends JPanel
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode, Border border) 
    {
       super(new GridLayout(1,0));
+      this.options = options;
       this.setBackground(Color.WHITE);
       this.setBorder(border);
       //size.setSize(size.getWidth()-2, size.getHeight()-7);  
@@ -111,7 +113,13 @@ public class EOGUIMultiSelect extends JPanel
 
    public void setList(EOGUIMultiSelectInterface[] options)
    {
+      this.options = options;
       setList(options, null);
+   }
+   
+   public EOGUIMultiSelectInterface[] getList()
+   {
+      return(this.options);
    }
    
    public void setList(EOGUIMultiSelectInterface[] options, EOGUIMultiSelectInterface[] selected)
@@ -130,7 +138,7 @@ public class EOGUIMultiSelect extends JPanel
          {
             for(int j = 0; selected != null && j < selected.length; j++)
             {
-               if(selected[j] == options[i])
+               if(selected[j].equals(options[i]))
                {
                   iselected[selectedindex] = i;
                   selectedindex++;

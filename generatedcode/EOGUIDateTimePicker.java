@@ -214,10 +214,13 @@ class EOGUIDateTimePicker extends JPanel
 	
    public void setDateTime(LocalDateTime datetime)
    {
-   	this.datetime = datetime;
-   	selecteddate = datetime.toLocalDate();
-      selectedtime = datetime.toLocalTime();
-      paint(this.datetime);      
+      if(datetime != null)
+      {
+      	this.datetime = datetime;
+      	selecteddate = datetime.toLocalDate();
+         selectedtime = datetime.toLocalTime();
+         paint(this.datetime);   
+      }   
    }
    
    private void hideAllDayButtons()
