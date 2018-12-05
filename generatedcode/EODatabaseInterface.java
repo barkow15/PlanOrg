@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class EODatabaseInterface {
    Connection conn = null;
    private boolean debug = false;
-   //String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
+   String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
    String dbPathRelative = "jdbc:sqlite:finaldb.db";
 
    public void test()
@@ -63,6 +63,7 @@ public class EODatabaseInterface {
 	 * @param includeIsDone
 	 *
 	 */
+
    public EOArrangement[] getEOArrangements(boolean includeIsDone) {
    	System.out.println("DB method \"Test\" running...");
       
@@ -70,7 +71,7 @@ public class EODatabaseInterface {
       String sql = null;
       sql = "SELECT * FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'";
       System.out.println(sql);
-      int rows = numRows("SELECT count(*) FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'");
+      int rows = numRows("SELECT count(*) FROM EOArrangements WHERE isdone = 'false'");
       System.out.println("Rows: " + rows);
       rs = querySql(sql);
       EOArrangement[] arrangements = new EOArrangement[rows];
@@ -109,7 +110,7 @@ public class EODatabaseInterface {
       System.out.println("Returning data");
       return(arrangements);
    }
-   
+
    private LocalDateTime sqliteDateTimeConvert(int datetime)
    {
       return(LocalDateTime.ofEpochSecond(datetime, 0, java.time.ZoneOffset.UTC));
@@ -466,15 +467,7 @@ public class EODatabaseInterface {
    public EOEventType[] getEOEventTypes() {
       ResultSet rs = null;
       String sql = null;
-      sql = "SELECT EOEventtypes.idEOEventtypes, "+ 
-             "EOEventtypes.deletedStatus, " +
-             "EOEventtypes.name, " +
-             "EOEventtypes.description, " +
-             "EOEventtypes.locationStart, " +
-             "EOEventtypes.locationEnd, " +
-             "EOEventtypes.time, " +
-             "EOEventtypes.price " +                                      
-             " FROM EOEventtypes WHERE deletedStatus = 2";
+      sql = "SELECT * FROM EOEventtypes WHERE deletedStatus = 2";
       System.out.println(sql);
       int rows = numRows("SELECT count(*) FROM EOEventtypes");
       rs = querySql(sql);
@@ -582,20 +575,14 @@ public class EODatabaseInterface {
 				}
 			}
 		*/
-		SQL = "begin transaction" +
-				"begin try " +
-				"  INSERT INTO TableA (id) VALUES (1) " +
-				"  INSERT INTO TableB (id) VALUES (1) " +
-				"  UPDATE TableC SET id=1 WHERE id=2 " +
-				"\n" +
-				"  commit transaction\n" +
-				"\n" +
-				"end try\n" +
-				"\n" +
-				"begin catch\n" +
-				"  raiserror('Message here', 16, 1) " +
-				"  rollback transaction " +
-				"end catch";
+		/*
+		SQL = "BEGIN;" +
+        "INSERT INTO EOArrangements (name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) " +
+        "VALUES ( 'Bla', 'desc', '16-02-1993 12:00:00', '24-02-1993 12:00:00', 20, 2, 3); " +
+        "INSERT INTO EOArrangements_has_EOContactInfo (EOArrangements_idEOArrangements, EOCustomerContactInfo_idCustomerContactInfo) VALUES (1, 2); " +
+        "INSERT INTO EOArrangements_has_EOEvents (EOArrangements_idEOArrangements, EOEvents_idEOEvents) VALUES ( 1, 2);" +
+        "INSERT INTO EOArrangements_has_EOFacilitatorContactInfo ( EOArrangements_idEOArrangements, EOFacilitatorContactInfo_idFacilitatorContactInfo) VALUES ( 1, 2);" +
+        "COMMIT;"; */
 		SQL += "INSERT INTO 'EOArrangements' (name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) VALUES (";
 		SQL += "'" + name 			+ "',";
 		SQL += "'" + desc 			+ "',";
@@ -1423,7 +1410,7 @@ public class EODatabaseInterface {
 
 	  try
 	  {
-		 conn = DriverManager.getConnection(this.dbPathRelative);
+		 conn = DriverManager.getConnection(this.dbPathAbsolute);
 		 if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 		 pstmt = conn.prepareStatement(sql);
@@ -1460,7 +1447,7 @@ public class EODatabaseInterface {
 		try
 		{
 			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-			conn = DriverManager.getConnection(this.dbPathRelative);
+			conn = DriverManager.getConnection(this.dbPathAbsolute);
 			if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 			pstmt = conn.prepareStatement(sql);
