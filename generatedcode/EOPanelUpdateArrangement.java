@@ -45,7 +45,9 @@ public class EOPanelUpdateArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                     updateArrangementObj();
+                     EOOperation.SAVEUPDATEARRANGEMENT.setData(getCurrentArrangement());
+                     gui.runCommand(EOOperation.SAVEUPDATEARRANGEMENT);
                   }
                });
       this.add(savebutton);
@@ -61,19 +63,6 @@ public class EOPanelUpdateArrangement extends EOPanel {
                  }
               });
       this.add(cancelbutton);
-   
-   
-      JButton createbutton=new JButton("Opret");
-      createbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
-      createbutton.addActionListener(
-              new ActionListener()
-              {
-                 public void actionPerformed(ActionEvent e)
-                 {
-                    gui.runCommand(EOOperation.START);
-                 }
-              });
-      this.add(createbutton);
    
       //Column 1
       JLabel startdateandtimelabel=new JLabel("Start dato/tid:");
@@ -328,13 +317,17 @@ public class EOPanelUpdateArrangement extends EOPanel {
    */
    private void updateArrangementObj()
    {
+   System.out.println("1");
       if(EOOperation.UPDATEARRANGEMENT.getData().getClass().isArray())
       {
+    System.out.println("2");     
          Object[] obj = (Object[])EOOperation.UPDATEARRANGEMENT.getData();
          if(obj.length == 2)
          {
+      System.out.println("3");      
             if(obj[1] instanceof EOArrangement && obj[1] != null)
             {
+       System.out.println("4");        
                EOArrangement arrangement = (EOArrangement) obj[1];
                if(eventmultiselect.getList() != null && eventmultiselect.getList().length > 0)
                {
@@ -372,16 +365,16 @@ public class EOPanelUpdateArrangement extends EOPanel {
                arrangement.isPayed(ispayed.isSelected());
                try
                {
-                  pricetextfield.setText(Double.toString(arrangement.getPrice()));
-               }catch(Exception sdt){}
+                  arrangement.setPrice(Double.parseDouble(pricetextfield.getText()));
+               }catch(Exception sdt){ gui.dialogbox("Arrangement prisen er ikke rigtig angivet"); }
                try
                {
                   arrangement.setDateTimeStart(startdatetime.getDateTime());
-               }catch(Exception sdt){}
+               }catch(Exception sdt){ gui.dialogbox("Arrangemenets start tid er ikke rigtig angivet"); }
                try
                {
                   arrangement.setDateTimeEnd(enddatetime.getDateTime()); 
-               }catch(Exception edt){}
+               }catch(Exception edt){ gui.dialogbox("Arrangemenets slut tid er ikke rigtig angivet"); }
                if(arrangement.getCustomer() != null)
                {
                   arrangement.getCustomer().setName(customertextfield.getText());

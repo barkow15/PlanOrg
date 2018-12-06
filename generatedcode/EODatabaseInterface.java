@@ -139,11 +139,11 @@ public class EODatabaseInterface {
                rs.getInt("idEOArrangements"), 
                rs.getString("name"), 
                rs.getString("description"), 
-               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
-               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               getLocalDateTime(rs.getString("datetimestart")), 
+               getLocalDateTime(rs.getString("datetimeend")), 
                rs.getDouble("price"), 
-               rs.getBoolean("ispayed"), 
-               rs.getBoolean("isdone"), 
+               rs.getInt("ispayed") == 2, 
+               rs.getInt("isdone") == 2, 
                getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
                getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
@@ -190,11 +190,11 @@ public class EODatabaseInterface {
                rs.getInt("idEOArrangements"), 
                rs.getString("name"), 
                rs.getString("description"), 
-               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
-               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               getLocalDateTime(rs.getString("datetimestart")), 
+               getLocalDateTime(rs.getString("datetimeend")), 
                rs.getDouble("price"), 
-               rs.getBoolean("ispayed"), 
-               rs.getBoolean("isdone"), 
+               rs.getInt("ispayed") == 2, 
+               rs.getInt("isdone") == 2, 
                getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
                getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
@@ -231,8 +231,8 @@ public class EODatabaseInterface {
       }
       else
       {
-         sql = "SELECT * FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'";
-         rows = numRows("SELECT count(*) FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'");
+         sql = "SELECT * FROM EOArrangements WHERE isdone = '3'";
+         rows = numRows("SELECT count(*) FROM EOArrangements WHERE isdone = '3'");
       }
 
 
@@ -256,11 +256,11 @@ public class EODatabaseInterface {
                rs.getInt("idEOArrangements"), 
                rs.getString("name"), 
                rs.getString("description"), 
-               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
-               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               getLocalDateTime(rs.getString("datetimestart")), 
+               getLocalDateTime(rs.getString("datetimeend")), 
                rs.getDouble("price"), 
-               rs.getBoolean("ispayed"), 
-               rs.getBoolean("isdone"), 
+               rs.getInt("ispayed") == 2, 
+               rs.getInt("isdone") == 2, 
                getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
                getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
@@ -278,10 +278,37 @@ public class EODatabaseInterface {
       return(arrangements);
    }
 
-   private LocalDateTime sqliteDateTimeConvert(int datetime)
+   /**
+   * If the sqlite format is DateTime we use this metode to convert to DateTime
+   */
+   private LocalDateTime getLocalDateTime(int datetime)
    {
       return(LocalDateTime.ofEpochSecond(datetime, 0, java.time.ZoneOffset.UTC));
    }
+   
+   /**
+   * If the sqlite format is varchar we use this metode to get the datetime object
+   */
+   private static LocalDateTime getLocalDateTime(String str)
+   {
+      if(str == null)
+	   {
+	      return(null);
+      }
+      System.out.println("FOUND DATE = " + str);
+      return(LocalDateTime.parse(str, (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));  
+   }
+   /**
+   * If the sqlite format is varchar we use this metode to generate a datetime string
+   */
+   public static String formatLocalDateTime(LocalDateTime field)
+   {
+      if(field == null)
+      {
+         return("");
+      }   
+      return(field.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+   }  
    
    public FacilitatorContactInfo[] getFacilitatorContactInfoFromEOArrangement(int arrangementid)
    {
@@ -558,8 +585,8 @@ public class EODatabaseInterface {
             events[i] = new EOEvent(
                rs.getInt("idEOContactInfo"), 
                rs.getString("description"), 
-               sqliteDateTimeConvert(rs.getInt("dateTimeStart")), 
-               sqliteDateTimeConvert(rs.getInt("dateTimeEnd")), 
+               getLocalDateTime(rs.getString("dateTimeStart")), 
+               getLocalDateTime(rs.getString("dateTimeEnd")), 
                rs.getDouble("price"),
                getFacilitatorContactInfoFromEOEvent(rs.getInt("idEOContactInfo")),
                getEOEventTypes(rs.getInt("idEOContactInfo"))
@@ -609,8 +636,8 @@ public class EODatabaseInterface {
             events[i] = new EOEvent(
                rs.getInt("idEOContactInfo"), 
                rs.getString("description"), 
-               sqliteDateTimeConvert(rs.getInt("dateTimeStart")), 
-               sqliteDateTimeConvert(rs.getInt("dateTimeEnd")), 
+               getLocalDateTime(rs.getString("dateTimeStart")), 
+               getLocalDateTime(rs.getString("dateTimeEnd")), 
                rs.getDouble("price"),
                getFacilitatorContactInfoFromEOEvent(rs.getInt("idEOContactInfo")),
                getEOEventTypes(rs.getInt("idEOContactInfo"))
@@ -863,15 +890,83 @@ public class EODatabaseInterface {
 	 * @param price
 	 */
    public void updateEOArrangement(EOArrangement arrangement) {
-   	// TODO - implement EODatabaseInterface.updateEOArrangement
-      throw new UnsupportedOperationException();
+   	//We start by deleting all EOEvents that are part of the arrangement
+      //We delete the customer (we know that the ID for this cannot change, so its safe to use the ID form the object)
+      //We remove all links to facilitators
+      int arrangementid = arrangement.getId();
+      EOEvent[] events = getEOEvents(arrangementid);
+      if(events != null)
+      {
+         for(int i = 0; i < events.length; i++)
+         {
+            deleteEOEvent(events[i].getId());
+         }
+      }
+      executeSql("DELETE FROM EOArrangements_has_EOFacilitatorContactInfo WHERE EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements = " + arrangementid);
+      
+      
+      //Then we update the arrangement
+      int doneStatusInt = 3;
+      if(arrangement.isDone()){ 
+         doneStatusInt = 2;
+      }
+      int payedStatusInt = 3;
+      if(arrangement.isPayed()){
+         payedStatusInt = 2;
+      }
+      executeSql("UPDATE EOArrangements SET name = '"+arrangement.getName()+"', description = '"+arrangement.getDescription()+"', dateTimeStart = '"+formatLocalDateTime(arrangement.getDateTimeStart())+"', dateTimeEnd = '"+formatLocalDateTime(arrangement.getDateTimeEnd())+"', price ="+Double.toString(arrangement.getPrice())+", ispayed = "+Integer.toString(payedStatusInt)+", isdone = "+Integer.toString(doneStatusInt));
+      System.out.println("UPDATE EOArrangements SET name = '"+arrangement.getName()+"', description = '"+arrangement.getDescription()+"', dateTimeStart = '"+formatLocalDateTime(arrangement.getDateTimeStart())+"', dateTimeEnd = '"+formatLocalDateTime(arrangement.getDateTimeEnd())+"', price ="+Double.toString(arrangement.getPrice())+", ispayed = "+Integer.toString(payedStatusInt)+", isdone = "+Integer.toString(doneStatusInt));
+      //Then we create the events that are part of the arrangement
+      if(arrangement.getEvents() != null)
+      {
+         for(int i = 0; i < arrangement.getEvents().length; i++)
+         {
+            createEOEvent(arrangement.getEvents()[i]);
+         }
+      }
+      //We add facilitators
+      if(arrangement.getFacilitators() != null)
+      {
+         for(int i = 0; i < arrangement.getFacilitators().length; i++)
+         {
+            createLink("EOArrangements_has_EOFacilitatorContactInfo", "EOArrangements_idEOArrangements", arrangementid, "EOFacilitatorContactInfo_idFacilitatorContactInfo", arrangement.getFacilitators()[i].getId());
+         }
+      }
+      //We add customer / update or delete the customercontactinfo object
+      if(arrangement.getCustomer() != null)
+      {
+         if(arrangement.getCustomer().getId() == -1)
+         {
+            createCustomerContactInfo(arrangement.getCustomer());
+         }
+         else
+         {
+            updateCustomerContactInfo(arrangement.getCustomer());
+         } 
+      }
+      else
+      {
+         CustomerContactInfo c = getCustomerContactInfoFromEOArrangement(arrangementid);
+         if(c != null)
+         {
+            executeSql("DELETE FROM EOArrangements_has_EOContactInfo WHERE EOArrangements_idEOArrangements = " + arrangementid);
+            deleteCustomerContactInfo(c);
+         }
+      }
    }
 
 	/**
 	 * 
 	 * Sletter et EOArrangement fra databasen
 	 */
+/*
    public boolean deleteEOArrangement(int arrangementid) {
+
+   }
+*/
+   public boolean deleteEOArrangement(EOArrangement arrangement) {
+      int arrangementid = arrangement.getId();
+      //We delete all events that are part of the arrangement
       EOEvent[] events = getEOEvents(arrangementid);
       if(events != null && events.length > 0)
       {
@@ -880,14 +975,15 @@ public class EODatabaseInterface {
             deleteEOEvent(events[i].getId());
          }
       }
-
+      //We also delete the customercontact info, since one cannot exist without an arrangement
+      if(arrangement.getCustomer() != null)
+      {
+          deleteCustomerContactInfo(arrangement.getCustomer());
+      }
+      
       return(executeSql("DELETE FROM EOArrangements WHERE EOArrangements.idEOArrangements = " + arrangementid) == 1 && 
             executeSql("DELETE FROM EOArrangements_has_EOContactInfo WHERE EOArrangements_idEOArrangements = " + arrangementid) == 1 &&
             executeSql("DELETE FROM EOArrangements_has_EOFacilitatorContactInfo WHERE EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements = " + arrangementid) == 1);
-   }
-
-   public boolean deleteEOArrangement(EOArrangement arrangement) {
-      return(deleteEOArrangement(arrangement.getId()));
    }
 
 	/**
@@ -1591,7 +1687,9 @@ public class EODatabaseInterface {
       sql +=	"UPDATE 'EOCustomerContactInfo' SET ";
       sql +=	"name = '" 	+ cCIObj.getName() + "',";
       sql +=	"phone = '"	+ cCIObj.getPhone() + "',";
-      sql +=	"email = '"	+ cCIObj.getEmail() + "' ";
+      sql +=	"email = '"	+ cCIObj.getEmail() + "', ";
+      sql +=	"company = '"	+ cCIObj.getCompany() + "', ";
+      sql +=	"info = '"	+ cCIObj.getInfo() + "' ";
       sql +=	"WHERE idEOContactInfo =" + cCIObj.getId();
 
       if(this.executeSql(sql) == 1){
@@ -1754,7 +1852,7 @@ public class EODatabaseInterface {
 
 	  try
 	  {
-		 conn = DriverManager.getConnection(this.dbPathAbsolute);
+		 conn = DriverManager.getConnection(this.dbPathRelative);
 		 if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 		 pstmt = conn.prepareStatement(sql);
@@ -1791,7 +1889,7 @@ public class EODatabaseInterface {
 		try
 		{
 			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-			conn = DriverManager.getConnection(this.dbPathAbsolute);
+			conn = DriverManager.getConnection(this.dbPathRelative);
 			if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 			pstmt = conn.prepareStatement(sql);
