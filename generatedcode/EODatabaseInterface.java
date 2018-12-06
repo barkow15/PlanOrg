@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class EODatabaseInterface {
    Connection conn = null;
-   private boolean debug = false;
+   private boolean debug = true;
    String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
    String dbPathRelative = "jdbc:sqlite:finaldb.db";
 
@@ -722,18 +722,29 @@ public class EODatabaseInterface {
 		/* Variabler initialisering start */
 			EOArrangement a 		  = aObj;
 			boolean  returnvalue 	  = false;
-			String	 SQL			  = "";
 
-			String 	deletedStatus	  = "2";
-			String 	name 			  = a.getName();
-			String	desc			  = a.getDescription();
-			String	dateStart		  = "" + a.getDateTimeStart();
-			String	dateEnd			  = "" + a.getDateTimeEnd();
-			String  price 			  = "" + a.getPrice();
-			boolean doneStatus		  = a.isDone();
-			int 	doneStatusInt	  = 0;
-			boolean payedStatus		  = a.isPayed();
-			int 	payedStatusInt	  = 0;
+            String 	deletedStatus	  = "2";
+            String 	name 			  = a.getName();
+            String	desc			  = a.getDescription();
+            String	dateStart		  = "" + a.getDateTimeStart();
+            String	dateEnd			  = "" + a.getDateTimeEnd();
+            String  price 			  = "" + a.getPrice();
+            boolean doneStatus		  = a.isDone();
+            int 	doneStatusInt	  = 0;
+            boolean payedStatus		  = a.isPayed();
+            int 	payedStatusInt	  = 0;
+
+			String	 SQLEOArrangements= "";
+			boolean  SQLEOArrangementsStatus = false;
+
+			String   SQLEOArrangements_has_EOContactInfo = "";
+			boolean  SQLEOArrangements_has_EOContactInfoStatus = false;
+
+			String   SQLEOArrangements_has_EOEvents = "";
+			boolean  SQLEOArrangements_has_EOEventsStatus = false;
+
+			String   SQLEOArrangements_has_EOFacilitatorContactInfo = "";
+            boolean  SQLEOArrangements_has_EOFacilitatorContactInfoStatus = false;
 
 			if(doneStatus){
 				// Får værdien 2 hvis den arrangementet er afholdt
@@ -768,14 +779,6 @@ public class EODatabaseInterface {
 			}
 		/* Array variables initialisering slut */
 
-		/* Konsol test eventsarray */
-		/*
-			for(int i = 0; i < eventsArrSize; i++){
-				if(eventsArr[i] != null){
-					System.out.println(eventsArr[i].getPrice());
-				}
-			}
-		*/
 		/* Konsol test facilitatorsarray */
 		/*
 			for(int i = 0; i < facilArrSize; i++){
@@ -784,30 +787,57 @@ public class EODatabaseInterface {
 				}
 			}
 		*/
-		/*
-		SQL = "BEGIN;" +
-        "INSERT INTO EOArrangements (name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) " +
-        "VALUES ( 'Bla', 'desc', '16-02-1993 12:00:00', '24-02-1993 12:00:00', 20, 2, 3); " +
-        "INSERT INTO EOArrangements_has_EOContactInfo (EOArrangements_idEOArrangements, EOCustomerContactInfo_idCustomerContactInfo) VALUES (1, 2); " +
-        "INSERT INTO EOArrangements_has_EOEvents (EOArrangements_idEOArrangements, EOEvents_idEOEvents) VALUES ( 1, 2);" +
-        "INSERT INTO EOArrangements_has_EOFacilitatorContactInfo ( EOArrangements_idEOArrangements, EOFacilitatorContactInfo_idFacilitatorContactInfo) VALUES ( 1, 2);" +
-        "COMMIT;"; */
-		SQL += "INSERT INTO 'EOArrangements' (name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) VALUES (";
-		SQL += "'" + name 			+ "',";
-		SQL += "'" + desc 			+ "',";
-		SQL += "'" + dateStart 		+ "',";
-		SQL += "'" + dateEnd 		+ "',";
-		SQL += "'" + doneStatusInt 	+ "',";
-		SQL += "'" + payedStatus 	+ "',";
-		SQL += "'" + price 			+ "')";
-		/*
-		if(executeSql(SQL) == 1){
-		   returnvalue = true;
-		}else{
-		   returnvalue = false;
-		} */
+        // BYG SQL INSERT STATEMENT FOR ARRANGEMENT
+        SQLEOArrangements                    = "INSERT INTO EOArrangements ";
+        SQLEOArrangements                   += "(name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) ";
+        SQLEOArrangements                   += "VALUES ('Eksamens Aflevering', 'desc', '16-02-1993 12:00:00', '24-02-1993 12:00:00', 20, 3, 3);";
 
-		return returnvalue;
+        // EKSEKVER SQL STATEMENT FOR ARRANGEMENT
+        if(executeSql(SQLEOArrangements) == 1) SQLEOArrangementsStatus = true;
+
+        // HENT SENESTE ID TIL VIDERE BYGNING AF SQL STATEMENTS
+        int id = this.getLastId("EOArrangements", "idEOArrangements");
+
+        //BYG SQL INSERT STATEMENTS FOR RESTEN SOM ER FORBUNDET TIL ARRANGEMENT
+        SQLEOArrangements_has_EOContactInfo  = "INSERT INTO EOArrangements_has_EOContactInfo ";
+        SQLEOArrangements_has_EOContactInfo += "(EOArrangements_idEOArrangements, EOCustomerContactInfo_idCustomerContactInfo) ";
+        SQLEOArrangements_has_EOContactInfo += "VALUES (" + id + ", " + aObj.getCustomer().getId()  + ");";
+
+        // BYG OG EKSEKVER EVENTS FORBUNDET TIL ARRANGEMENT
+        for(int i = 0; i < eventsArrSize; i++){
+            if(eventsArr[i] != null){
+                //System.out.println(eventsArr[i].getPrice());
+                SQLEOArrangements_has_EOEventsStatus = false;
+
+                SQLEOArrangements_has_EOEvents       = "INSERT INTO EOArrangements_has_EOEvents ";
+                SQLEOArrangements_has_EOEvents      += "(EOArrangements_idEOArrangements, EOEvents_idEOEvents) ";
+                SQLEOArrangements_has_EOEvents      += "VALUES (" + id + ", " + eventsArr[i].getId() + ");";
+                if(executeSql(SQLEOArrangements_has_EOEvents) == 1) SQLEOArrangements_has_EOEventsStatus = true;
+            }
+        }
+        // BYG OG EKSEKVER FACILITAORCONTACTINFO FORBUNDET TIL ARRANGEMENT
+        for(int i = 0; i < facilArrSize; i++){
+            if(facilArr[i] != null){
+                //System.out.println(eventsArr[i].getPrice());
+                SQLEOArrangements_has_EOFacilitatorContactInfoStatus = false;
+
+                SQLEOArrangements_has_EOFacilitatorContactInfo  = "INSERT INTO EOArrangements_has_EOFacilitatorContactInfo ";
+                SQLEOArrangements_has_EOFacilitatorContactInfo += "(EOArrangements_idEOArrangements, EOFacilitatorContactInfo_idFacilitatorContactInfo) ";
+                SQLEOArrangements_has_EOFacilitatorContactInfo += "VALUES (" + id + ", " + facilArr[i].getId() + ");";
+                if(executeSql(SQLEOArrangements_has_EOFacilitatorContactInfo) == 1) SQLEOArrangements_has_EOFacilitatorContactInfoStatus = true;
+            }
+        }
+        if(executeSql(SQLEOArrangements_has_EOContactInfo) == 1)            SQLEOArrangements_has_EOContactInfoStatus = true;
+        if(executeSql(SQLEOArrangements_has_EOFacilitatorContactInfo) == 1) SQLEOArrangements_has_EOFacilitatorContactInfoStatus = true;
+
+        // Sammenlæg alle SQLExecutes boolean værdier og set returnvalue herefter. Oversat: Hvis alle SQLExecutes er korrekt eksekveret sættes den returnvalue til true;
+        if(SQLEOArrangementsStatus && SQLEOArrangements_has_EOContactInfoStatus && SQLEOArrangements_has_EOEventsStatus && SQLEOArrangements_has_EOFacilitatorContactInfoStatus){
+            returnvalue = true;
+        }else{
+            returnvalue = false;
+        }
+
+        return returnvalue;
 	}
 
 	/**

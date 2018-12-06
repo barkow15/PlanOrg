@@ -93,7 +93,11 @@ public class RunDB {
         );
 
         // Kør db test
-        db.createEOArrangement(ar);
+        if(db.createEOArrangement(ar)){
+            System.out.println("Arrangementet blev oprettet!");
+        }else{
+            System.out.println("Fejl");
+        }
 
         /*******************************/
         /** Arrangements DB TESTS END **/
@@ -113,10 +117,12 @@ public class RunDB {
         }
         */
         // <-- GET -->
+        /*
         FacilitatorContactInfo facilitator = db.getFacilitatorContactInfo(fi);
         if(facilitator != null) {
             System.out.println(facilitator.getName());
         }
+        */
 
         // <-- DELETE -->
         /*
@@ -140,6 +146,7 @@ public class RunDB {
         // <-- GET ALL -->
         //FacilitatorContactInfo[] facilAll = db.getAllFacilitatorContactInfo();
         // <-- GET ALL FROM ARRANGEMENT WITH ID -->
+        /*
         FacilitatorContactInfo[] facilAll = db.getFacilitatorsContactInfo(1);
 
         if(facilAll != null) {
@@ -159,7 +166,7 @@ public class RunDB {
         }else{
             System.out.println("No data or error.");
         }
-
+        */
 
 
         /*****************************************/
