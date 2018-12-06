@@ -60,7 +60,11 @@ public class EOCSV
    public boolean importCSV()
    {
       //We truncate the database so its clean
-      
+      if(db == null)
+      {
+         return(false);
+      }
+      db.truncateDB();
       
       //WE know that the line is "value", "value", "value"\n
       //So before the " it must be either nothing or empty space,
@@ -74,24 +78,23 @@ public class EOCSV
       try
       {
          Scanner scanner = new Scanner(outfile);
-         if(scanner.hasNext())
+         if(scanner.hasNextLine())
          {
-            line = scanner.next();
+            line = scanner.nextLine();
             m = p.matcher(line);
             if(m.find())
             {
                value = cleanString(m.group().subSequence(1, m.group().length()-1).toString());
                if(!value.equals("EOEXPORT"))
                {
-                  System.out.println("Not an EOCSV file");
+                  System.out.println("Not an EOCSV file: " + value);
                   return(false);
                }
             }
          }
          System.out.println("Starting import..");
-         while (scanner.hasNext()) 
-         {
-            line = scanner.next();
+         while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
             m = p.matcher(line);
             //We know that there are never more than 10 parameters to any object..
             //This is an ugly approach but it should work =)
@@ -108,6 +111,7 @@ public class EOCSV
                i++;
             }
             data = trimArray(data);
+            csvInsert(data);
          }
          scanner.close();
       } catch (Exception e) 
@@ -119,7 +123,21 @@ public class EOCSV
 
    private String cleanString(String str)
    {
-      return(str.substring(0, str.length()-1));
+      if(str != null && str.length() > 0)
+      {
+         System.out.println("1");
+         if(str.charAt(str.length()-1) == '"')
+         {
+            str = str.substring(0, str.length()-1);
+         }
+         System.out.println("2");
+         if(str.length() > 0 && str.charAt(0) == '"')
+         {
+            str = str.substring(1);
+         }
+         System.out.println("3");
+      }
+      return(str);
    }
    
    private String[] trimArray(String[] array)
@@ -150,25 +168,29 @@ public class EOCSV
       switch(key)
       {
          case "EOArrangement":
+            System.out.println("Insert: EOArrangement");
             new EOArrangement(Integer.parseInt(strarray[1]), strarray[2], strarray[3], getLocalDateTime(strarray[4]), getLocalDateTime(strarray[5]), Double.parseDouble(strarray[6]), Boolean.parseBoolean(strarray[7]), Boolean.parseBoolean(strarray[8]), null, null, null);
             break;
          case "EOEvent":
+            System.out.println("Insert: EOEvent");
             new EOEvent(Integer.parseInt(strarray[1]), strarray[2], getLocalDateTime(strarray[3]), getLocalDateTime(strarray[4]), Double.parseDouble(strarray[5]), null, null);
             break;
          case "EOEventType":
-            new EOEventType(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], Integer.parseInt(strarray[6]), Double.parseDouble(strarray[7]), null);
-            break;
+            System.out.println("Insert: EOEventType");
+            return db.createEOEvenType(new EOEventType(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], Integer.parseInt(strarray[6]), Double.parseDouble(strarray[7]), null));
          case "FacilitatorContactInfo":
-            new FacilitatorContactInfo(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5]);
-            break;
+            System.out.println("Insert: FacilitatorContactInfo");
+            return db.createFacilitatorContactInfo(new FacilitatorContactInfo(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5]));
          case "CustomerContactInfo":
-            new CustomerContactInfo(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], strarray[6]);
-            break;
+            System.out.println("Insert: CustomerContactInfo");
+            return db.createCustomerContactInfo(new CustomerContactInfo(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], strarray[6]));
          case "ExternalContactInfo":
-            new ExternalContactInfo(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], strarray[6]);
-            break;
-         case "CrossJoin":
-            new CrossJoin(strarray[1], strarray[2], Integer.parseInt(strarray[3]), strarray[4], Integer.parseInt(strarray[5]));
+            System.out.println("Insert: ExternalContactInfo");
+            db.createExternalContactInfo(new ExternalContactInfo(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], strarray[6]));
+            return(true);
+         case "Link":
+            System.out.println("Insert: Link");
+            new Link(strarray[1], strarray[2], Integer.parseInt(strarray[3]), strarray[4], Integer.parseInt(strarray[5]));
             break;
          default:
             System.out.println("Unknown key: " + key);
@@ -290,7 +312,7 @@ public class EOCSV
          }
          if(parent != null)
          {
-            list.add(new CrossJoin("EOArrangements_has_EOEvents", "EOArrangements_idEOArrangements", ((EOArrangement)parent).getId(), "EOEvents_idEOEvents", ((EOEvent)object).getId()));
+            list.add(new Link("EOArrangements_has_EOEvents", "EOArrangements_idEOArrangements", ((EOArrangement)parent).getId(), "EOEvents_idEOEvents", ((EOEvent)object).getId()));
          }
          getEOCSVList(((EOEvent)object).getFacilitators(), object, list);
          getEOCSVList(((EOEvent)object).getEventTypes(), object, list);         
@@ -303,7 +325,7 @@ public class EOCSV
          }
          if(parent != null)
          {
-            list.add(new CrossJoin("EOEvents_has_EOEventtypes", "EOEvents_idEOEvents", ((EOEvent)parent).getId(), "EOEventtypes_idEOEventtypes", ((EOEventType)object).getId()));
+            list.add(new Link("EOEvents_has_EOEventtypes", "EOEvents_idEOEvents", ((EOEvent)parent).getId(), "EOEventtypes_idEOEventtypes", ((EOEventType)object).getId()));
          }
          getEOCSVList(((EOEventType)object).getExternalContactInfo(), object, list);
       }
@@ -318,7 +340,7 @@ public class EOCSV
             } 
             if(parent != null)
             {
-               list.add(new CrossJoin("EOEventtypes_has_EOExternalContactInfo", "EOEventtypes_idEOEventtypes", ((EOEventType)parent).getId(), "EOExternalContactInfo_idEOExternalContactInfo", ((ExternalContactInfo)object).getId()));
+               list.add(new Link("EOEventtypes_has_EOExternalContactInfo", "EOEventtypes_idEOEventtypes", ((EOEventType)parent).getId(), "EOExternalContactInfo_idEOExternalContactInfo", ((ExternalContactInfo)object).getId()));
             }
          }
          else if(object instanceof CustomerContactInfo)
@@ -329,7 +351,7 @@ public class EOCSV
             } 
             if(parent != null)
             {
-               list.add(new CrossJoin("EOArrangements_has_EOContactInfo", "EOArrangements_idEOArrangements", ((EOArrangement)parent).getId(), "EOCustomerContactInfo_idCustomerContactInfo", ((CustomerContactInfo)object).getId()));
+               list.add(new Link("EOArrangements_has_EOContactInfo", "EOArrangements_idEOArrangements", ((EOArrangement)parent).getId(), "EOCustomerContactInfo_idCustomerContactInfo", ((CustomerContactInfo)object).getId()));
             }
          }
          else if(object instanceof FacilitatorContactInfo)
@@ -342,11 +364,11 @@ public class EOCSV
             {
                if(parent instanceof EOArrangement)
                {
-                  list.add(new CrossJoin("EOArrangements_has_EOFacilitatorContactInfo", "EOArrangements_idEOArrangements", ((EOArrangement)parent).getId(), "EOFacilitatorContactInfo_idFacilitatorContactInfo", ((FacilitatorContactInfo)object).getId()));
+                  list.add(new Link("EOArrangements_has_EOFacilitatorContactInfo", "EOArrangements_idEOArrangements", ((EOArrangement)parent).getId(), "EOFacilitatorContactInfo_idFacilitatorContactInfo", ((FacilitatorContactInfo)object).getId()));
                }
                else
                {
-                  list.add(new CrossJoin("EOEvents_has_EOFacilitatorContactInfo", "EOEvents_idEOEvents", ((EOEvent)parent).getId(), "EOFacilitatorContactInfo_idEOFacilitatorContactInfo", ((FacilitatorContactInfo)object).getId()));               
+                  list.add(new Link("EOEvents_has_EOFacilitatorContactInfo", "EOEvents_idEOEvents", ((EOEvent)parent).getId(), "EOFacilitatorContactInfo_idEOFacilitatorContactInfo", ((FacilitatorContactInfo)object).getId()));               
                }
             }
          }        

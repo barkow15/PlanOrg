@@ -31,6 +31,33 @@ public class EODatabaseInterface {
       }      
    }
    
+   public void truncateDB()
+   {
+      String[] tables = new String[12];
+      tables[0] = "EOArrangements";
+      tables[1] = "EOArrangements_has_EOContactInfo";
+      tables[2] = "EOArrangements_has_EOEvents";
+      tables[3] = "EOArrangements_has_EOFacilitatorContactInfo";
+      tables[4] = "EOCustomerContactInfo";
+      tables[5] = "EOEvents";
+      tables[6] = "EOEvents_has_EOEventtypes";
+      tables[7] = "EOEvents_has_EOFacilitatorContactInfo";
+      tables[8] = "EOEventtypes";
+      tables[9] = "EOEventtypes_has_EOExternalContactInfo";
+      tables[10] = "EOExternalContactInfo";
+      tables[11] = "EOFacilitatorContactInfo";
+      for(int i = 0; i < tables.length; i++)
+      {
+         executeSql("DELETE FROM " + tables[i]);
+      }
+   }
+   
+   public boolean createLink(Link c)
+   {
+      String sql = "INSERT INTO " + c.getTable() + " ("+c.getIdentifier1() + ", " + c.getIdentifier2() + ") VALUES (" + Integer.toString(c.getValue1()) + ", " + Integer.toString(c.getValue2()) + ")";
+      return(executeSql(sql) == 1);
+   }
+   
    public EOArrangement[] getAllEOArrangementsFromFacilitator(FacilitatorContactInfo facilitator)
    {
       if(facilitator == null)
@@ -801,17 +828,21 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param arrangementid
+	 * Sletter et EOArrangement fra databasen
 	 */
 	public boolean deleteEOArrangement(int arrangementid) {
-		String SQL = "DELETE EOArrangements.*,  EOArrangements_has_EOContactInfo.*, EOArrangements_has_EOEvents.*, EOArrangements_has_EOFacilitatorContactInfo.*, EOEvents.* "+
-                   "FROM EOArrangements, EOArrangements_has_EOContactInfo, EOArrangements_has_EOEvents, EOArrangements_has_EOFacilitatorContactInfo, EOEvents " +
-                   "WHERE EOArrangements.idEOArrangements = " + arrangementid + " AND " +
-                         "EOArrangements_idEOArrangements = EOArrangements_has_EOContactInfo.EOArrangements_idEOArrangements AND " +
-                         "EOArrangements_idEOArrangements = EOArrangements_has_EOEvents.EOArrangements_idEOArrangements AND " +
-                         "EOArrangements_idEOArrangements = EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements AND " +
-                         "EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents";
-      return(executeSql(SQL) == 1);
+		EOEvent[] events = getEOEvents(arrangementid);
+      if(events != null && events.length > 0)
+      {
+         for(int i = 0; i < events.length; i++)
+         {
+            deleteEOEvent(events[i].getId());
+         }
+      }
+
+      return(executeSql("DELETE FROM EOArrangements WHERE EOArrangements.idEOArrangements = " + arrangementid) == 1 && 
+            executeSql("DELETE FROM EOArrangements_has_EOContactInfo WHERE EOArrangements_idEOArrangements = " + arrangementid) == 1 &&
+            executeSql("DELETE FROM EOArrangements_has_EOFacilitatorContactInfo WHERE EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements = " + arrangementid) == 1);
 	}
 
 	public boolean deleteEOArrangement(EOArrangement arrangement) {
@@ -862,7 +893,8 @@ public class EODatabaseInterface {
 	public boolean createEOEvenType(EOEventType eventtype) {
 	   boolean  returnvalue 	= false;
 
-	   String 	deletedStatus = "2";
+	   int      id            = eventtype.getId();
+      String 	deletedStatus = "2";
 	   String 	name 			  = eventtype.getName();
 	   String	description   = eventtype.getDescription();
 	   String	locationStart = eventtype.getLocationStart();
@@ -871,14 +903,30 @@ public class EODatabaseInterface {
       String   price         = Double.toString(eventtype.getPrice());
 	   String	SQL				= "";
       
-	   SQL += "INSERT INTO 'EOEventTypes' (deletedStatus, name, description, locationStart, locationEnd, time, price) VALUES (";
-	   SQL += "'" + deletedStatus 	+ "',";
-	   SQL += "'" + name 			+ "',";
-	   SQL += "'" + description 			+ "',";
-	   SQL += "'" + locationStart 			+ "',";
-	   SQL += "'" + locationEnd 			+ "',";
-	   SQL += "'" + time 			+ "',";
-	   SQL += "'" + price 			+ "')";
+      if(id == -1)
+      {
+   	   SQL += "INSERT INTO 'EOEventTypes' (deletedStatus, name, description, locationStart, locationEnd, time, price) VALUES (";
+   	   SQL += "'" + deletedStatus 	+ "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + description 			+ "',";
+   	   SQL += "'" + locationStart 			+ "',";
+   	   SQL += "'" + locationEnd 			+ "',";
+   	   SQL += "'" + time 			+ "',";
+   	   SQL += "'" + price 			+ "')";
+      }
+      else
+      {
+   	   SQL += "INSERT INTO 'EOEventTypes' (idEOEventtypes, deletedStatus, name, description, locationStart, locationEnd, time, price) VALUES (";
+   	   SQL += "'" + Integer.toString(id) 	+ "',";
+   	   SQL += "'" + deletedStatus 	+ "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + description 			+ "',";
+   	   SQL += "'" + locationStart 			+ "',";
+   	   SQL += "'" + locationEnd 			+ "',";
+   	   SQL += "'" + time 			+ "',";
+   	   SQL += "'" + price 			+ "')";
+      }
+
       
 	   if(executeSql(SQL) == 1)
       {
@@ -995,6 +1043,7 @@ public class EODatabaseInterface {
 	   FacilitatorContactInfo f = fCIObj;
 	   boolean  returnvalue 	= false;
 
+      int      id          = f.getId();
 	   String 	deletedStatus	= "2";
 	   String 	name 			= f.getName();
 	   String	phone			= f.getPhone();
@@ -1002,12 +1051,27 @@ public class EODatabaseInterface {
 	   String	info			= f.getInfo();
 	   String	SQL				= "";
 
-	   SQL += "INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES (";
-	   SQL += "'" + deletedStatus 	+ "',";
-	   SQL += "'" + name 			+ "',";
-	   SQL += "'" + phone 			+ "',";
-	   SQL += "'" + email 			+ "',";
-	   SQL += "'" + info 			+ "')";
+      if(id == -1)
+      {
+   	   SQL += "INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES (";
+   	   SQL += "'" + deletedStatus + "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + phone 			+ "',";
+   	   SQL += "'" + email 			+ "',";
+   	   SQL += "'" + info 			+ "')";
+      }
+      else
+      {
+   	   SQL += "INSERT INTO 'EOFacilitatorContactInfo' (idEOContactInfo, deletedStatus, name, phone, email, info) VALUES (";
+    	   SQL += "'" + Integer.toString(id) 	         + "',";
+   	   SQL += "'" + deletedStatus + "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + phone 			+ "',";
+   	   SQL += "'" + email 			+ "',";
+   	   SQL += "'" + info 			+ "')";
+      }
+
+
 
 	   if(executeSql(SQL) == 1){
 		   returnvalue = true;
@@ -1198,6 +1262,7 @@ public class EODatabaseInterface {
 	   int  returnvalue 	= -1;
 
 	   String 	deletedStatus	= "2";
+      int      id          = e.getId();
 	   String 	name 			= e.getName();
 	   String	phone			= e.getPhone();
 	   String	email			= e.getEmail();
@@ -1205,14 +1270,28 @@ public class EODatabaseInterface {
 	   String 	company 		= e.getCompany();
 	   String	SQL				= "";
 
+      if(id == -1)
+      {
+   	   SQL += "INSERT INTO 'EOExternalContactInfo' (deletedStatus, name, phone, email, info, company) VALUES (";
+   	   SQL += "'" + deletedStatus 	+ "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + phone 			+ "',";
+   	   SQL += "'" + email 			+ "',";
+   	   SQL += "'" + info 			+ "',";
+   	   SQL += "'" + company			+ "')";
+      }
+      else
+      {
+   	   SQL += "INSERT INTO 'EOExternalContactInfo' (idEOContactInfo, deletedStatus, name, phone, email, info, company) VALUES (";
+   	   SQL += "'" + Integer.toString(id)   + "',";
+   	   SQL += "'" + deletedStatus + "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + phone 			+ "',";
+   	   SQL += "'" + email 			+ "',";
+   	   SQL += "'" + info 			+ "',";
+   	   SQL += "'" + company			+ "')";
+      }
 
-	   SQL += "INSERT INTO 'EOExternalContactInfo' (deletedStatus, name, phone, email, info, company) VALUES (";
-	   SQL += "'" + deletedStatus 	+ "',";
-	   SQL += "'" + name 			+ "',";
-	   SQL += "'" + phone 			+ "',";
-	   SQL += "'" + email 			+ "',";
-	   SQL += "'" + info 			+ "',";
-	   SQL += "'" + company			+ "')";
 
 	   if(executeSql(SQL) == 1)
       {
@@ -1373,6 +1452,7 @@ public class EODatabaseInterface {
    	   boolean  returnvalue 	= false;
 	   String	SQL				= "";
 
+	   int 	   id	         = c.getId();
 	   String 	deletedStatus	= "2";
 	   String 	name 			= c.getName();
 	   String	phone			= c.getPhone();
@@ -1380,13 +1460,28 @@ public class EODatabaseInterface {
 	   String	company			= c.getCompany();
 	   String	info			= c.getInfo();
 
-	   SQL += "INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES (";
-	   SQL += "'" + deletedStatus 	+ "',";
-	   SQL += "'" + name 			+ "',";
-	   SQL += "'" + phone 			+ "',";
-	   SQL += "'" + email 			+ "',";
-	   SQL += "'" + company 		+ "',";
-	   SQL += "'" + info 			+ "')";
+      if(id == -1)
+      {
+   	   SQL += "INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES (";
+   	   SQL += "'" + deletedStatus 	+ "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + phone 			+ "',";
+   	   SQL += "'" + email 			+ "',";
+   	   SQL += "'" + company 		+ "',";
+   	   SQL += "'" + info 			+ "')";
+      }
+      else
+      {
+   	   SQL += "INSERT INTO 'EOCustomerContactInfo' (idEOContactInfo, deletedStatus, name, phone, email, company, info) VALUES (";
+   	   SQL += "'" + Integer.toString(id) 	+ "',";
+   	   SQL += "'" + deletedStatus 	+ "',";
+   	   SQL += "'" + name 			+ "',";
+   	   SQL += "'" + phone 			+ "',";
+   	   SQL += "'" + email 			+ "',";
+   	   SQL += "'" + company 		+ "',";
+   	   SQL += "'" + info 			+ "')";
+      }
+
 
 	   if(executeSql(SQL) == 1){
 	   	returnvalue = true;
@@ -1591,7 +1686,7 @@ public class EODatabaseInterface {
 
 	  try
 	  {
-		 conn = DriverManager.getConnection(this.dbPathAbsolute);
+		 conn = DriverManager.getConnection(this.dbPathRelative);
 		 if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 		 pstmt = conn.prepareStatement(sql);
@@ -1628,7 +1723,7 @@ public class EODatabaseInterface {
 		try
 		{
 			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-			conn = DriverManager.getConnection(this.dbPathAbsolute);
+			conn = DriverManager.getConnection(this.dbPathRelative);
 			if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 			pstmt = conn.prepareStatement(sql);

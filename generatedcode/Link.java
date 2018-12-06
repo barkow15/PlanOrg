@@ -1,4 +1,4 @@
-   public class CrossJoin implements EOCSVInterface
+   public class Link implements EOCSVInterface
    {
       String table;
       String type;
@@ -7,7 +7,7 @@
       String identifier2;
       int value2;
       
-      public CrossJoin(String table, String identifer1, int value1, String identifier2, int value2)
+      public Link(String table, String identifer1, int value1, String identifier2, int value2)
       {
          this.table = table;
          this.type = new String("CrossJoin");
@@ -46,9 +46,9 @@
       
       public boolean equals(Object obj)
       {
-         if(obj instanceof CrossJoin)
+         if(obj instanceof Link)
          {
-            CrossJoin c = (CrossJoin)obj;
+            Link c = (Link)obj;
             return(
                (c.getTable().equals(this.table) && 
                c.getIdentifier1().equals(this.identifier1) && 

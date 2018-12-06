@@ -129,6 +129,10 @@ public class EOPanelStartMenu extends EOPanel {
       {
          arrangementtable.setArrangements((EOArrangement[])currentEOOperation.getData());
       }
+      else
+      {
+         arrangementtable.setArrangements(null);
+      }
       super.setVisible(visible, currentEOOperation);
    }
    

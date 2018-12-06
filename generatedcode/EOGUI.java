@@ -18,7 +18,7 @@ public class EOGUI {
    EOBreadcrumb breadcrumb = null;
    //usertype = 1: Secretarian
    //usertype = 2: Facilitator   
-   int usertype = 2;
+   int usertype = 1;
    public EOGUI(EOManager eomanager)
    {      
       this.breadcrumb = new EOBreadcrumb();
