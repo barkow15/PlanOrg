@@ -10,7 +10,9 @@ import java.util.*;
 import java.awt.Graphics;
 import java.time.LocalDateTime;
 
-
+/**
+* Gives the user the option to update and event.
+*/
 public class EOPanelUpdateEvent extends EOPanel {
  
    EOGUIDateTimePicker startdatetime;
@@ -39,14 +41,14 @@ public class EOPanelUpdateEvent extends EOPanel {
                 {
                    public void actionPerformed(ActionEvent e)
                    {
-                     EOOperation backoperation = gui.getBreadcrumb().getIndex(gui.getBreadcrumb().getStackCounter()-2);
-                     gui.getBreadcrumb().pop();
-                     gui.getBreadcrumb().pop();
-                     gui.runCommand(backoperation);
+                      EOOperation backoperation = gui.getBreadcrumb().getIndex(gui.getBreadcrumb().getStackCounter()-2);
+                      gui.getBreadcrumb().pop();
+                      gui.getBreadcrumb().pop();
+                      gui.runCommand(backoperation);
                    }
                 });
       this.add(backbutton);
-
+   
       JButton savebutton=new JButton("Gem");
       savebutton.setBounds(this.gui.getWidth()-120, 5, 100, 30);
       savebutton.addActionListener(
@@ -56,54 +58,54 @@ public class EOPanelUpdateEvent extends EOPanel {
                    {
                      //Lets create the event we want to save
                      //EOEvent(int id, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, FacilitatorContactInfo[] facilitators, EOEventType[] eventtypes)                   
-                     FacilitatorContactInfo[] facilitators = null;
-                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
-                     {
-                        facilitators = new FacilitatorContactInfo[facilitatormultiselect.getSelected().length];
-                        for(int i = 0; i < facilitatormultiselect.getSelected().length; i++)
-                        {
-                           facilitators[i] = (FacilitatorContactInfo)(facilitatormultiselect.getSelected())[i];
-                        }
-                     }
-                     EOEventType[] eventtypes = null;
-                     if(eventtypemultiselect.getSelected() != null && eventtypemultiselect.getSelected().length > 0)
-                     {
-                        eventtypes = new EOEventType[eventtypemultiselect.getSelected().length];
-                        for(int i = 0; i < eventtypemultiselect.getSelected().length; i++)
-                        {
-                           eventtypes[i] = (EOEventType)eventtypemultiselect.getSelected()[i];
-                        }
-                     }
-                     EOEvent event = getCurrentEvent();
-                     event.setDescription(beskrivelsenoterTextArea.getText());
-                     try
-                     {
-                        event.setDateTimeStart(startdatetime.getDateTime());
-                     }
-                     catch(Exception save){ gui.dialogbox("Start tidspunktet er forkert angivet, det skal angives som time:minut, f.eks. 9:15"); }
-                     try
-                     {
-                        event.setDateTimeEnd(enddatetime.getDateTime());
-                     }
-                     catch(Exception save){ gui.dialogbox("Slut tidspunktet er forkert angivet, det skal angives som time:minut, f.eks. 9:15"); }
-                     event.setFacilitators(facilitators);
-                     event.setEventTypes(eventtypes);
-                     try
-                     {
-                        event.setPrice(Double.parseDouble(begivenhedsprisTextField.getText()));
-                        EOOperation backoperation = gui.getBreadcrumb().getIndex(gui.getBreadcrumb().getStackCounter()-2);
-                        gui.getBreadcrumb().pop();
-                        gui.getBreadcrumb().pop();
-                        gui.runCommand(backoperation);
-                     }
-                     catch(Exception save){ gui.dialogbox("Du har angivet en af pris som ikke er et tal"); }
+                      FacilitatorContactInfo[] facilitators = null;
+                      if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                      {
+                         facilitators = new FacilitatorContactInfo[facilitatormultiselect.getSelected().length];
+                         for(int i = 0; i < facilitatormultiselect.getSelected().length; i++)
+                         {
+                            facilitators[i] = (FacilitatorContactInfo)(facilitatormultiselect.getSelected())[i];
+                         }
+                      }
+                      EOEventType[] eventtypes = null;
+                      if(eventtypemultiselect.getSelected() != null && eventtypemultiselect.getSelected().length > 0)
+                      {
+                         eventtypes = new EOEventType[eventtypemultiselect.getSelected().length];
+                         for(int i = 0; i < eventtypemultiselect.getSelected().length; i++)
+                         {
+                            eventtypes[i] = (EOEventType)eventtypemultiselect.getSelected()[i];
+                         }
+                      }
+                      EOEvent event = getCurrentEvent();
+                      event.setDescription(beskrivelsenoterTextArea.getText());
+                      try
+                      {
+                         event.setDateTimeStart(startdatetime.getDateTime());
+                      }
+                      catch(Exception save){ gui.dialogbox("Start tidspunktet er forkert angivet, det skal angives som time:minut, f.eks. 9:15"); }
+                      try
+                      {
+                         event.setDateTimeEnd(enddatetime.getDateTime());
+                      }
+                      catch(Exception save){ gui.dialogbox("Slut tidspunktet er forkert angivet, det skal angives som time:minut, f.eks. 9:15"); }
+                      event.setFacilitators(facilitators);
+                      event.setEventTypes(eventtypes);
+                      try
+                      {
+                         event.setPrice(Double.parseDouble(begivenhedsprisTextField.getText()));
+                         EOOperation backoperation = gui.getBreadcrumb().getIndex(gui.getBreadcrumb().getStackCounter()-2);
+                         gui.getBreadcrumb().pop();
+                         gui.getBreadcrumb().pop();
+                         gui.runCommand(backoperation);
+                      }
+                      catch(Exception save){ gui.dialogbox("Du har angivet en af pris som ikke er et tal"); }
                    }
                 });
       this.add(savebutton);
    
       int fromTop = 50;
       int borderLeft = 10;
-
+   
       //Column1//
       //dato/tid start
       JLabel startdatetimelabel = new JLabel("Start dato/tid");
@@ -114,7 +116,7 @@ public class EOPanelUpdateEvent extends EOPanel {
       startdatetime = new EOGUIDateTimePicker(LocalDateTime.now());
       startdatetime.setBounds(10, 60, 300, 400);
       this.add(startdatetime);
-
+   
       //Column2//
       //dato/tid slut
       JLabel enddatetimelabel = new JLabel("Slut dato/tid");
@@ -137,7 +139,7 @@ public class EOPanelUpdateEvent extends EOPanel {
       eventtypemultiselect.addMouseListener(gui, EOOperation.OPENEVENTTYPE);
       eventtypemultiselect.setBounds(650, 60, 300, 240);
       this.add(eventtypemultiselect);
-
+   
       JLabel eventtypehelpLabel = new JLabel("* Hoejre klik for at se info.");
       eventtypehelpLabel.setBounds(650, 300, 250, 20);
       eventtypehelpLabel.setFont(gui.getFontsmall());
@@ -185,22 +187,22 @@ public class EOPanelUpdateEvent extends EOPanel {
    }
    protected void paintComponent(Graphics g)
    {
-       super.paintComponent(g);
-       g.drawLine(10,38, this.getWidth(), 38);
-       g.drawLine(320,45, 320, this.getHeight()-50);
-       g.drawLine(640,45, 640, this.getHeight()-50);
-       g.drawLine(960,45, 960, this.getHeight()-50);
+      super.paintComponent(g);
+      g.drawLine(10,38, this.getWidth(), 38);
+      g.drawLine(320,45, 320, this.getHeight()-50);
+      g.drawLine(640,45, 640, this.getHeight()-50);
+      g.drawLine(960,45, 960, this.getHeight()-50);
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
       System.out.println("1");
       if(currentEOOperation.getData().getClass().isArray() && ((Object[])currentEOOperation.getData()).length == 3)
       {
-      System.out.println("2");      
+         System.out.println("2");      
          Object[] objects = (Object[])currentEOOperation.getData();
          if(objects[0] instanceof FacilitatorContactInfo[] && objects[1] instanceof EOEventType[] && objects[2] instanceof EOEvent && objects[2] != null)
          {
-      System.out.println("3");         
+            System.out.println("3");         
             EOEvent event = (EOEvent) objects[2];
             facilitatormultiselect.setList((FacilitatorContactInfo[]) objects[0], event.getFacilitators());
             eventtypemultiselect.setList((EOEventType[]) objects[1], event.getEventTypes());

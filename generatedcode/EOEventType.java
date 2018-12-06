@@ -1,16 +1,20 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+/**
+EOEventType can be linked to one or more EOEvents.
 
+Contains information about an event, but with out the specifics about when the event is going to happen etc. One way to think about EventTypes is that they are generic events that can be used over and over.
+*/
 public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
 
-    private int     id;
-	private String  name;
-	private String  description;
-	private String  locationstart;
-	private String  locationend;
-	private int     time;
-	private ExternalContactInfo externalcontactinfo;
-	private double price;
+   private int     id;
+   private String  name;
+   private String  description;
+   private String  locationstart;
+   private String  locationend;
+   private int     time;
+   private ExternalContactInfo externalcontactinfo;
+   private double price;
 
 
    public EOEventType(int id, String name, String description, String locationstart, String locationend, int time, double price, ExternalContactInfo externalcontactinfo)
@@ -25,33 +29,33 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
       this.externalcontactinfo = externalcontactinfo;
    }
    
-	public String getLocationStart() {
-		return(locationstart);
-	}
+   public String getLocationStart() {
+      return(locationstart);
+   }
 
-	public String getLocationEnd() {
-		return(locationend);
-	}
+   public String getLocationEnd() {
+      return(locationend);
+   }
 
-	public int getTime() {
-		return this.time;
-	}
+   public int getTime() {
+      return this.time;
+   }
 
-	public String getName() {
-		return this.name;
-	}
+   public String getName() {
+      return this.name;
+   }
 
-	public ExternalContactInfo getExternalContactInfo() {
-		return(externalcontactinfo);
-	}
+   public ExternalContactInfo getExternalContactInfo() {
+      return(externalcontactinfo);
+   }
    
-	public String getDescription() {
-		return this.description;
-	}
+   public String getDescription() {
+      return this.description;
+   }
 
-	public double getPrice() {
-		return this.price;
-	}
+   public double getPrice() {
+      return this.price;
+   }
    
    public String getDisplayName()
    {

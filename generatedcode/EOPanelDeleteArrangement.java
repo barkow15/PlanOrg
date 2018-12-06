@@ -3,7 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+* Gives the user a visible alert, that the arrangement is about to be deleted.
+*/
 public class EOPanelDeleteArrangement extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
@@ -47,28 +49,28 @@ public class EOPanelDeleteArrangement extends EOPanel {
                   }
                });
       this.add(cancelbutton);
-
-
+   
+   
       JLabel verifylabel=new JLabel("Er du sikker paa, at du vil slette arrangementet?");
       verifylabel.setBounds(425, 200, 450, 60);
       verifylabel.setFont(this.gui.getFontmedium());
-
+   
       this.add(verifylabel);
-
+   
       //Name
       JLabel deletenamelabel=new JLabel("Navn:");
       deletenamelabel.setBounds(550, 275, 70, 30);
       deletenamelabel.setFont(this.gui.getFontsmall());
-
+   
       this.add(deletenamelabel);
-
+   
       deletenamevaluejlabel=new JLabel();
       deletenamevaluejlabel.setBounds(600, 275, 650, 30);
       deletenamevaluejlabel.setFont(this.gui.getFontsmall());
-
+   
       this.add(deletenamevaluejlabel);
-
-
+   
+   
    
    }
 	/**

@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.time.LocalDateTime;
 
+/**
+* The default export panel, the user uses to export data.
+*/
 public class EOPanelExport extends EOPanel {
    EOGUI gui = null;
    EOGUIDateTimePicker startdatetime;
@@ -83,16 +86,16 @@ public class EOPanelExport extends EOPanel {
       facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
       facilitatormultiselect.setBounds(330, 60, 300, 240);
       this.add(facilitatormultiselect);
-
+   
       exportprice = new JCheckBox("Inkluder priser");
       exportprice.setSelected(false);
       exportprice.setBounds(330, 300, 150, 20);
-//      this.add(exportprice);
-
+   //      this.add(exportprice);
+   
       JCheckBox exportdone = new JCheckBox("Inkluder afholdte");
       exportdone.setSelected(false);
       exportdone.setBounds(330, 320, 150, 20);
-//      this.add(exportdone);
+   //      this.add(exportdone);
       
       JButton exportfacilitatorarrangementbutton = new JButton("<html>Eksporter de arangementer som den/de<br/>valgte facilitatorer er tilknyttet</html>");
       exportfacilitatorarrangementbutton.setBounds(330, 300, 300, 60);
@@ -101,25 +104,25 @@ public class EOPanelExport extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                        if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                     if(facilitatormultiselect.getSelected() != null && facilitatormultiselect.getSelected().length > 0)
+                     {
+                        Object[] fe = facilitatormultiselect.getSelected();
+                        FacilitatorContactInfo[] f = new FacilitatorContactInfo[fe.length];
+                        for(int i = 0; i < fe.length; i++)
                         {
-                           Object[] fe = facilitatormultiselect.getSelected();
-                           FacilitatorContactInfo[] f = new FacilitatorContactInfo[fe.length];
-                           for(int i = 0; i < fe.length; i++)
-                           {
-                              f[i] = (FacilitatorContactInfo) fe[i];
-                           }
-                           File file = null;
-                           JFileChooser fileChooser = new JFileChooser();
-                           fileChooser.setSelectedFile(new File("EOEksport.CSV"));
+                           f[i] = (FacilitatorContactInfo) fe[i];
+                        }
+                        File file = null;
+                        JFileChooser fileChooser = new JFileChooser();
+                        fileChooser.setSelectedFile(new File("EOEksport.CSV"));
                            //Prompt user for where file needs to be saved
-                           if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
-                           {
-                              String path=fileChooser.getCurrentDirectory().getAbsolutePath();
-                              String filename=fileChooser.getSelectedFile().getName();
-                              file = new File(path, filename);
+                        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+                        {
+                           String path=fileChooser.getCurrentDirectory().getAbsolutePath();
+                           String filename=fileChooser.getSelectedFile().getName();
+                           file = new File(path, filename);
                              
-                              EOOperation.SAVECSV.setData(
+                           EOOperation.SAVECSV.setData(
                                  new EOCSV(
                                     f, 
                                     exportprice.isSelected(), 
@@ -129,13 +132,13 @@ public class EOPanelExport extends EOPanel {
                                );
                            
                               //We leave the page by calling SAVECSV
-                              gui.runCommand(EOOperation.SAVECSV);
-                           }
+                           gui.runCommand(EOOperation.SAVECSV);
                         }
-                        else
-                        {
-                           gui.dialogbox("Du skal minimum vælge minimum en facilitator før du kan eksportere.");
-                        }
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal minimum vælge minimum en facilitator før du kan eksportere.");
+                     }
                   }
                });
       this.add(exportfacilitatorarrangementbutton);
@@ -157,26 +160,26 @@ public class EOPanelExport extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                        if(arrangementmultiselect.getSelected() != null && arrangementmultiselect.getSelected().length > 0)
+                     if(arrangementmultiselect.getSelected() != null && arrangementmultiselect.getSelected().length > 0)
+                     {
+                        Object[] ae = arrangementmultiselect.getSelected();
+                        EOArrangement[] a = new EOArrangement[ae.length];
+                        for(int i = 0; i < ae.length; i++)
                         {
-                           Object[] ae = arrangementmultiselect.getSelected();
-                           EOArrangement[] a = new EOArrangement[ae.length];
-                           for(int i = 0; i < ae.length; i++)
-                           {
-                              System.out.println("ADDING AOARRANGEMENT FOR EXPORT");
-                              a[i] = (EOArrangement) ae[i];
-                           }
-                           File file = null;
-                           JFileChooser fileChooser = new JFileChooser();
-                           fileChooser.setSelectedFile(new File("EOEksport.CSV"));
+                           System.out.println("ADDING AOARRANGEMENT FOR EXPORT");
+                           a[i] = (EOArrangement) ae[i];
+                        }
+                        File file = null;
+                        JFileChooser fileChooser = new JFileChooser();
+                        fileChooser.setSelectedFile(new File("EOEksport.CSV"));
                            //Prompt user for where file needs to be saved
-                           if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
-                           {
-                              String path=fileChooser.getCurrentDirectory().getAbsolutePath();
-                              String filename=fileChooser.getSelectedFile().getName();
-                              file = new File(path, filename);
+                        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+                        {
+                           String path=fileChooser.getCurrentDirectory().getAbsolutePath();
+                           String filename=fileChooser.getSelectedFile().getName();
+                           file = new File(path, filename);
                              
-                              EOOperation.SAVECSV.setData(
+                           EOOperation.SAVECSV.setData(
                                  new EOCSV(
                                     a, 
                                     file
@@ -184,17 +187,17 @@ public class EOPanelExport extends EOPanel {
                                );
                            
                               //We leave the page by calling SAVECSV
-                              gui.runCommand(EOOperation.SAVECSV);
-                           }
+                           gui.runCommand(EOOperation.SAVECSV);
                         }
-                        else
-                        {
-                           gui.dialogbox("Du skal minimum vælge minimum et arrangement før du kan eksportere.");
-                        }
+                     }
+                     else
+                     {
+                        gui.dialogbox("Du skal minimum vælge minimum et arrangement før du kan eksportere.");
+                     }
                   }
                });
       this.add(exportarrangementfacilitatorbutton);      
-
+   
       
       //Column 4//
       JTextArea exportnotetextarea = new JTextArea(
@@ -225,7 +228,7 @@ public class EOPanelExport extends EOPanel {
             arrangementmultiselect.setList((EOArrangement[])data[1]);
          }         
       }
-
+   
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible, currentEOOperation);
    }

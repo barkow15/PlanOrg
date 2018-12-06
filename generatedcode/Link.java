@@ -1,3 +1,6 @@
+/**
+* Contains information for a database link. The link is made in the table: table between column with name identifier1 and value1 and column with name identifier2 with value2.
+*/
 public class Link implements EOCSVInterface
 {
    String table;

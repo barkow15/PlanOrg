@@ -1,5 +1,5 @@
 /**
-Goer det muligt for de classes som der implementere dette interface at blive brugt i EOGUIMultiSelect
+* Classes that are passed to EOGUIMultiSelect must implement this class to be painted
 */
 public interface EOGUIMultiSelectInterface
 {

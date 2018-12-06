@@ -1,3 +1,6 @@
+/**
+* Contains facilitator contact info
+*/
 public class FacilitatorContactInfo extends ContactInfo {
 
 	/**

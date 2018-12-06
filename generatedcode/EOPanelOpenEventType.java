@@ -8,6 +8,9 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.util.*;
 
+/**
+* An user can open one EventType and look at its properties through this panel.
+*/
 public class EOPanelOpenEventType extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;   
@@ -29,13 +32,13 @@ public class EOPanelOpenEventType extends EOPanel {
    public EOPanelOpenEventType(EOGUI gui) {
       this.gui = gui;
       this.setLayout(null);
-
+   
       //Header
       breadcrumb = new EOGUIBreadcrumb(gui, gui.getBreadcrumb());
       breadcrumb.setBounds(5, 5, 800, 30);
       breadcrumb.setVisible(true);
       this.add(breadcrumb);
-
+   
       JButton exportbutton = new JButton("Tilbage");
       exportbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
       exportbutton.addActionListener(
@@ -61,7 +64,7 @@ public class EOPanelOpenEventType extends EOPanel {
       namejtextfield.setBounds(330, 60, 300, 20);
       namejtextfield.setFont(this.gui.getFontsmall());
       this.add(namejtextfield);  
-
+   
       JLabel startadrlabel = new JLabel("Start adresse:");
       startadrlabel.setBounds(330, 80, 300, 20);
       startadrlabel.setFont(this.gui.getFontsmall());
@@ -71,7 +74,7 @@ public class EOPanelOpenEventType extends EOPanel {
       startadrjtextfield.setBounds(330, 100, 300, 20);
       startadrjtextfield.setFont(this.gui.getFontsmall());
       this.add(startadrjtextfield);
-
+   
       JLabel endadrlabel = new JLabel("Slut adresse:");
       endadrlabel.setBounds(330, 120, 300, 20);
       endadrlabel.setFont(this.gui.getFontsmall());
@@ -81,7 +84,7 @@ public class EOPanelOpenEventType extends EOPanel {
       endadrjtextfield.setBounds(330, 140, 300, 20);
       endadrjtextfield.setFont(this.gui.getFontsmall());
       this.add(endadrjtextfield);  
-
+   
       JLabel timelabel = new JLabel("Varidhed i timer:");
       timelabel.setBounds(330, 160, 300, 20);
       timelabel.setFont(this.gui.getFontsmall());
@@ -91,7 +94,7 @@ public class EOPanelOpenEventType extends EOPanel {
       timejtextfield.setBounds(330, 180, 300, 20);
       timejtextfield.setFont(this.gui.getFontsmall());
       this.add(timejtextfield);
-
+   
       JLabel pricelabel = new JLabel("Pris:");
       pricelabel.setBounds(330, 200, 300, 20);
       pricelabel.setFont(this.gui.getFontsmall());
@@ -101,13 +104,13 @@ public class EOPanelOpenEventType extends EOPanel {
       pricejtextfield.setBounds(330, 220, 300, 20);
       pricejtextfield.setFont(this.gui.getFontsmall());
       this.add(pricejtextfield);
-
+   
       JLabel notelabel = new JLabel("Beskrivelse/noter:");
       notelabel.setBounds(330, 240, 300, 20);
       notelabel.setFont(this.gui.getFontsmall());
       this.add(notelabel);      
-
-
+   
+   
       notejtextarea = new JTextArea();
       notejtextarea.setBounds(330, 260, 300, 200);
       notejtextarea.setBorder(gui.getDefaultBorder());           
@@ -124,27 +127,27 @@ public class EOPanelOpenEventType extends EOPanel {
       externalcontactnamelabel.setBounds(650, 80, 300, 20);
       externalcontactnamelabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactnamelabel);
-
+   
       externalcontactnamejtextfield = new JTextField();
       externalcontactnamejtextfield.setBounds(650, 100, 300, 20);
       externalcontactnamejtextfield.setFont(this.gui.getFontsmall());
       this.add(externalcontactnamejtextfield);
-
+   
       JLabel externalcontactphonelabel = new JLabel("Telefon");
       externalcontactphonelabel.setBounds(650, 120, 300, 20);
       externalcontactphonelabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactphonelabel);
-
+   
       externalcontactphonejtextfield = new JTextField();
       externalcontactphonejtextfield.setBounds(650, 140, 300, 20);
       externalcontactphonejtextfield.setFont(this.gui.getFontsmall());
       this.add(externalcontactphonejtextfield);
-
+   
       JLabel externalcontactemaillabel = new JLabel("Email");
       externalcontactemaillabel.setBounds(650, 160, 300, 20);
       externalcontactemaillabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactemaillabel);
-
+   
       externalcontactemailjtextfield = new JTextField();
       externalcontactemailjtextfield.setBounds(650, 180, 300, 20);
       externalcontactemailjtextfield.setFont(this.gui.getFontsmall());
@@ -154,14 +157,14 @@ public class EOPanelOpenEventType extends EOPanel {
       externalcontactenotelabel.setBounds(650, 200, 300, 20);
       externalcontactenotelabel.setFont(this.gui.getFontsmall());
       this.add(externalcontactenotelabel);
-
-
+   
+   
       externalcontactenotejtextarea = new JTextArea();
       externalcontactenotejtextarea.setBounds(650, 220, 300, 200);
       externalcontactenotejtextarea.setFont(this.gui.getFontsmall());
       externalcontactenotejtextarea.setBorder(gui.getDefaultBorder());
       this.add(externalcontactenotejtextarea);   
-
+   
       JLabel externalcontactcompanylabel = new JLabel("Firma");
       externalcontactcompanylabel.setBounds(650, 420, 300, 20);
       externalcontactcompanylabel.setFont(this.gui.getFontsmall());
@@ -175,7 +178,7 @@ public class EOPanelOpenEventType extends EOPanel {
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
       //Shows the facilitator list
-   	if(currentEOOperation == EOOperation.OPENEVENTTYPE)
+      if(currentEOOperation == EOOperation.OPENEVENTTYPE)
       {
          if(currentEOOperation == EOOperation.OPENEVENTTYPE)
          {

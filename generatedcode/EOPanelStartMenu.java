@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+* The start menu shows all arrangements, and provides the user options to CRUD arrangements the classes they contains.
+*/
 public class EOPanelStartMenu extends EOPanel {
 
    EOGUI gui = null;

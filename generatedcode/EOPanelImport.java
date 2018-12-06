@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+* Shows the user what will happen when data is imported, and gives them the option to import a datafile.
+*/
 public class EOPanelImport extends EOPanel {
    EOGUI gui = null;
    EOGUIDateTimePicker startdatetime;
@@ -42,8 +45,8 @@ public class EOPanelImport extends EOPanel {
                         EOOperation.IMPORTCSV.setData(new EOCSV(file));
                         gui.runCommand(EOOperation.IMPORTCSV);                       
                      }
-                   }
-                });
+                  }
+               });
       this.add(importbutton);
       
       JButton cancelbutton=new JButton("Annuller");
@@ -84,6 +87,6 @@ public class EOPanelImport extends EOPanel {
    {
       super.paintComponent(g);
       g.drawLine(0,38, this.getWidth(), 38);
-  
+   
    }   
 }

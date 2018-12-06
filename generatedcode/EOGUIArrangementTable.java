@@ -1,7 +1,11 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+/**
+The EOGUIArrangementTable is custom made to shows the different EOArrangement, it is used in the EOPanelStartMenu.
 
+If the user is an administrator, Edit, Delete options are shown. Else only the Open option is shown (for both Administrator and none administrator).
+*/
 public class EOGUIArrangementTable extends JPanel
 {
    String[] columnNames;
@@ -25,7 +29,10 @@ public class EOGUIArrangementTable extends JPanel
       columnNames = getColumns();      
      
    }
-
+   
+   /**
+   * Creates the table
+   */
    private void createTable()
    {
       columnNames = getColumns();
@@ -86,6 +93,9 @@ public class EOGUIArrangementTable extends JPanel
       add(scrollPane); 
    }
 
+   /**
+   Updates the table witht he new EOArrangements that are parsed to the metode.
+   */
    public void setArrangements(EOArrangement[] arrangements)
    {
       this.arrangements = arrangements;
@@ -172,13 +182,15 @@ public class EOGUIArrangementTable extends JPanel
                }
                catch(Exception e){}  
             }
-    
+         
          }
       }
       dm.fireTableDataChanged();   
    
    }
-   
+   /**
+   * Gets the EOArrangement, that the row id is showing data from
+   */
    private EOArrangement getArrangement(int id)
    {
       for(int i = 0; i < arrangements.length && arrangements[i] != null; i++)
@@ -191,6 +203,9 @@ public class EOGUIArrangementTable extends JPanel
       return(null);
    }
    
+   /**
+   * Gets  the different colimuns, since these are different if its either an administrator or none administrator.
+   */
    public String[] getColumns()
    {
       String[] sarray;

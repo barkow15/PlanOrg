@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+/**
+Is the visuable breadcrumb class, this is used on all Panels in the program to show the user where they are currently located, and giving them an option to jump to another location in the path.
+*/
 public class EOGUIBreadcrumb extends JPanel
 {
    EOBreadcrumb breadcrumb = null;
@@ -29,6 +31,9 @@ public class EOGUIBreadcrumb extends JPanel
       drawCrumbs();
    }
    
+   /**
+   Sets the breadcrumb to be shown
+   */
    public void setBreadcrumb(EOBreadcrumb b)
    {
       this.breadcrumb = breadcrumb;  
@@ -72,8 +77,7 @@ public class EOGUIBreadcrumb extends JPanel
             labellink[i] = new JLabel(breadcrumb.getIndex(i).getDisplayName());
             labellink[i].setForeground(Color.MAGENTA);
             labellink[i].setFont(medium);
-            size = getTextDimensions(labellink[i], medium, breadcrumb.getIndex(i).getDisplayName());
-            System.out.println("\tsize: "+size.toString());            
+            size = getTextDimensions(labellink[i], medium, breadcrumb.getIndex(i).getDisplayName());        
             labellink[i].setBounds(x, 0, (int)size.getWidth(), (int)size.getHeight());
             this.add(labellink[i]);
             x += size.getWidth() + 5;
@@ -88,22 +92,23 @@ public class EOGUIBreadcrumb extends JPanel
             labellink[i].setBounds(x, 0, (int)size.getWidth(), (int)size.getHeight());
             final EOOperation eoope = breadcrumb.getIndex(i);
             final int ipos = breadcrumb.getStackCounter() - i;
-            labellink[i].addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                  gui.runCommand(gui.getBreadcrumb().pop(ipos));
-                }
+            labellink[i].addMouseListener(
+               new MouseAdapter() {
+                  public void mouseClicked(MouseEvent e) {
+                     gui.runCommand(gui.getBreadcrumb().pop(ipos));
+                  }
                 
-                public void mouseEntered(MouseEvent e) {
+                  public void mouseEntered(MouseEvent e) {
                      Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
                      setCursor(cursor);
-               }
+                  }
                  
-               public void mouseExited(MouseEvent e) {
-                  Cursor cursor = Cursor.getDefaultCursor();
-                  setCursor(cursor);
-               }  
-
-            });
+                  public void mouseExited(MouseEvent e) {
+                     Cursor cursor = Cursor.getDefaultCursor();
+                     setCursor(cursor);
+                  }  
+               
+               });
             labellink[i].setVisible(true);
             this.add(labellink[i]);
             x += size.getWidth() + 5;

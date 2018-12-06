@@ -1,5 +1,8 @@
 import java.time.LocalDateTime;
-
+/**
+* The EOManager class is the class that talks with the GUI (EOGUI) and the Database (EODatabaseInterface).
+* It gets the data from the user interface, and translate this into data that is handed over to the database.
+*/
 public class EOManager {
    EOGUI               gui;
    EODatabaseInterface db;
@@ -14,7 +17,7 @@ public class EOManager {
    }
 	/**
 	 * 
-	 * @param operation
+	 * The main metode in EOManager, all operations from the GUI is ran through this metode. The metode return the operation that it wishes the GUI to execute (which panel it needs to show, with what data).
 	 */
    public EOOperation runCommand(EOOperation operation) {
       //Test data

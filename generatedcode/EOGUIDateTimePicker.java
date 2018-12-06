@@ -7,17 +7,22 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-//Expected width: 300
-//Expected Height: 400
+/**
+* <pre>
+* Custom made DateTime picker, 
+* The size of the DateTime picker must be 300px x 400px
+* The user can pick a specific date and set a time.
+* </pre>
+*/
 class EOGUIDateTimePicker extends JPanel
 {
 	//The current datetime
-	private LocalDateTime datetime;
-	private LocalDate selecteddate=null;
+   private LocalDateTime datetime;
+   private LocalDate selecteddate=null;
    private LocalTime selectedtime=null;
    
    private String[] monthnames = {"Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"};
-	private JLabel cmonth = null;
+   private JLabel cmonth = null;
    private Font font = null;
    private JTextField datetext;
    private JTextField timetext;
@@ -26,29 +31,29 @@ class EOGUIDateTimePicker extends JPanel
    private JButton[] mdaysbutton = new JButton[38];
    
    public EOGUIDateTimePicker()
-	{
-		this(LocalDateTime.now());
-	}
+   {
+      this(LocalDateTime.now());
+   }
    
    public EOGUIDateTimePicker(LocalDateTime datetime)
    {
       this(datetime, new Font("TimesRoman", Font.PLAIN, 12));
    }
 	
-	public EOGUIDateTimePicker(LocalDateTime datetime, Font font)
-	{
+   public EOGUIDateTimePicker(LocalDateTime datetime, Font font)
+   {
       this.font = font;
       this.setVisible(true);
       this.setLayout(null);
-		this.datetime = datetime;
+      this.datetime = datetime;
       if(datetime != null)
       {
          this.selecteddate = datetime.toLocalDate();
          this.selectedtime = datetime.toLocalTime();      
       }
-
+   
       this.setBackground(Color.WHITE);
-		//1 month back button 
+   	//1 month back button 
       BasicArrowButton lastmonth = new BasicArrowButton(SwingConstants.WEST);     
       lastmonth.setBounds(40, 10, 25, 25);
       lastmonth.addActionListener(
@@ -61,17 +66,17 @@ class EOGUIDateTimePicker extends JPanel
                 });
              
       this.add(lastmonth);
-
-		//Month label
-		cmonth = new JLabel(monthnames[this.datetime.getMonthValue()-1] + " " + this.datetime.getYear());
+   
+   	//Month label
+      cmonth = new JLabel(monthnames[this.datetime.getMonthValue()-1] + " " + this.datetime.getYear());
       cmonth.setFont(this.font);         
       cmonth.setBounds(70, 10, 160, 25);
       cmonth.setHorizontalAlignment(SwingConstants.CENTER);
       cmonth.setVerticalAlignment(SwingConstants.CENTER);
-
+   
       this.add(cmonth);
-
-		//1 month forward button 
+   
+   	//1 month forward button 
       BasicArrowButton nextmonth = new BasicArrowButton(SwingConstants.EAST);             
       nextmonth.setBounds(235, 10, 25, 25);
       nextmonth.addActionListener(
@@ -118,7 +123,7 @@ class EOGUIDateTimePicker extends JPanel
       thuesday.setHorizontalAlignment(SwingConstants.CENTER);
       thuesday.setVerticalAlignment(SwingConstants.CENTER);    
       this.add(thuesday);
-
+   
       JLabel friday = new JLabel("Fre");
       friday.setBounds(4*(fspacing+fwidth), 0*(fspacing+fheight)+topborder, fwidth, fheight);
       friday.setFont(this.font);
@@ -132,7 +137,7 @@ class EOGUIDateTimePicker extends JPanel
       saturday.setHorizontalAlignment(SwingConstants.CENTER);
       saturday.setVerticalAlignment(SwingConstants.CENTER);    
       this.add(saturday);
-
+   
       JLabel sunday = new JLabel("S?n");
       sunday.setBounds(6*(fspacing+fwidth), 0*(fspacing+fheight)+topborder, fwidth, fheight);
       sunday.setFont(this.font);
@@ -149,7 +154,7 @@ class EOGUIDateTimePicker extends JPanel
       {
          for(int j = 0; j < 7 && buttonnr < maxbutton; j++)
          {
-
+         
             mdaysbutton[buttonnr] = new JButton(Integer.toString(buttonnr));
             mdaysbutton[buttonnr].setBackground(Color.WHITE);
             mdaysbutton[buttonnr].setBounds(j*(fspacing+fwidth)+2, i*(fspacing+fheight)+topborder, fwidth, fheight);
@@ -163,7 +168,7 @@ class EOGUIDateTimePicker extends JPanel
                 {
                    public void actionPerformed(ActionEvent e)
                    {
-                     setDate(bnum);
+                      setDate(bnum);
                    }
                 });
             this.add(mdaysbutton[buttonnr]);
@@ -191,7 +196,7 @@ class EOGUIDateTimePicker extends JPanel
       timelabel.setBounds(80, 370, 60, 20);
       timelabel.setFont(this.font);
       this.add(timelabel);  
-
+   
       timetext = new JTextField();
       timetext.setBounds(120, 370, 100, 20);
       if(selectedtime != null)
@@ -200,7 +205,7 @@ class EOGUIDateTimePicker extends JPanel
       }
       timetext.setFont(this.font);
       this.add(timetext);          
-	}
+   }
 
    private void setDate(int buttonnr)
    {
@@ -211,13 +216,15 @@ class EOGUIDateTimePicker extends JPanel
       datetext.setText(selecteddate.getDayOfMonth() + "/" + selecteddate.getMonthValue() + " " + selecteddate.getYear());
       paint(this.datetime);
    }
-	
+	/**
+   Sets the DateTime that is shown.
+   */
    public void setDateTime(LocalDateTime datetime)
    {
       if(datetime != null)
       {
-      	this.datetime = datetime;
-      	selecteddate = datetime.toLocalDate();
+         this.datetime = datetime;
+         selecteddate = datetime.toLocalDate();
          selectedtime = datetime.toLocalTime();
          paint(this.datetime);   
       }   
@@ -231,16 +238,16 @@ class EOGUIDateTimePicker extends JPanel
       }
    }
    
-	private void paint(LocalDateTime datetime)
-	{
-
-		//Next month label
-		cmonth.setText(monthnames[datetime.getMonthValue()-1] + " " + datetime.getYear());
-
-
-
-		//Lets see how many buttons we wanna add for datetime
-		//current day of the month
+   private void paint(LocalDateTime datetime)
+   {
+   
+   	//Next month label
+      cmonth.setText(monthnames[datetime.getMonthValue()-1] + " " + datetime.getYear());
+   
+   
+   
+   	//Lets see how many buttons we wanna add for datetime
+   	//current day of the month
       int currentdayinmonth = datetime.getDayOfMonth();
       //current weekday
       int weekday = (datetime.getDayOfWeek()).getValue();
@@ -249,7 +256,7 @@ class EOGUIDateTimePicker extends JPanel
       if(datetime.toLocalDate().isLeapYear())
       {
          daysinmonth = (datetime.getMonth()).maxLength();
-
+      
       }
       else
       {
@@ -290,7 +297,7 @@ class EOGUIDateTimePicker extends JPanel
       //Had some issues with the JPanel not refreshing paint, so repainting all.
       this.revalidate();
       this.repaint();      
-	}
+   }
 	  
    private void LastMonth()
    {
@@ -304,8 +311,12 @@ class EOGUIDateTimePicker extends JPanel
       paint(this.datetime);      
    }
    
-	public LocalDateTime getDateTime() throws Exception
-	{
+   
+   /**
+   * Gets the date time that the user has picked/selected.
+   */
+   public LocalDateTime getDateTime() throws Exception
+   {
       LocalTime t = null;
       try
       {
@@ -315,8 +326,8 @@ class EOGUIDateTimePicker extends JPanel
       {
          throw new IllegalArgumentException("Tidsformat er ikke genkendt " + e.getMessage());
       }
-		return(LocalDateTime.of(selecteddate,  t));
-	}
+      return(LocalDateTime.of(selecteddate,  t));
+   }
    
    protected void paintComponent(Graphics g)
    {

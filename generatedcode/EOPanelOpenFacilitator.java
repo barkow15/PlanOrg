@@ -9,7 +9,9 @@ import java.awt.event.*;
 import java.util.*;
 import java.time.LocalDateTime;
 
-
+/**
+* Opens a facilitator and shows properties for the object through this panel.
+*/
 public class EOPanelOpenFacilitator extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
@@ -46,7 +48,7 @@ public class EOPanelOpenFacilitator extends EOPanel {
                   }
                });
       this.add(backbutton);
-
+   
      
       JLabel nameOfFacilitator = new JLabel("Navn:");
       nameOfFacilitator.setBounds(450,75,100,50);
@@ -69,7 +71,7 @@ public class EOPanelOpenFacilitator extends EOPanel {
       JLabel phoneNumber = new JLabel("Telefonnummer:");
       phoneNumber.setBounds(450,225,100,50);
       this.add(phoneNumber);
-
+   
       phoneNumberText = new JTextField();
       phoneNumberText.setEditable(false);        
       phoneNumberText.setBounds (450,275,150,20);
@@ -78,14 +80,14 @@ public class EOPanelOpenFacilitator extends EOPanel {
       JLabel notes = new JLabel("Noter:");
       notes.setBounds(450,300,150,50);
       this.add(notes);
-
-
+   
+   
       notesText = new JTextArea();
       notesText.setEditable(false);          
       notesText.setBounds(450,350,300,150);
       this.add(notesText);
    
-
+   
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {

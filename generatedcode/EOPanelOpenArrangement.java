@@ -3,7 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+* The user can open an arrangement, and read the specific properties from the arrangement through this panel
+*/
 public class EOPanelOpenArrangement extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
@@ -53,55 +55,55 @@ public class EOPanelOpenArrangement extends EOPanel {
       startdateandtimelabel.setBounds(10, 40, 150, 20);
       startdateandtimelabel.setFont(this.gui.getFontsmall());
       this.add(startdateandtimelabel);
-
+   
       startdatetime = new EOGUIDateTimePicker();
       startdatetime.setBounds(10, 60, 300, 400);
       add(startdatetime);
-
+   
       //Column 2
       JLabel enddateandtimelabel=new JLabel("Slut dato/tid:");
       enddateandtimelabel.setBounds(330, 40, 150, 20);
       enddateandtimelabel.setFont(this.gui.getFontsmall());
       this.add(enddateandtimelabel);
-
+   
       enddatetime = new EOGUIDateTimePicker();
       enddatetime.setBounds(330, 60, 300, 400);
       add(enddatetime);
-
+   
       //Column 3
       JLabel arrangementnamelabel=new JLabel("Navn:");
       arrangementnamelabel.setBounds(650, 40, 120, 20);
       arrangementnamelabel.setFont(this.gui.getFontsmall());
       this.add(arrangementnamelabel);
-
+   
       arrangementtextfield=new JTextField();
       arrangementtextfield.setEditable(false);
       arrangementtextfield.setBounds(650, 60, 300, 20);
       arrangementtextfield.setFont(this.gui.getFontsmall());
       this.add(arrangementtextfield);
-
-
-       JLabel pricelabel=new JLabel("Pris:");
-       pricelabel.setBounds(650, 80, 120, 20);
-       pricelabel.setFont(this.gui.getFontsmall());
-       this.add(pricelabel);
-
-       pricetextfield=new JTextField();
-       pricetextfield.setBounds(650, 100, 300, 20);
-       pricetextfield.setFont(this.gui.getFontsmall());
-       this.add(pricetextfield);
-
-       ispayed = new JCheckBox("Er betalt");
-       ispayed.setBounds(650, 120, 300, 20);
-       ispayed.setFont(this.gui.getFontsmall());
-       this.add(ispayed);
+   
+   
+      JLabel pricelabel=new JLabel("Pris:");
+      pricelabel.setBounds(650, 80, 120, 20);
+      pricelabel.setFont(this.gui.getFontsmall());
+      this.add(pricelabel);
+   
+      pricetextfield=new JTextField();
+      pricetextfield.setBounds(650, 100, 300, 20);
+      pricetextfield.setFont(this.gui.getFontsmall());
+      this.add(pricetextfield);
+   
+      ispayed = new JCheckBox("Er betalt");
+      ispayed.setBounds(650, 120, 300, 20);
+      ispayed.setFont(this.gui.getFontsmall());
+      this.add(ispayed);
        
-       isdone = new JCheckBox("Er afholdt");
-       isdone.setBounds(650, 140, 300, 20);
-       isdone.setFont(this.gui.getFontsmall());
-       this.add(isdone);       
-
-
+      isdone = new JCheckBox("Er afholdt");
+      isdone.setBounds(650, 140, 300, 20);
+      isdone.setFont(this.gui.getFontsmall());
+      this.add(isdone);       
+   
+   
       JLabel descriptionlabel=new JLabel("Beskrivelse/noter:");
       descriptionlabel.setBounds(650, 160, 100, 20);
       descriptionlabel.setFont(this.gui.getFontsmall());
@@ -123,7 +125,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       facilitatormultiselect.setBounds(650, 380, 300, 160);
       facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);
       this.add(facilitatormultiselect);
-
+   
       JLabel facilitatorhelplabel=new JLabel("* Hoejre klik for at se info");
       facilitatorhelplabel.setBounds(650, 540, 200, 20);
       facilitatorhelplabel.setFont(this.gui.getFontsmall());
@@ -149,7 +151,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       customernamelabel.setBounds(970, 330, 120, 20);
       customernamelabel.setFont(this.gui.getFontsmall());
       this.add(customernamelabel);
-
+   
       customertextfield=new JTextField();
       customertextfield.setEditable(false);      
       customertextfield.setBounds(970, 350, 300, 20);
@@ -160,7 +162,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       customeremaillabel.setBounds(970, 370, 100, 20);
       customeremaillabel.setFont(this.gui.getFontsmall());
       this.add(customeremaillabel);
-
+   
       customeremailtextfield=new JTextField();
       customeremailtextfield.setEditable(false);         
       customeremailtextfield.setBounds(970, 390, 300, 20);
@@ -171,24 +173,24 @@ public class EOPanelOpenArrangement extends EOPanel {
       customerphonenumberlabel.setBounds(970, 410, 100, 20);
       customerphonenumberlabel.setFont(this.gui.getFontsmall());
       this.add(customerphonenumberlabel);
-
+   
       customerphonenumertextfield=new JTextField();
       customerphonenumertextfield.setEditable(false);         
       customerphonenumertextfield.setBounds(970, 430, 300, 20);
       customerphonenumertextfield.setFont(this.gui.getFontsmall());
       this.add(customerphonenumertextfield);
-
+   
       JLabel customerfirmlabel=new JLabel("Kundens Firma:");
       customerfirmlabel.setBounds(970, 450, 100, 20);
       customerfirmlabel.setFont(this.gui.getFontsmall());
       this.add(customerfirmlabel);
-
+   
       customerfirmtextfield=new JTextField();
       customerfirmtextfield.setEditable(false);         
       customerfirmtextfield.setBounds(970, 470, 300, 20);
       customerfirmtextfield.setFont(this.gui.getFontsmall());
       this.add(customerfirmtextfield);
- 
+   
       JLabel customerinfolabel=new JLabel("Kunde note:");
       customerinfolabel.setBounds(970, 490, 100, 20);
       customerinfolabel.setFont(this.gui.getFontsmall());
@@ -200,7 +202,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       customerinfojtextarea.setBorder(gui.getDefaultBorder());
       customerinfojtextarea.setFont(this.gui.getFontsmall());
       this.add(customerinfojtextarea);       
-
+   
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {     
@@ -208,40 +210,40 @@ public class EOPanelOpenArrangement extends EOPanel {
       {
                //We expect 
                //0 = EOArrangement
-               EOArrangement arrangement = null;
-               if(EOOperation.OPENARRANGEMENT.getData() instanceof EOArrangement)
-               {
-                  arrangement = (EOArrangement)EOOperation.OPENARRANGEMENT.getData();
+         EOArrangement arrangement = null;
+         if(EOOperation.OPENARRANGEMENT.getData() instanceof EOArrangement)
+         {
+            arrangement = (EOArrangement)EOOperation.OPENARRANGEMENT.getData();
                   //column1
-                  startdatetime.setDateTime(arrangement.getDateTimeStart());
-                  enddatetime.setDateTime(arrangement.getDateTimeEnd());
-                  arrangementtextfield.setText(arrangement.getName());
-                  pricetextfield.setText(Double.toString(arrangement.getPrice()));
-                  ispayed.setSelected(arrangement.isPayed());
-                  isdone.setSelected(arrangement.isDone());
+            startdatetime.setDateTime(arrangement.getDateTimeStart());
+            enddatetime.setDateTime(arrangement.getDateTimeEnd());
+            arrangementtextfield.setText(arrangement.getName());
+            pricetextfield.setText(Double.toString(arrangement.getPrice()));
+            ispayed.setSelected(arrangement.isPayed());
+            isdone.setSelected(arrangement.isDone());
                   //Column2
-                  if(arrangement.getCustomer() != null)
-                  {
-                     customertextfield.setText(arrangement.getCustomer().getName());
-                     customeremailtextfield.setText(arrangement.getCustomer().getEmail());
-                     customerphonenumertextfield.setText(arrangement.getCustomer().getPhone());
-                     customerfirmtextfield.setText(arrangement.getCustomer().getCompany());
-                     customerinfojtextarea.setText(arrangement.getCustomer().getInfo());
-                  }
-                  descriptionjtextarea.setText(arrangement.getDescription());
-                  if(arrangement.getFacilitators() != null)
-                  {
-                     facilitatormultiselect.setList(arrangement.getFacilitators());
-                  }
-                  if(arrangement.getEvents() != null)
-                  {
-                     eventmultiselect.setList(arrangement.getEvents());
-                  }
-
-
+            if(arrangement.getCustomer() != null)
+            {
+               customertextfield.setText(arrangement.getCustomer().getName());
+               customeremailtextfield.setText(arrangement.getCustomer().getEmail());
+               customerphonenumertextfield.setText(arrangement.getCustomer().getPhone());
+               customerfirmtextfield.setText(arrangement.getCustomer().getCompany());
+               customerinfojtextarea.setText(arrangement.getCustomer().getInfo());
+            }
+            descriptionjtextarea.setText(arrangement.getDescription());
+            if(arrangement.getFacilitators() != null)
+            {
+               facilitatormultiselect.setList(arrangement.getFacilitators());
+            }
+            if(arrangement.getEvents() != null)
+            {
+               eventmultiselect.setList(arrangement.getEvents());
+            }
+         
+         
          }
       }
-
+   
       breadcrumb.setBreadcrumb(gui.getBreadcrumb()); 
       super.setVisible(visible, currentEOOperation);
    }

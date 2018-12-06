@@ -10,7 +10,9 @@ import java.util.*;
 import java.awt.Graphics;
 import java.time.LocalDateTime;
 
-
+/**
+* A user can open 1 event and look at its properties through this panel.
+*/
 public class EOPanelOpenEvent extends EOPanel {
 
    EOGUIDateTimePicker startdatetime;
@@ -39,17 +41,17 @@ public class EOPanelOpenEvent extends EOPanel {
                 {
                    public void actionPerformed(ActionEvent e)
                    {
-                     EOOperation backoperation = gui.getBreadcrumb().getIndex(gui.getBreadcrumb().getStackCounter()-2);
-                     gui.getBreadcrumb().pop();
-                     gui.getBreadcrumb().pop();
-                     gui.runCommand(backoperation);
+                      EOOperation backoperation = gui.getBreadcrumb().getIndex(gui.getBreadcrumb().getStackCounter()-2);
+                      gui.getBreadcrumb().pop();
+                      gui.getBreadcrumb().pop();
+                      gui.runCommand(backoperation);
                    }
                 });
       this.add(backbutton);
    
       int fromTop = 50;
       int borderLeft = 10;
-
+   
       //Column1//
       //dato/tid start
       JLabel startdatetimelabel = new JLabel("Start dato/tid");
@@ -60,7 +62,7 @@ public class EOPanelOpenEvent extends EOPanel {
       startdatetime = new EOGUIDateTimePicker(LocalDateTime.now());
       startdatetime.setBounds(10, 60, 300, 400);
       this.add(startdatetime);
-
+   
       //Column2//
       //dato/tid slut
       JLabel enddatetimelabel = new JLabel("Slut dato/tid");
@@ -83,7 +85,7 @@ public class EOPanelOpenEvent extends EOPanel {
       eventtypemultiselect.addMouseListener(gui, EOOperation.OPENEVENTTYPE);
       eventtypemultiselect.setBounds(650, 60, 300, 240);
       this.add(eventtypemultiselect);
-
+   
       JLabel eventtypehelpLabel = new JLabel("* Hoejre klik for at se info.");
       eventtypehelpLabel.setBounds(650, 300, 250, 20);
       eventtypehelpLabel.setFont(gui.getFontsmall());
@@ -139,27 +141,27 @@ public class EOPanelOpenEvent extends EOPanel {
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
       if(currentEOOperation == EOOperation.OPENEVENT)
       {
-
+      
                //We expect 
                //0 = EOEvent
-               EOEvent event = null;
-               if(EOOperation.OPENEVENT.getData() instanceof EOEvent)
-               {
-                  event = (EOEvent)EOOperation.OPENEVENT.getData();
-                  startdatetime.setDateTime(event.getDateTimeStart());
-                  enddatetime.setDateTime(event.getDateTimeEnd());
-                  begivenhedsprisTextField.setText(Double.toString(event.getPrice()));
-                  beskrivelsenoterTextArea.setText(event.getDescription());
-                  if(event.getFacilitators() != null)
-                  {
-                     facilitatormultiselect.setList(event.getFacilitators());
-                  }
-                  if(event.getEventTypes() != null)
-                  {
-                     eventtypemultiselect.setList(event.getEventTypes());
-                  }
-
-             }
+         EOEvent event = null;
+         if(EOOperation.OPENEVENT.getData() instanceof EOEvent)
+         {
+            event = (EOEvent)EOOperation.OPENEVENT.getData();
+            startdatetime.setDateTime(event.getDateTimeStart());
+            enddatetime.setDateTime(event.getDateTimeEnd());
+            begivenhedsprisTextField.setText(Double.toString(event.getPrice()));
+            beskrivelsenoterTextArea.setText(event.getDescription());
+            if(event.getFacilitators() != null)
+            {
+               facilitatormultiselect.setList(event.getFacilitators());
+            }
+            if(event.getEventTypes() != null)
+            {
+               eventtypemultiselect.setList(event.getEventTypes());
+            }
+         
+         }
       }
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());
       super.setVisible(visible, currentEOOperation);

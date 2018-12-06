@@ -9,7 +9,9 @@ import java.awt.event.*;
 import java.util.*;
 import java.time.LocalDateTime;
 
-
+/**
+* Administrates the Facilitators, Create, Delete and UPDATE.
+*/
 public class EOPanelADMFacilitator extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
@@ -84,7 +86,7 @@ public class EOPanelADMFacilitator extends EOPanel {
       JLabel phoneNumber = new JLabel("Telefonnummer:");
       phoneNumber.setBounds(450,225,100,50);
       this.add(phoneNumber);
-
+   
       phoneNumberText = new JTextField();
       phoneNumberText.setBounds (450,275,150,20);
       this.add(phoneNumberText);
@@ -92,8 +94,8 @@ public class EOPanelADMFacilitator extends EOPanel {
       JLabel notes = new JLabel("Noter:");
       notes.setBounds(450,300,150,50);
       this.add(notes);
-
-
+   
+   
       notesText = new JTextArea();
       notesText.setBounds(450,350,300,150);
       this.add(notesText);
@@ -103,7 +105,7 @@ public class EOPanelADMFacilitator extends EOPanel {
       admFacilitatorMultiselect.setBounds(50, 100, 300, 240);
    
       this.add(admFacilitatorMultiselect);
-
+   
       //Edit Facilitator
       JButton editFacilitatorButton = new JButton("Rediger Facilitator");
       editFacilitatorButton.setBounds (50,400,150,50);
@@ -114,12 +116,12 @@ public class EOPanelADMFacilitator extends EOPanel {
                  {
                     Object[] facilitatorArray = admFacilitatorMultiselect.getSelected();
                     EOOperation.UPDATEFACILITATOR.setData(facilitatorArray[0]);
-
+                 
                     gui.runCommand(EOOperation.UPDATEFACILITATOR);
                  }
               });
       this.add(editFacilitatorButton);
-
+   
       //Create Facilitator
       JButton createFacilitatorButton = new JButton("Opret Ny Facilitator");
       createFacilitatorButton.setBounds (650,550,150,50);
@@ -141,7 +143,7 @@ public class EOPanelADMFacilitator extends EOPanel {
                  }
               });
       this.add(createFacilitatorButton);
-
+   
       //Delete Button
       JButton deleteFacilitatorButton = new JButton("Slet");
       deleteFacilitatorButton.setBounds(200,400,150,50);
@@ -158,7 +160,7 @@ public class EOPanelADMFacilitator extends EOPanel {
                  }
               });
       this.add(deleteFacilitatorButton);
-
+   
       //ADM Facilitator text
       JTextArea admFacilitatorTextArea = new JTextArea(
               "Tryk paa en Facalitator fra listen for at redigere eller slette oprettede facilitatorer.\n\n"+
@@ -170,7 +172,7 @@ public class EOPanelADMFacilitator extends EOPanel {
       admFacilitatorTextArea.setBounds(910, 60, 300, 300);
       admFacilitatorTextArea.setBackground(new Color(0, 0, 0, 0));
       this.add(admFacilitatorTextArea);
-
+   
       //Gem redigering af Facilitator
       JButton saveEditFacilitator = new JButton("Gem Redigering");
       saveEditFacilitator.setBounds(450,550,150,50);
@@ -192,7 +194,7 @@ public class EOPanelADMFacilitator extends EOPanel {
                  }
               });
       this.add(saveEditFacilitator);
-
+   
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
@@ -207,13 +209,13 @@ public class EOPanelADMFacilitator extends EOPanel {
             emailText.setText("");
             notesText.setText("");
          }
-
+      
          if (EOOperation.UPDATEFACILITATOR == facilitatorEnum)
          {
-
+         
             if (EOOperation.UPDATEFACILITATOR.getData()==null)
             {
-
+            
             }
             if (EOOperation.UPDATEFACILITATOR.getData() instanceof FacilitatorContactInfo)
             {
@@ -222,13 +224,13 @@ public class EOPanelADMFacilitator extends EOPanel {
                phoneNumberText.setText(facilitator.getPhone());
                emailText.setText(facilitator.getEmail());
                notesText.setText(facilitator.getInfo());
-
-
+            
+            
             }
          
          }
-
-
+      
+      
          System.out.println("1");
          if(facilitatorEnum == EOOperation.ADMFACILITATOR)
          {

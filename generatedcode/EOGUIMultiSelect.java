@@ -1,13 +1,13 @@
-/**
-Viser en flere linier's select box.
-
-Data objecter skal implementere EOGUIMultiSelectInterface
-*/
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.border.Border;
 import java.awt.event.*;
+/**
+   * Shows one or more lines of options.
+   * In the constructor it can be set, if the user has the option to select one or more options.
+* Objects that are parsed to this class, must implement EOGUIMultiSelectInterface, they are then listed showing their name through calling getDisplayName() on the object.
+*/
 public class EOGUIMultiSelect extends JPanel
 {
    JList<Object> list = null;
@@ -18,18 +18,14 @@ public class EOGUIMultiSelect extends JPanel
    {
       this(options, new Dimension(300, 200));
    }
-   
+
+
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size)
    {
-      this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+      this(options, size, ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
    }
 
    
-   /**
-   * Default we use ListSelectionModel.MULTIPLE_INTERVAL_SELECTION selection, but you can parse ListSelectionModel.SINGLE_SELECTION to the constructor to only single selection possible.
-   * ListSelectionModel.SINGLE_SELECTION
-   * ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
-   */
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode)
    {
       this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION, BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
@@ -69,18 +65,22 @@ public class EOGUIMultiSelect extends JPanel
       JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
       scrollPane.setSize(size);  
-
+   
       this.add(scrollPane);
       //this.add(list);
    }
    
-   //Adds a specific mouseadapter to the list
+   /**
+   * Adds a specific mouseadapter to the list
+   */
    public void addMouseListener(MouseAdapter mouseadapter)
    {
       list.addMouseListener(mouseadapter);
    }
-   
-   //Adds our generic EO mouse adapter to the list, till will set the data of the list in the EOOperation defined and do a runCommand with the EOOperation. If the user right clicks the cell
+  
+   /**
+   * Adds our generic EO mouse adapter to the list, this will set the data of the list in the EOOperation defined and do a runCommand with the EOOperation. If the user right clicks the cell
+   */
    public void addMouseListener(EOGUI gui, EOOperation operation)
    {
       MouseAdapter mouseadapter = 
@@ -89,15 +89,18 @@ public class EOGUIMultiSelect extends JPanel
             public void mouseClicked(java.awt.event.MouseEvent e)
             {
                if(e.getButton() == MouseEvent.BUTTON3) {
-                     System.out.println("Right Click! " + ((EOGUIMultiSelectInterface)list.getModel().getElementAt(list.locationToIndex(e.getPoint()))).getDisplayName());
-                     operation.setData(((EOGUIMultiSelectInterface)list.getModel().getElementAt(list.locationToIndex(e.getPoint()))));
-                     gui.runCommand(operation);
+                  System.out.println("Right Click! " + ((EOGUIMultiSelectInterface)list.getModel().getElementAt(list.locationToIndex(e.getPoint()))).getDisplayName());
+                  operation.setData(((EOGUIMultiSelectInterface)list.getModel().getElementAt(list.locationToIndex(e.getPoint()))));
+                  gui.runCommand(operation);
                }
             }
          };   
       list.addMouseListener(mouseadapter);
    }   
    
+   /**
+   * Returns selected objects
+   */
    public Object[] getSelected()
    {
       java.util.List<Object> r = list.getSelectedValuesList();
@@ -111,17 +114,26 @@ public class EOGUIMultiSelect extends JPanel
       }
    }
 
+   /**
+   * Marks the selected options in the list
+   */
    public void setList(EOGUIMultiSelectInterface[] options)
    {
       this.options = options;
       setList(options, null);
    }
    
+   /**
+   * Get all options
+   */
    public EOGUIMultiSelectInterface[] getList()
    {
       return(this.options);
    }
    
+   /**
+   * Sets the options and selects the options that are in the selected array.
+   */
    public void setList(EOGUIMultiSelectInterface[] options, EOGUIMultiSelectInterface[] selected)
    {
       model = new DefaultListModel<>();

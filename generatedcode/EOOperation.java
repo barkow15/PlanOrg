@@ -1,3 +1,6 @@
+/**
+* All operations in the Event Organizer program is tied to an EOOperation, the EOOperation ENUM tells the program what it must do and it contains the data it must do it with. The DisplayType is used to tell the EOGUI which panel it must show. while the data the EOOperation has through the getData() or setData is mainly used in the EOPanels and EOManager.
+*/
 public enum EOOperation {
    START (null, "Start menu", EODisplayType.START), //Martin - Mangler DB
    STARTSHOWALL (null, "Start menu", EODisplayType.START), //Martin - Mangler DB
@@ -39,17 +42,20 @@ public enum EOOperation {
    private EODisplayType displaytype;
    private String displayname;
 	/**
-	 * 
-	 * @param data
-	 */
+	 * Sets the specified data
+    */
    public void setData(Object data) {
       this.data = data;
    }
-
+	/**
+	 * gets the specified data
+    */
    public Object getData() {
       return(this.data);
    }
-   
+	/**
+	 * gets the displaynane for the EOOperation. This is mainly used in the breadcrumb
+    */
    public String getDisplayName()
    {
       return(this.displayname);
@@ -57,8 +63,6 @@ public enum EOOperation {
 
 	/**
 	 * 
-	 * @param data
-	 * @param displaytype
 	 */
    EOOperation(Object data, String displayname, EODisplayType displaytype) {
       this.data = data;
@@ -66,22 +70,10 @@ public enum EOOperation {
       this.displayname = displayname;
    }
 
-   public void reset() {
-   	// TODO - implement EOOPERATION.reset
-      throw new UnsupportedOperationException();
-   }
-
+   /**
+   * Gets the displaytime for the EOOperation
+   */
    public EODisplayType getDisplayType() {
       return(displaytype);
    }
-
-	/**
-	 * 
-	 * @param displaytype
-	 */
-   public void setDisplayType(EODisplayType displaytype) {
-   	// TODO - implement EOOPERATION.setDisplayType
-      throw new UnsupportedOperationException();
-   }
-
 }

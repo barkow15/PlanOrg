@@ -8,6 +8,9 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.util.*;
 
+/**
+Administrates the GUI, what panels are shown and communicates with EOManager, with data the user creates, reads, updates and deletes.
+*/
 public class EOGUI {
    // JPanel[] screens = null;
    private Map<EODisplayType, EOPanel> screens = null;
@@ -91,6 +94,9 @@ public class EOGUI {
       return(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
    }
    
+   /**
+   Returns a que that shows where the user is in the system, so the user can keep track of current location.
+   */
    public EOBreadcrumb getBreadcrumb()
    {
       return(this.breadcrumb);
@@ -106,6 +112,9 @@ public class EOGUI {
       return (new Font ("Arial", Font.PLAIN,12));
    }
 
+   /**
+   Disable all panels.
+   */
    void DisableAllScreen()
    {
       for(Map.Entry m:screens.entrySet())
@@ -116,11 +125,17 @@ public class EOGUI {
       }
    }
    
+   /**
+   Get width of the application
+   */
    public int getWidth()
    {
       return(screenwidth);
    }
-   
+
+   /**
+   Get height of the application
+   */
    public int getHeight()
    {
       return(screenheight);
@@ -128,7 +143,7 @@ public class EOGUI {
 
 	/**
 	 * 
-	 * @param operation
+	 * Main metode that is called from the panels, this metode controls which panel that is shown through the EOOperation.getDisplayType.
 	 */
    public void runCommand(EOOperation operation) {
       EOOperation coperation = eomanager.runCommand(operation);
@@ -145,11 +160,23 @@ public class EOGUI {
       screens.get(coperation.getDisplayType()).setVisible(true, coperation); 
    }
    
+   
+   /**
+   * <pre>
+   * Returns if the user is administrator or not.
+   * If the user is not administrator, they only have read options availab.e
+   * </pre>
+   */
    public boolean isAdministrator()
    {
       return(usertype == 1);
    }
-   
+
+   /**
+   * <pre>
+   * Shows a dialogbox to the user
+   * </pre>
+   */
    public void dialogbox(String msg)
    {
       JOptionPane.showMessageDialog(frame, msg);
