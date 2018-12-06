@@ -114,7 +114,7 @@ public class EOCSV
             int i = 0;
             while(m.find())
             {
-               value = cleanString(m.group().subSequence(1, m.group().length()-1).toString());
+               value = removeFormat(cleanString(m.group().subSequence(1, m.group().length()-1).toString()));
                data[i] = value;
                i++;
             }
@@ -471,6 +471,11 @@ public class EOCSV
    private static LocalDateTime getLocalDateTime(String str)
    {
       return(LocalDateTime.parse(str, (DateTimeFormatter.ofPattern("w/M y k:mm"))));  
+   }
+   
+   private static String removeFormat(String field)
+   {
+      return(field.replace("\"\"", "\""));
    }
   
 }

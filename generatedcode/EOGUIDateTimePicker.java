@@ -131,14 +131,14 @@ class EOGUIDateTimePicker extends JPanel
       friday.setVerticalAlignment(SwingConstants.CENTER);    
       this.add(friday);
       
-      JLabel saturday = new JLabel("L?r");
+      JLabel saturday = new JLabel("Lør");
       saturday.setBounds(5*(fspacing+fwidth), 0*(fspacing+fheight)+topborder, fwidth, fheight);
       saturday.setFont(this.font);
       saturday.setHorizontalAlignment(SwingConstants.CENTER);
       saturday.setVerticalAlignment(SwingConstants.CENTER);    
       this.add(saturday);
    
-      JLabel sunday = new JLabel("S?n");
+      JLabel sunday = new JLabel("Søn");
       sunday.setBounds(6*(fspacing+fwidth), 0*(fspacing+fheight)+topborder, fwidth, fheight);
       sunday.setFont(this.font);
       sunday.setHorizontalAlignment(SwingConstants.CENTER);

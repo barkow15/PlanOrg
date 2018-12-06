@@ -33,21 +33,9 @@ public class EOPanelADMFacilitator extends EOPanel {
       breadcrumb.setBounds(5, 5, 800, 30);
       breadcrumb.setVisible(true);
       this.add(breadcrumb);
-   
-      JButton exportbutton = new JButton("Gem");
-      exportbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
-      exportbutton.addActionListener(
-               new ActionListener()
-               {
-                  public void actionPerformed(ActionEvent e)
-                  {
-                     gui.runCommand(EOOperation.START);
-                  }
-               });
-      //this.add(exportbutton);
-      
-      JButton cancelbutton=new JButton("Annuller");
-      cancelbutton.setBounds(this.gui.getWidth()-230, 5, 100, 30);
+       
+      JButton cancelbutton=new JButton("Tilbage");
+      cancelbutton.setBounds(this.gui.getWidth()-125, 5, 100, 30);
       cancelbutton.addActionListener(
                new ActionListener()
                {

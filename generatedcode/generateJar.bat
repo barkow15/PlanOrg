@@ -1,0 +1,1 @@
+jar cvfm EventOrganizer.jar manifest.txt *.class
