@@ -1,14 +1,20 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+EOEvents is one or more events that are linked to EOArrangement, an EOEvent cannot exist if its not linked to and EOArrangement.
+
+An EOEvent 
+*/
+
 public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
 
-	private EOEventType[] eventtypes;
+   private EOEventType[] eventtypes;
    private FacilitatorContactInfo[] facilitators;
-	private LocalDateTime datetimestart;
-	private LocalDateTime datetimeend;
-	private double price;
-	private String description;
+   private LocalDateTime datetimestart;
+   private LocalDateTime datetimeend;
+   private double price;
+   private String description;
    private int id;
 
    public EOEvent(int id, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, FacilitatorContactInfo[] facilitators, EOEventType[] eventtypes)
@@ -22,27 +28,27 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
       this.eventtypes = eventtypes;
    }
    
-	public EOEventType[] getEventTypes() {
-		return(eventtypes);
-	}
+   public EOEventType[] getEventTypes() {
+      return(eventtypes);
+   }
 
    public void setEventTypes(EOEventType[] eventtypes)
    {
       this.eventtypes = eventtypes;
    }
 
-	public LocalDateTime getDateTimeStart() {
-		return(datetimestart);
-	}
+   public LocalDateTime getDateTimeStart() {
+      return(datetimestart);
+   }
    
    public void setDateTimeStart(LocalDateTime datetimestart)
    {
       this.datetimestart = datetimestart;
    }
 
-	public LocalDateTime getDateTimeEnd() {
-		return(datetimeend);
-	}
+   public LocalDateTime getDateTimeEnd() {
+      return(datetimeend);
+   }
 
    public void setDateTimeEnd(LocalDateTime datetimeend)
    {
@@ -50,17 +56,17 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
    }
 
    public double getPrice() {
-		return this.price;
-	}
+      return this.price;
+   }
    
    public void setPrice(double price)
    {
       this.price = price;
    }
 
-	public String getDescription() {
-		return this.description;
-	}
+   public String getDescription() {
+      return this.description;
+   }
    
    public void setDescription(String description)
    {

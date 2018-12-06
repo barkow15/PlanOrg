@@ -1,3 +1,6 @@
+/**
+A que system. 
+*/
 public class EOBreadcrumb
 {
    private EOOperation[] stack;
@@ -77,7 +80,7 @@ public class EOBreadcrumb
          eoop = stack[stackcounter-1]; 
          this.stack[stackcounter-1] = null;
          this.stackcounter--;
-   
+      
       }
       System.out.println("Stackcounter after:" + num + " " + this.stackcounter);
       //EOOperation e = stack[stackcounter-num];

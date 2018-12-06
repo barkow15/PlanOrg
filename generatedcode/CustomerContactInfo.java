@@ -1,3 +1,6 @@
+/**
+* This class contains information, for a specific customer.
+*/
 public class CustomerContactInfo extends ContactInfo  {
 
    private String company;

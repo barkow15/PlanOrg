@@ -9,8 +9,8 @@ public class EOManager {
       //Database connections needs to be established before GUI!
       this.db = new EODatabaseInterface();
       this.gui = new EOGUI(this);
-
-
+   
+   
    }
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class EOManager {
       switch(operation)
       {
          case START:
-             EOOperation.START.setData(db.getEOArrangements(false));
+            EOOperation.START.setData(db.getEOArrangements(false));
             //EOOperation.START.setData();         
             if(gui != null)
             {
@@ -42,31 +42,31 @@ public class EOManager {
                gui.getBreadcrumb().reset();
             }
             break;
-//Import            
+      //Import            
          case IMPORT:
             gui.getBreadcrumb().push(EOOperation.IMPORT);
             break; 
          case IMPORTCSV:
-               try
-               {
-                  EOCSV eocsv = (EOCSV)EOOperation.IMPORTCSV.getData();
-                  eocsv.setDB(db);
-                  eocsv.importCSV();
-                  operation = EOOperation.START;
-               }
-               catch(Exception e)
-               {
-                  System.out.println("import CSV file failed: " + e.getMessage());
-                  operation = EOOperation.ERROR;
-               }
+            try
+            {
+               EOCSV eocsv = (EOCSV)EOOperation.IMPORTCSV.getData();
+               eocsv.setDB(db);
+               eocsv.importCSV();
+               operation = EOOperation.START;
+            }
+            catch(Exception e)
+            {
+               System.out.println("import CSV file failed: " + e.getMessage());
+               operation = EOOperation.ERROR;
+            }
             gui.getBreadcrumb().pop();
             break;             
-//Export         
+      //Export         
          case EXPORT:
             Object[] export_date = {
                 db.getAllFacilitatorContactInfo(),
                db.getEOArrangements(false)
-            };
+               };
             EOOperation.EXPORT.setData(export_date);
             gui.getBreadcrumb().push(EOOperation.EXPORT);
             break;
@@ -89,7 +89,7 @@ public class EOManager {
             }
             gui.getBreadcrumb().pop();
             break;
-//Arrangement
+      //Arrangement
          case OPENARRANGEMENT:
             gui.getBreadcrumb().push(EOOperation.OPENARRANGEMENT);
             break;               
@@ -99,7 +99,7 @@ public class EOManager {
                Object[] createarrangement_data = {
                   db.getAllFacilitatorContactInfo(),
                   new EOArrangement()
-               };
+                  };
                EOOperation.CREATEARRANGEMENT.setData(createarrangement_data);
             }
             else
@@ -126,7 +126,7 @@ public class EOManager {
                Object[] updatearrangement_data = {
                   db.getAllFacilitatorContactInfo(),
                   EOOperation.UPDATEARRANGEMENT.getData()
-               };
+                  };
                EOOperation.UPDATEARRANGEMENT.setData(updatearrangement_data);
             }
             else //Refresh call
@@ -142,7 +142,7 @@ public class EOManager {
                   }
                }
             }
-
+         
             
             gui.getBreadcrumb().push(EOOperation.UPDATEARRANGEMENT);
             break;
@@ -160,11 +160,11 @@ public class EOManager {
             }
             //Databasekald
             gui.getBreadcrumb().reset();
-
+         
             break;
          case DELETEARRANGEMENT:
             gui.getBreadcrumb().push(EOOperation.DELETEARRANGEMENT);
-//ADM Facilitators            
+         //ADM Facilitators            
          case ADMFACILITATOR:
             EOOperation.ADMFACILITATOR.setData(db.getAllFacilitatorContactInfo());
             gui.getBreadcrumb().push(EOOperation.ADMFACILITATOR);
@@ -193,7 +193,7 @@ public class EOManager {
          case OPENFACILITATOR:
             gui.getBreadcrumb().push(EOOperation.OPENFACILITATOR);
             break;
-//ADM EventTypes            
+      //ADM EventTypes            
          case ADMEVENTTYPE:
             EOOperation.ADMEVENTTYPE.setData(db.getEOEventTypes());
             gui.getBreadcrumb().push(EOOperation.ADMEVENTTYPE);
@@ -212,11 +212,11 @@ public class EOManager {
             }
             break;
          case UPDATEEVENTTYPE:
-               Object[] updateeventtype_data = {
+            Object[] updateeventtype_data = {
                   EOOperation.UPDATEEVENTTYPE.getData(),
                   db.getEOEventTypes()
                };
-               EOOperation.UPDATEEVENTTYPE.setData(updateeventtype_data);
+            EOOperation.UPDATEEVENTTYPE.setData(updateeventtype_data);
             break;
          case SAVEEDITEVENTTYPE:
             if(EOOperation.SAVEEDITEVENTTYPE.getData() instanceof EOEventType)
@@ -247,16 +247,16 @@ public class EOManager {
          case OPENEVENTTYPE:
             gui.getBreadcrumb().push(EOOperation.OPENEVENTTYPE);
             break;
-//Event
+      //Event
          case CREATEEVENT:
             //We get a EOArrangement object from either UPDATEARRANGEMENT or CREATEARRANGEMENT, that object we want to take with us, so we can save the EOEvent in it
             if(EOOperation.CREATEEVENT.getData() instanceof EOArrangement)
             {
                Object[] createevent_data = {
-                 db.getAllFacilitatorContactInfo(),
-                 db.getEOEventTypes(),
-                 EOOperation.CREATEEVENT.getData()
-               };
+                  db.getAllFacilitatorContactInfo(),
+                  db.getEOEventTypes(),
+                  EOOperation.CREATEEVENT.getData()
+                  };
                EOOperation.CREATEEVENT.setData(createevent_data);
             }
             else  //If we dont get an EOArrangement Object, its a call back to the metode, in this case we want to update our facilitatorcontactinfo and eventtypes - But only if we got an EOArrangement object
@@ -267,15 +267,15 @@ public class EOManager {
                   if(createevent_data.length == 3 && createevent_data[2] instanceof EOArrangement)
                   {
                      Object[] createevent_data1 = {
-                       db.getAllFacilitatorContactInfo(),
-                       db.getEOEventTypes(),
-                       createevent_data[2]
-                     };
+                        db.getAllFacilitatorContactInfo(),
+                        db.getEOEventTypes(),
+                        createevent_data[2]
+                        };
                      EOOperation.CREATEEVENT.setData(createevent_data1);
                   }
                }
             }
-
+         
             gui.getBreadcrumb().push(EOOperation.CREATEEVENT);
             break;
          case SAVECREATEEVENT:
@@ -285,16 +285,16 @@ public class EOManager {
                db.getAllFacilitatorContactInfo(),
                db.getEOEventTypes(),
                EOOperation.UPDATEEVENT.getData()
-            };
+               };
             EOOperation.UPDATEEVENT.setData(updateevent_data);
-
+         
             gui.getBreadcrumb().push(EOOperation.UPDATEEVENT);
             break;     
          case OPENEVENT:
             gui.getBreadcrumb().push(EOOperation.OPENEVENT);
             break;            
-
-
+      
+      
          default:
             break;
       }

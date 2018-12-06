@@ -8,17 +8,17 @@ An implementation of an arrangement. An arrangement, contains events and times f
 public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface {
 
    private int id;
-	private String name;
-	private String description;
-	private LocalDateTime datetimestart = null;
-	private LocalDateTime datetimeend = null;
-	private double price;
+   private String name;
+   private String description;
+   private LocalDateTime datetimestart = null;
+   private LocalDateTime datetimeend = null;
+   private double price;
 
-	private boolean ispayed;
-	private boolean isdone;
-	private FacilitatorContactInfo[] facilitators = null;
-	private EOEvent[] events = null;
-	private CustomerContactInfo customer = null;
+   private boolean ispayed;
+   private boolean isdone;
+   private FacilitatorContactInfo[] facilitators = null;
+   private EOEvent[] events = null;
+   private CustomerContactInfo customer = null;
    
    public EOArrangement()
    {
@@ -30,16 +30,16 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    public EOArrangement(int id, String name, String description, LocalDateTime datetimestart, LocalDateTime datetimeend, double price, boolean ispayed, boolean isdone, FacilitatorContactInfo[] facilitators, EOEvent[] events, CustomerContactInfo customer)
    {
       this.id             = id;
-   	this.name           = name;
-   	this.description    = description;
-   	this.datetimestart  = datetimestart;
-   	this.datetimeend    = datetimeend;
-   	this.price          = price;
+      this.name           = name;
+      this.description    = description;
+      this.datetimestart  = datetimestart;
+      this.datetimeend    = datetimeend;
+      this.price          = price;
       this.ispayed        = ispayed;
       this.isdone         = isdone;
-   	this.facilitators   = facilitators;
-   	this.events         = events;
-   	this.customer       = customer;
+      this.facilitators   = facilitators;
+      this.events         = events;
+      this.customer       = customer;
    }
    
    public void setName(String name)
@@ -95,9 +95,9 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    /**
    Returns the events that are part of the arrangement.
    */
-	public EOEvent[] getEvents() {
-		return this.events;
-	}
+   public EOEvent[] getEvents() {
+      return this.events;
+   }
 
    /**
    Returns if the arrangement has been payed or not.
@@ -118,51 +118,51 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    /**
    Returns the customer contact info.
    */
-	public CustomerContactInfo getCustomer() {
-		return this.customer;
-	}
+   public CustomerContactInfo getCustomer() {
+      return this.customer;
+   }
 
    /**
    Returns the facilitators have responsibility for the arrangement.
    */
-	public FacilitatorContactInfo[] getFacilitators() {
-		return this.facilitators;
-	}
+   public FacilitatorContactInfo[] getFacilitators() {
+      return this.facilitators;
+   }
 
    /**
    Returns the name of the arrangement.
    */
-	public String getName() {
-		return(name);
+   public String getName() {
+      return(name);
    }
 
    /**
    Returns the description for the arrangement.
    */
-	public String getDescription() {
+   public String getDescription() {
       return(description);
-	}
+   }
 
    /**
    Returns when the arrangement is starting.
    */
-	public LocalDateTime getDateTimeStart() {
+   public LocalDateTime getDateTimeStart() {
       return(datetimestart);
-	}
+   }
 
    /**
    Returns when the arrangement is ending.
    */
-	public LocalDateTime getDateTimeEnd() {
+   public LocalDateTime getDateTimeEnd() {
       return(datetimeend);
-	}
+   }
 
    /**
    Returns the price of the arrrangement.
    */
-	public double getPrice() {
-		return this.price;
-	}
+   public double getPrice() {
+      return this.price;
+   }
 
    /**
    Returns the name of the arrangement.
@@ -183,20 +183,16 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    /**
    * <pre>
    * Returns the arrangement as one or more CSV lines.
-   * First returning the EOArragement on a line, and then subsequensiable lines are the objects the EOArrangement is containing.
+   * Returning the EOArragement on a line, ignoring any other Objects the EOArrangement might contain.
    *
-   * In this example there are 2 facilitaros and 1 event that contain 2 eventtypes assigned to the arrangement:
-   * Line1: EOArrangement, id, name, description, datetimestart, datetimeend, price, ispayed, isdone
-   * Line2: CustomerContactInfo, id, name, phone, email, info, company
-   * Line3: FacilitatorContactInfo, id, name, phone, email, info
-   * Line4: FacilitatorContactInfo, id, name, phone, email, info
-   * Line5: EOEvent, id, description, datetimestart, datetimeend, price
-   * Line6: EOEventType, id, name, description, locationstart, locationend, time, price
-   * Line7: ExternalContactInfo, id, name, phone, email, info, company
-   * Line8: EOEventType, id, name, description, locationstart, locationend, time, price
-   * Line9: ExternalContactInfo, id, name, phone, email, info, company
+   * In this example there are 1 arrangement, with 2 facilitaross assigned to the arrangement:
+      * Line1: "EOEXPORT", "2018-12-06T11:21:10.445", "mode=1"
+      * Line2: "EOArrangement",  "1", "Deloitte Julefrokost", "Et brag af en julefest!", "21/5 1953 22:39", "21/5 1953 22:39", "100000.0", "false", "false"
+      * Line3: "FacilitatorContactInfo", "2", "Test mand 2", "12345678", "test@test.dk", "Bla"
+      * Line4: "Link", "EOArrangements_idEOArrangements", "1", "EOFacilitatorContactInfo_idFacilitatorContactInfo", "2"
+      * Line5: "FacilitatorContactInfo", "4", "Test mand 4", "12345678", "test@test.dk", "Bla"
+      * Line6: "Link", "EOArrangements_idEOArrangements", "1", "EOFacilitatorContactInfo_idFacilitatorContactInfo", "4"
    *
-   * Other objects might also return multiple lines.
    * </pre>
    */
    public String exportCSV(boolean includeprice)

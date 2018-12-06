@@ -13,8 +13,10 @@ import java.util.regex.*;
 /**
 This class supports 3 different export modes
 1) All data from the database is exported
-2) All data that specific facilitators are exported. Its possible to select if arrangements that have already been done are exported or not. And if the price should be hidden or not.
+2) All data that specific facilitator are part off (by being part of an arrangement or an event).
 3) All data from specific arrangements are exported.
+
+And 1 import mode
 */
 
 public class EOCSV
@@ -57,6 +59,12 @@ public class EOCSV
       this.db = db;
    }
    
+   
+   /**
+   Starts the import of data.
+   
+   The EOCSV Object must have been initially called with the File that contains the data and the database must have been set.
+   */
    public boolean importCSV()
    {
       //We truncate the database so its clean
@@ -72,9 +80,9 @@ public class EOCSV
       String s = " \"test string 67\", \", \"\"bbb\"\"aaa\", \"68\"";
       Pattern p = Pattern.compile("(^|\\s)((\"){1}(.*?)(\"){1})(,|$)");
       //Matcher m = p.matcher(s);
-         String line;
-         Matcher m;
-         String value;
+      String line;
+      Matcher m;
+      String value;
       try
       {
          Scanner scanner = new Scanner(outfile);
@@ -158,6 +166,10 @@ public class EOCSV
       return(s);
    }
    
+   /**
+   * From a string array, we create an Object.
+   * We select the Object from the first element in the String array. The String array contains only simple types, objects that are part of the object created are null.
+   */
    private boolean csvInsert(String[] strarray)
    {
       if(strarray == null || strarray.length == 0)
@@ -199,6 +211,10 @@ public class EOCSV
       return(true);
    }
 
+   /**
+   * Creates a CSV file, this database must have been set before you call this metode.
+   * The file that is created, is on the location of the file thats passe to EOCASV when the object was initialized.
+   */
    public void createCSV() throws Exception
    {
       //This is where the magic happens
@@ -228,7 +244,7 @@ public class EOCSV
                //Get all ExternalContactInfo
                getEOCSVList(db.getAllExternalContactInfo(), null, list);
                Iterator itr = list.iterator();
-                  System.out.println("while");
+               System.out.println("while");
                while(itr.hasNext())
                {
                   
@@ -238,13 +254,13 @@ public class EOCSV
                   {
                      System.out.println("------");
                      System.out.println("object = " + obj.getClass());
-                      output.write( ((EOCSVInterface)obj).exportCSV() );
+                     output.write( ((EOCSVInterface)obj).exportCSV() );
                   }
                   else
                   {
                      System.out.println("--???????????????????????????????????----");
                   }
-
+               
                   System.out.println("end");
                }
             }
@@ -252,16 +268,16 @@ public class EOCSV
             {
                LinkedHashSet<EOCSVInterface> list = new LinkedHashSet<EOCSVInterface>();
                EOArrangement[] arrangement2 = db.getAllEOArrangementsFromFacilitator(facilitators[0]);
-                  System.out.println("getAllEOArrangementsFromFacilitator");
+               System.out.println("getAllEOArrangementsFromFacilitator");
                getEOCSVList(arrangement2 , null, list);
                //Lets print out our list
-                  System.out.println("iterator");
+               System.out.println("iterator");
                Iterator<EOCSVInterface> itr = list.iterator();
-                  System.out.println("while");
+               System.out.println("while");
                while(itr.hasNext())
                {
                   System.out.println("start");
-                   output.write( itr.next().exportCSV() );
+                  output.write( itr.next().exportCSV() );
                   System.out.println("end");
                }
             }
@@ -273,26 +289,28 @@ public class EOCSV
                Iterator<EOCSVInterface> itr = list.iterator();
                while(itr.hasNext())
                {
-                   output.write( itr.next().exportCSV() );
+                  output.write( itr.next().exportCSV() );
                }
             }
          }
-
-
-
       }
       catch(Exception e)
       {
          System.out.println("Could not create file: " + e.getMessage());
-      } finally { if(output != null) output.close(); } 
+      } finally { 
+         if(output != null) output.close(); } 
    }
 
+   /**
+   * Adds an Object that implements EOCSVInterface to a LinkedHashSet.
+   * If the Object contains other objects, these are also added and the links to the Object are added through the Link object (which is also added to the LinkedHashSet) 
+   */
    private void getEOCSVList(EOCSVInterface object, EOCSVInterface parent, LinkedHashSet<EOCSVInterface> list)
    {
       System.out.println("getEOCSVList(EOCSVInterface");   
       if(object == null)
       {
-
+      
       }      
       else if(object instanceof EOArrangement)
       {
@@ -375,6 +393,9 @@ public class EOCSV
       }
    }
 
+   /**
+   Splits an array into single objects, and adds, their links and sub objects to the LinkedHashSet.
+   */
    private void getEOCSVList(EOCSVInterface[] objects, EOCSVInterface parent, LinkedHashSet<EOCSVInterface> list)
    {
       System.out.println("getEOCSVList(EOCSVInterface[]");
@@ -408,16 +429,25 @@ public class EOCSV
       return("\"" + field.replace("\"", "\"\"") + "\"");
    }
 
+   /**
+   Formats the integer to EOCSV field format.
+   */
    public static String formatField(int field)
    {  
       return("\"" + Integer.toString(field) + "\"");
    }
-   
+
+   /**
+   Formats the double to EOCSV field format.
+   */      
    public static String formatField(double field)
    {
       return("\"" + Double.toString(field) + "\"");
    }
 
+   /**
+   Formats the LocalDateTime to EOCSV field format.
+   */         
    public static String formatField(LocalDateTime field)
    {
       if(field == null)
@@ -426,12 +456,18 @@ public class EOCSV
       }   
       return("\"" + field.format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "\"");
    }         
- 
+
+   /**
+   Formats the boolean to EOCSV field format.
+   */      
    public static String formatField(boolean field)
    {  
       return("\"" + Boolean.toString(field) + "\"");
    }
    
+   /**
+   Converts EOCSV DateTime field format to LocalDateTime.
+   */      
    private static LocalDateTime getLocalDateTime(String str)
    {
       return(LocalDateTime.parse(str, (DateTimeFormatter.ofPattern("w/M y k:mm"))));  
