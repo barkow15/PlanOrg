@@ -8,7 +8,7 @@ public class CustomerContactInfo extends ContactInfo  {
    public String getCompany() {
       return this.company;
    }
-   
+
    public void setCompany(String company)
    {
       this.company = company;
