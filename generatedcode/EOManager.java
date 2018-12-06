@@ -18,32 +18,7 @@ public class EOManager {
 	 */
    public EOOperation runCommand(EOOperation operation) {
       //Test data
-            ExternalContactInfo extc = new ExternalContactInfo(-1, "Skipper Jack", "99990000", "skipper@hvalfangeren.dk", "Jack er normalt at traeffe mellem 9 - 10. Hvis du ringer foer kl 8 saa foer du verbale taesk af skipperen", "Den Gule Skipper");   
-            CustomerContactInfo c = new CustomerContactInfo(-1, "Kunde 1", "22224444", "kunde@kunde.dk", "Er fra en stor virksomhed", "Coca cola");
-  
-            FacilitatorContactInfo[] facilitator = new FacilitatorContactInfo[3];
-            facilitator[0] = new FacilitatorContactInfo(1, "Martin Nikolajsen", "22224444", "kunde@kunde.dk", "Arbejder bedre derhjemme :)");
-            facilitator[1] = new FacilitatorContactInfo(2, "Rasmus Neo Lassen", "22224444", "kunde@kunde.dk", "Her er der en tekst om facilitatoren");
-            facilitator[2] = new FacilitatorContactInfo(3, "Frederik Nyborg", "22224444", "kunde@kunde.dk", "Her er der endnu en facilitator beskrivelse");
-            FacilitatorContactInfo[] facilitatorselected = new FacilitatorContactInfo[1];
-            facilitatorselected[0] = facilitator[1];
-            EOEventType[] eventtypes = new EOEventType[2];
-            eventtypes[0] = new EOEventType(1, "Kano tur", "Kunderne er glade for den her", "holstebro rasteplads", "Ringsted", 38, 500, extc);
-            eventtypes[1] = new EOEventType(2, "Vandski", "Ekstrem!", "Roskildefjor", "Roskilde", 38, 500, extc);
-            EOEvent[] events = new EOEvent[2];
-            events[0] = new EOEvent(1, "description", LocalDateTime.now(), LocalDateTime.now(), 100, facilitatorselected, eventtypes);
-            events[1] = new EOEvent(1, "Mere description", LocalDateTime.now(), LocalDateTime.now(), 100, facilitator, eventtypes);      
-            EOArrangement[] arrangements = new EOArrangement[5];
-            arrangements[0] = new EOArrangement(1, "START 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, facilitator, events, c);
-            arrangements[1] = new EOArrangement(2, "START 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, null, c);
-            arrangements[2] = new EOArrangement(3, "START 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, facilitator, null, null);
-            arrangements[3] = new EOArrangement(4, "START 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, true, null, events, null); 
-            
-            EOArrangement[] ssarrangements = new EOArrangement[5];
-            ssarrangements[0] = new EOArrangement(1, "STARTSHOWALL 1", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
-            ssarrangements[1] = new EOArrangement(2, "STARTSHOWALL 2", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);
-            ssarrangements[2] = new EOArrangement(3, "STARTSHOWALL 3", "description", LocalDateTime.now(), LocalDateTime.now(), 100, false, true, null, null, null);
-            ssarrangements[3] = new EOArrangement(4, "STARTSHOWALL 4", "description", LocalDateTime.now(), LocalDateTime.now(), 100, true, false, null, null, null);                
+         
       System.out.println("EOManager.runCommand(" + operation + ")");
       // TODO - implement EOManager.runCommand
       switch(operation)
@@ -72,18 +47,27 @@ public class EOManager {
             gui.getBreadcrumb().push(EOOperation.IMPORT);
             break; 
          case IMPORTCSV:
+               try
+               {
+                  EOCSV eocsv = (EOCSV)EOOperation.IMPORTCSV.getData();
+                  eocsv.setDB(db);
+                  eocsv.importCSV();
+                  operation = EOOperation.START;
+               }
+               catch(Exception e)
+               {
+                  System.out.println("import CSV file failed: " + e.getMessage());
+                  operation = EOOperation.ERROR;
+               }
             gui.getBreadcrumb().pop();
             break;             
 //Export         
          case EXPORT:
-            // Udkommenteret da Philip anvender SQLite driveren med en absolut sti
-            FacilitatorContactInfo[] allFacilConInfo = db.getAllFacilitatorContactInfo();
-        
-            if(allFacilConInfo != null){
-               EOOperation.EXPORT.setData(allFacilConInfo);
-            }else{
-               //EOOperation.EXPORT.setData(allFacilConInfo)
-            }        
+            Object[] export_date = {
+                db.getAllFacilitatorContactInfo(),
+               db.getEOArrangements(false)
+            };
+            EOOperation.EXPORT.setData(export_date);
             gui.getBreadcrumb().push(EOOperation.EXPORT);
             break;
          case SAVECSV:
@@ -93,6 +77,7 @@ public class EOManager {
                try
                {
                   EOCSV eocsv = (EOCSV)EOOperation.SAVECSV.getData();
+                  eocsv.setDB(db);
                   eocsv.createCSV();
                   operation = EOOperation.START;
                }

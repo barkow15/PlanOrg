@@ -83,19 +83,19 @@ public class EOPanelExport extends EOPanel {
       facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
       facilitatormultiselect.setBounds(330, 60, 300, 240);
       this.add(facilitatormultiselect);
-      
+
       exportprice = new JCheckBox("Inkluder priser");
       exportprice.setSelected(false);
       exportprice.setBounds(330, 300, 150, 20);
-      this.add(exportprice);
+//      this.add(exportprice);
 
       JCheckBox exportdone = new JCheckBox("Inkluder afholdte");
       exportdone.setSelected(false);
       exportdone.setBounds(330, 320, 150, 20);
-      this.add(exportdone);
+//      this.add(exportdone);
       
       JButton exportfacilitatorarrangementbutton = new JButton("<html>Eksporter de arangementer som den/de<br/>valgte facilitatorer er tilknyttet</html>");
-      exportfacilitatorarrangementbutton.setBounds(330, 340, 300, 60);
+      exportfacilitatorarrangementbutton.setBounds(330, 300, 300, 60);
       exportfacilitatorarrangementbutton.addActionListener(
                new ActionListener()
                {
@@ -146,7 +146,7 @@ public class EOPanelExport extends EOPanel {
       exportarrangementlabel.setFont(this.gui.getFontsmall());
       this.add(exportarrangementlabel);
       
-      arrangementmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      arrangementmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
       arrangementmultiselect.setBounds(650, 60, 300, 240);
       this.add(arrangementmultiselect);
        
@@ -163,6 +163,7 @@ public class EOPanelExport extends EOPanel {
                            EOArrangement[] a = new EOArrangement[ae.length];
                            for(int i = 0; i < ae.length; i++)
                            {
+                              System.out.println("ADDING AOARRANGEMENT FOR EXPORT");
                               a[i] = (EOArrangement) ae[i];
                            }
                            File file = null;
@@ -198,8 +199,8 @@ public class EOPanelExport extends EOPanel {
       //Column 4//
       JTextArea exportnotetextarea = new JTextArea(
          "Der er 3 forskellige eksport valgmuligheder.\n\n" + 
-         "1) eksporter alt data i programmet.\nHvis du ønsker at arbejde på data sammen med en kollega er det nogen gange en bedre ide at arbejde i den samme database. Det kan gøres ved at ligge databasen på et netvaerks areal og rette i database.ini filen. Spoerg din it-administrator for hjaelp. \n\n"+
-         "2) eksporter arrangementer ud fra tilknyttet facilitatorer.\nAlle de arrangementer en eller flere  af de valgte facilitator er tilknyttet eksporteres.\nSaet hak ud for inkluder priser / afholdte hvis du eonsker at eksportere disse.\n\n"+
+         "1) eksporter alt data i programmet.\n\n" +
+         "2) eksporter arrangementer ud fra tilknyttet facilitator.\nAlle de arrangementer en facilitator er tilknyttet eksporteres.\n\n"+
          "3) eksporter Arrangementer.\nVælg de arrangementer på listen du ønsker at eksportere.\nDu har også mulighed for at eksportere dette hvis du går ind under et arrangement et andet sted i programmet.\n"
          );
       exportnotetextarea.setFont(this.gui.getFontsmall());
@@ -212,10 +213,19 @@ public class EOPanelExport extends EOPanel {
    }
 
    public void setVisible(boolean visible, EOOperation currentEOOperation) {
-      if(currentEOOperation.getData() instanceof FacilitatorContactInfo[])
-      {
-         facilitatormultiselect.setList((FacilitatorContactInfo[])(currentEOOperation.getData()));
+      if(currentEOOperation.getData().getClass().isArray())
+      {         
+         Object[] data = (Object[]) currentEOOperation.getData();
+         if(data[0] instanceof FacilitatorContactInfo[] && data[0] != null)
+         {     
+            facilitatormultiselect.setList((FacilitatorContactInfo[])data[0]);
+         }
+         if(data[1] instanceof EOArrangement[] && data[1] != null)
+         {
+            arrangementmultiselect.setList((EOArrangement[])data[1]);
+         }         
       }
+
       breadcrumb.setBreadcrumb(gui.getBreadcrumb());      
       super.setVisible(visible, currentEOOperation);
    }

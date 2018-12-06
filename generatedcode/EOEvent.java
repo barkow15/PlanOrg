@@ -108,16 +108,25 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
    {
       return(id);
    }
-   
-   public String exportCSV()
+
+   public String exportCSV(boolean includeprice)
    {
+      System.out.println("EOEvent.exportCSV()");
       String str = 
          EOCSV.formatField("EOEvent") + ", " + 
          EOCSV.formatField(id) + ", " + 
          EOCSV.formatField(description) + ", " + 
          EOCSV.formatField(getDateTimeStart()) + ", " +
-         EOCSV.formatField(getDateTimeEnd()) + ", " +
-         EOCSV.formatField(getPrice()) + "\n";
+         EOCSV.formatField(getDateTimeEnd()) + ", ";
+      if(includeprice)
+      {
+         str += EOCSV.formatField(getPrice()) + "\n"; 
+      }
+      else
+      {
+         str += "0\n";
+      }
+      /*
       FacilitatorContactInfo[] f = getFacilitators();
       if(f != null)
       {
@@ -134,7 +143,13 @@ public class EOEvent implements EOCSVInterface, EOGUIMultiSelectInterface {
             str += e[i].exportCSV();
          }
       }
+      */
       return(str);
+   }
+   
+   public String exportCSV()
+   {
+      return(exportCSV(true));
    }
    
    /**

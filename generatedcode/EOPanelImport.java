@@ -39,7 +39,7 @@ public class EOPanelImport extends EOPanel {
                         String path=fileChooser.getCurrentDirectory().getAbsolutePath();
                         String filename=fileChooser.getSelectedFile().getName();
                         file = new File(path, filename);
-                        EOOperation.IMPORTCSV.setData(file);
+                        EOOperation.IMPORTCSV.setData(new EOCSV(file));
                         gui.runCommand(EOOperation.IMPORTCSV);                       
                      }
                    }

@@ -103,12 +103,12 @@ public abstract class ContactInfo implements EOGUIMultiSelectInterface, EOCSVInt
    public String exportCSV(String type)
    {
       String str = 
-         EOCSV.formatField("ContactInfo") + ", " +
+         EOCSV.formatField(type) + ", " +
          EOCSV.formatField(getId()) + ", " +
          EOCSV.formatField(getName()) + ", " +
          EOCSV.formatField(getPhone()) + ", " + 
          EOCSV.formatField(getEmail()) + ", " +
-         EOCSV.formatField(getInfo()) + "\n";
+         EOCSV.formatField(getInfo());
       return(str);
    }
    

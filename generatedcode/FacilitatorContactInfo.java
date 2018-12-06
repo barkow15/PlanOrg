@@ -15,6 +15,7 @@ public class FacilitatorContactInfo extends ContactInfo {
    @Override   
    public String exportCSV()
    {
+      System.out.println("FacilitatorContactInfo.exportCSV()");
       return(super.exportCSV("FacilitatorContactInfo") + "\n");
    }  
 }

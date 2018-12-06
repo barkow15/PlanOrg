@@ -63,21 +63,35 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
       return(id);
    }
 
-   public String exportCSV(){
+   public String exportCSV(boolean includeprice){
       String str =
          EOCSV.formatField("EOEventType") + ", " +
-         EOCSV.formatField(id) + ", " + 
-         EOCSV.formatField(name) + ", " + 
-         EOCSV.formatField(description) + ", " +
-         EOCSV.formatField(locationstart) + ", " +
-         EOCSV.formatField(locationend) + ", " +
-         EOCSV.formatField(time) + ", " +
-         EOCSV.formatField(price) + "\n";
-         if(getExternalContactInfo() != null)
-         {
-            str += getExternalContactInfo().exportCSV();
-         }
+         EOCSV.formatField(getId()) + ", " + 
+         EOCSV.formatField(getName()) + ", " + 
+         EOCSV.formatField(getDescription()) + ", " +
+         EOCSV.formatField(getLocationStart()) + ", " +
+         EOCSV.formatField(getLocationEnd()) + ", " +
+         EOCSV.formatField(getTime()) + ", ";
+      if(includeprice)
+      {
+         str += EOCSV.formatField(getPrice()) + "\n"; 
+      }
+      else
+      {
+         str += "0\n";
+      }
+      /*
+      if(getExternalContactInfo() != null)
+      {
+         str += getExternalContactInfo().exportCSV();
+      }
+      */
       return(str);
+   }
+
+   public String exportCSV(){
+      System.out.println("EOEventType.exportCSV()");
+      return(exportCSV(true));
    }
    
    /**

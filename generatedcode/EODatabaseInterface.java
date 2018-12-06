@@ -30,32 +30,150 @@ public class EODatabaseInterface {
          System.exit(0);
       }      
    }
-
-	/**
-	 * 
-	 * @param arrangementid
-	 */
-   public EOArrangement getEOArrangement(int arrangementid) {
-   	// TODO - implement EODatabaseInterface.getEOArrangement
-      throw new UnsupportedOperationException();
+   
+   public EOArrangement[] getAllEOArrangementsFromFacilitator(FacilitatorContactInfo facilitator)
+   {
+      if(facilitator == null)
+      {
+      }
+      int size = 0;
+      EOArrangement[] a1 = getEOArrangementsFromEventsFacilitator(facilitator);
+      if(a1 != null)
+      {
+         size = a1.length;
+      }    
+      EOArrangement[] a2 = getEOArrangementsFromFacilitator(facilitator);
+      if(a2 != null)
+      {
+         size += a2.length;
+      }
+      EOArrangement[] a3 = new EOArrangement[size];
+      int i = 0;
+      if(a1 != null)
+      {
+         for(i = 0; i < a1.length; i++)
+         {
+            a3[i] = a1[i];
+         } 
+      }
+      if(a2 != null)
+      {
+         for(int j = 0; j < a2.length; j++)
+         {
+            a3[i] = a2[j];
+            i++;
+         }
+      }
+      return(a3);
    }
-
-	/**
-	 * 
-	 * @param eventid
-	 */
-   public EOEvent getEOEvent(int eventid) {
-   	// TODO - implement EODatabaseInterface.getEOEvent
-      throw new UnsupportedOperationException();
+   
+   public EOArrangement[] getEOArrangementsFromEventsFacilitator(FacilitatorContactInfo facilitator)
+   {
+      ResultSet rs = null;
+      String sql = null;
+      sql = "SELECT EOArrangements.* FROM EOEvents_has_EOFacilitatorContactInfo, EOEvents, EOArrangements_has_EOEvents, EOArrangements WHERE "+
+            "EOEvents_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = " + Integer.toString(facilitator.getId()) + " AND " +
+            "EOEvents_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = EOEvents.idEOEvents AND " +
+            "EOEvents.idEOEvents = EOArrangements_has_EOEvents.EOEvents_idEOEvents AND " +
+            "EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = EOArrangements.idEOArrangements";
+       String sqlcount = "SELECT count(*) FROM EOArrangements_has_EOEvents, EOEvents_has_EOFacilitatorContactInfo, EOEvents, EOArrangements WHERE "+
+            "EOEvents_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = " + Integer.toString(facilitator.getId()) + " AND " +
+            "EOEvents_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = EOEvents.idEOEvents AND " +
+            "EOEvents.idEOEvents = EOArrangements_has_EOEvents.EOEvents_idEOEvents AND " +
+            "EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = EOArrangements.idEOArrangements";
+      int rows = numRows(sqlcount);
+      if(rows == 0)
+      {
+         return(null);
+      }
+      System.out.println(rows);
+      rs = querySql(sql);
+      EOArrangement[] arrangements = new EOArrangement[rows];
+      for(int i = 0; i < rows; i++)
+      {
+         arrangements[i] = null;
+      }
+      
+      try
+      {
+         
+         for(int i = 0; rs.next(); i++)
+         {
+               arrangements[i] = new EOArrangement(
+               rs.getInt("idEOArrangements"), 
+               rs.getString("name"), 
+               rs.getString("description"), 
+               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               rs.getDouble("price"), 
+               rs.getBoolean("ispayed"), 
+               rs.getBoolean("isdone"), 
+               getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
+               getEOEvents(rs.getInt("idEOArrangements")), 
+               getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
+            );
+         }
+      }
+      catch(Exception e)
+      {
+         
+         System.err.println("getEOArrangementsFromEventsFacilitator: " +  e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      finally { this.closeConnection(rs);  }
+      System.out.println("Returning data");
+      return(arrangements);
    }
-
-	/**
-	 * 
-	 * @param eventtypeid
-	 */
-   public EOEventType getEOEventType(int eventtypeid) {
-   	// TODO - implement EODatabaseInterface.getEOEventType
-      throw new UnsupportedOperationException();
+   
+   public EOArrangement[] getEOArrangementsFromFacilitator(FacilitatorContactInfo facilitator)
+   {
+      ResultSet rs = null;
+      String sql = null;
+      sql = "SELECT EOArrangements.* FROM EOArrangements_has_EOFacilitatorContactInfo, EOArrangements WHERE EOArrangements_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idFacilitatorContactInfo = " + Integer.toString(facilitator.getId()) + " AND EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements = EOArrangements.idEOArrangements";
+      int rows = numRows("SELECT count(*) FROM EOArrangements_has_EOFacilitatorContactInfo, EOArrangements WHERE EOArrangements_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idFacilitatorContactInfo = " + Integer.toString(facilitator.getId()) + " AND EOArrangements_has_EOFacilitatorContactInfo.EOArrangements_idEOArrangements = EOArrangements.idEOArrangements");
+      System.out.println("DATA");
+      if(rows == 0)
+      {
+         return(null);
+      }
+      System.out.println("DATA");
+      rs = querySql(sql);
+      EOArrangement[] arrangements = new EOArrangement[rows];
+      System.out.println("DATA");
+      for(int i = 0; i < rows; i++)
+      {
+         arrangements[i] = null;
+      }
+      System.out.println("DATA");
+      try
+      {
+         
+         for(int i = 0; rs.next(); i++)
+         {
+               arrangements[i] = new EOArrangement(
+               rs.getInt("idEOArrangements"), 
+               rs.getString("name"), 
+               rs.getString("description"), 
+               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               sqliteDateTimeConvert(rs.getInt("datetimestart")), 
+               rs.getDouble("price"), 
+               rs.getBoolean("ispayed"), 
+               rs.getBoolean("isdone"), 
+               getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
+               getEOEvents(rs.getInt("idEOArrangements")), 
+               getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
+            );
+         }
+      }
+      catch(Exception e)
+      {
+         
+         System.err.println("getEOArrangementsFromFacilitator: " +  e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      finally { this.closeConnection(rs);  }
+      System.out.println("Returning data");
+      return(arrangements);
    }
 
 	/**
@@ -68,10 +186,20 @@ public class EODatabaseInterface {
       
       ResultSet rs = null;
       String sql = null;
-      sql = "SELECT * FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'";
+      if(includeIsDone)
+      {   
+         sql = "SELECT * FROM EOArrangements";      
+      }
+      else
+      {
+         sql = "SELECT * FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'";
+      }
       System.out.println(sql);
       int rows = numRows("SELECT count(*) FROM EOArrangements WHERE isdone = '" + Boolean.toString(includeIsDone) + "'");
-      System.out.println("Rows: " + rows);
+      if(rows == 0)
+      {
+         return(null);
+      }
       rs = querySql(sql);
       EOArrangement[] arrangements = new EOArrangement[rows];
       for(int i = 0; i < rows; i++)
@@ -127,7 +255,10 @@ public class EODatabaseInterface {
              " FROM EOArrangements_has_EOFacilitatorContactInfo, EOFacilitatorContactInfo WHERE EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOFacilitatorContactInfo_idFacilitatorContactInfo = EOFacilitatorContactInfo.idEOContactInfo";
       System.out.println(sql);
       int rows = numRows("SELECT count(*) FROM EOArrangements_has_EOFacilitatorContactInfo, EOFacilitatorContactInfo WHERE EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOFacilitatorContactInfo_idFacilitatorContactInfo = EOFacilitatorContactInfo.idEOContactInfo");
-      System.out.println("Rows: " + rows);
+      if(rows == 0)
+      {
+         return(null);
+      }
       rs = querySql(sql);
       FacilitatorContactInfo[] facilitators = new FacilitatorContactInfo[rows];
       for(int i = 0; i < rows; i++)
@@ -170,7 +301,10 @@ public class EODatabaseInterface {
              " FROM EOEvents_has_EOFacilitatorContactInfo, EOFacilitatorContactInfo WHERE EOEvents_has_EOFacilitatorContactInfo.EOEvents_idEOEvents = " + Integer.toString(eventid) + " AND EOEvents_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = EOFacilitatorContactInfo.idEOContactInfo";
       System.out.println(sql);
       int rows = numRows("SELECT count(*) FROM EOEvents_has_EOFacilitatorContactInfo, EOFacilitatorContactInfo WHERE EOEvents_has_EOFacilitatorContactInfo.EOEvents_idEOEvents = " + Integer.toString(eventid) + " AND EOEvents_has_EOFacilitatorContactInfo.EOFacilitatorContactInfo_idEOFacilitatorContactInfo = EOFacilitatorContactInfo.idEOContactInfo");
-      System.out.println("Rows: " + rows);
+      if(rows == 0)
+      {
+         return(null);
+      }
       rs = querySql(sql);
       FacilitatorContactInfo[] facilitators = new FacilitatorContactInfo[rows];
       for(int i = 0; i < rows; i++)
@@ -359,6 +493,48 @@ public class EODatabaseInterface {
       return(size);
    }
 
+   public EOEvent[] getEOEvents() {
+      ResultSet rs = null;
+      String sql = null;
+      sql = "SELECT * FROM EOEvents";
+      System.out.println(sql);
+      int rows = numRows("SELECT count(*) FROM EOEvents");
+      if(rows == 0)
+      {
+         return(null);
+      }
+      rs = querySql(sql);
+      EOEvent[] events = new EOEvent[rows];
+      for(int i = 0; i < rows; i++)
+      {
+         events[i] = null;
+      }   
+
+      try
+      {
+         for(int i = 0; rs.next(); i++)
+         {        
+               events[i] = new EOEvent(
+               rs.getInt("idEOContactInfo"), 
+               rs.getString("description"), 
+               sqliteDateTimeConvert(rs.getInt("dateTimeStart")), 
+               sqliteDateTimeConvert(rs.getInt("dateTimeEnd")), 
+               rs.getDouble("price"),
+               getFacilitatorContactInfoFromEOEvent(rs.getInt("idEOContactInfo")),
+               getEOEventTypes(rs.getInt("idEOContactInfo"))
+            );
+         }
+      }
+      catch(Exception e)
+      {
+         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+         System.exit(0);
+      }
+      finally { this.closeConnection(rs);  }
+      System.out.println("Returning data");
+      return(events);
+   }
+
 	/**
 	 * 
 	 * Returns all Events that are associated with an arrangement
@@ -374,7 +550,10 @@ public class EODatabaseInterface {
              " FROM EOArrangements_has_EOEvents, EOEvents WHERE EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents";
       System.out.println(sql);
       int rows = numRows("SELECT count(*) FROM EOArrangements_has_EOEvents, EOEvents WHERE EOArrangements_has_EOEvents.EOArrangements_idEOArrangements = " + Integer.toString(arrangementid) + " AND EOArrangements_has_EOEvents.EOEvents_idEOEvents = EOEvents.idEOEvents");
-      System.out.println("Rows: " + rows);
+      if(rows == 0)
+      {
+         return(null);
+      }
       rs = querySql(sql);
       EOEvent[] events = new EOEvent[rows];
       for(int i = 0; i < rows; i++)
@@ -713,7 +892,6 @@ public class EODatabaseInterface {
       
 	   if(executeSql(SQL) == 1)
       {
-         System.out.println("1");
          int eventtypeid = getLastId("EOEventTypes", "idEOEventtypes");
          System.out.println("Eventid: " + Integer.toString(eventtypeid));
          if(eventtype.getExternalContactInfo() == null)

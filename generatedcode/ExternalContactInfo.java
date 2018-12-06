@@ -23,6 +23,7 @@ public class ExternalContactInfo extends ContactInfo {
    @Override   
    public String exportCSV()
    {
+      System.out.println("ExternalContactInfo.exportCSV()");
       return(super.exportCSV("ExternalContactInfo") + ", " + EOCSV.formatField(getCompany()) + "\n");
    }   
 }

@@ -199,19 +199,27 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
    * Other objects might also return multiple lines.
    * </pre>
    */
-   public String exportCSV()
+   public String exportCSV(boolean includeprice)
    {
+      System.out.println("EOArrangement.exportCSV()");
       String str = 
          EOCSV.formatField("EOArrangement") + ",  " + 
          EOCSV.formatField(getId()) + ", " + 
          EOCSV.formatField(getName()) + ", " + 
          EOCSV.formatField(getDescription()) + ", " + 
          EOCSV.formatField(getDateTimeStart()) + ", " +
-         EOCSV.formatField(getDateTimeEnd()) + ", " +
-         EOCSV.formatField(getPrice()) + ", " + 
-         EOCSV.formatField(isPayed()) + ", " + 
+         EOCSV.formatField(getDateTimeEnd()) + ", ";
+      if(includeprice)
+      {
+         str += EOCSV.formatField(getPrice()) + ", ";
+      }
+      else
+      {
+         str += "0, ";
+      }
+      str += EOCSV.formatField(isPayed()) + ", " + 
          EOCSV.formatField(isDone()) + "\n";
-          
+          /*
          str += getCustomer().exportCSV();
          FacilitatorContactInfo[] f = getFacilitators();
          if(f != null)
@@ -229,8 +237,13 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
                str += e[i].exportCSV();
             }
          }
-      
-      return("");
+      */
+      return(str);
+   }
+
+   public String exportCSV()
+   {
+      return(exportCSV(true));
    }
    
    /**
