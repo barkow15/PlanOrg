@@ -62,6 +62,11 @@ public class EODatabaseInterface {
       return(executeSql(sql) == 1);
    }
    
+   public boolean createLink(String table, String identifier1, int value1, String identifier2, int value2)
+   {
+      return(createLink(new Link(table, identifier1, value1, identifier2, value2)));
+   }
+   
    public EOArrangement[] getAllEOArrangementsFromFacilitator(FacilitatorContactInfo facilitator)
    {
       if(facilitator == null)
@@ -908,8 +913,32 @@ public class EODatabaseInterface {
 	 * @param description
 	 */
    public void updateEOEvent(EOEvent event) {
-   	// TODO - implement EODatabaseInterface.updateEOEvent
-      throw new UnsupportedOperationException();
+      String eventid = Integer.toString(event.getId());
+      String description = event.getDescription();
+      String dateTimeStart = event.getDateTimeStart().toString();
+      String dateTimeEnd = event.getDateTimeEnd().toString();
+      String price = Double.toString(event.getPrice());
+      
+      //Drop any link to EventTypes and Facilitators
+      executeSql("DELETE FROM EOEvents_has_EOEventtypes WHERE EOEvents_idEOEvents = " + eventid);
+      executeSql("DELETE FROM EOEvents_has_EOFacilitatorContactInfo WHERE EOEvents_idEOEvents = " + eventid);
+      //Lets update the EOEvent
+      executeSql("UPDATE EOEvents SET description = '"+description+"', dateTimeStart='"+dateTimeStart+"', dateTimeEnd='"+dateTimeEnd+"', price="+price+" WHERE idEOEvents="+eventid);     
+      //Lets add links
+      if(event.getFacilitators() != null)
+      {
+         for(int i = 0; i < event.getFacilitators().length; i++)
+         {
+            createLink("EOEvents_has_EOFacilitatorContactInfo", "EOEvents_idEOEvents", event.getId(), "EOFacilitatorContactInfo_idEOFacilitatorContactInfo", event.getFacilitators()[i].getId());
+         }
+      }
+      if(event.getEventTypes() != null)
+      {
+         for(int i = 0; i < event.getEventTypes().length; i++)
+         {
+            createLink("EOEvents_has_EOEventtypes", "EOEvents_idEOEvents", event.getId(), "EOEventtypes_idEOEventtypes", event.getEventTypes()[i].getId());
+         }
+      }
    }
 
 	/**
@@ -917,8 +946,10 @@ public class EODatabaseInterface {
 	 * @param eventid
 	 */
    public void deleteEOEvent(int eventid) {
-   	// TODO - implement EODatabaseInterface.deleteEOEvent
-      throw new UnsupportedOperationException();
+      boolean status = executeSql("DELETE FROM EOEvents WHERE idEOEvents = " + Integer.toString(eventid)) == 1 &&
+      executeSql("DELETE FROM EOArrangements_has_EOEvents WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1 &&
+      executeSql("DELETE FROM EOEvents_has_EOEventtypes WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1 &&
+      executeSql("DELETE FROM EOEvents_has_EOFacilitatorContactInfo WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1;
    }
 
 	/**
