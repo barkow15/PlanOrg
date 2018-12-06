@@ -1,0 +1,32 @@
+Vores CSV fil bliver generet ud fra formatet
+
+ObjectNavn1, data, data, data, data
+ObjectNavn1.1 er en del af ObjectNavn1, data, data, data, data
+Link ObjectNavn1, ObjectNavn1.1
+
+
+Hvor vi escaper linie skift og ",".
+Vi escaper " med "".
+Datotid er angivet som dag/måned år time:minut.
+
+Da vores hoved data klasses er EOArrangement vil det være den vi tager udgangspunkt i hvis der eksporteres data til en facilitator via facilitator valg eller arrangement valg.
+
+Hvis man derimod vælger at eksportere alt data, så laves der objekter ud fra alle de ting der er i databasen.
+
+
+altid være det vi tager udgangspunkt i når der bliver eksporteret data til facilitatorerne.
+
+Et eksempel på data eksport er her (taget fra EOArrangement: exportCSV())
+
+
+Linie1: "EOEXPORT", "2018-12-06T11:21:10.445", "mode=1"
+Linie2: "EOArrangement",  "1", "Deloitte Julefrokost", "Et brag af en julefest!", "21/5 1953 22:39", "21/5 1953 22:39", "100000.0", "false", "false"
+Linie3: "FacilitatorContactInfo", "2", "Test mand 2", "12345678", "test@test.dk", "Bla"
+Linie4: "Link", "EOArrangements_idEOArrangements", "1", "EOFacilitatorContactInfo_idFacilitatorContactInfo", "2"
+Linie5: "FacilitatorContactInfo", "4", "Test mand 4", "12345678", "test@test.dk", "Bla"
+Linie6: "Link", "EOArrangements_idEOArrangements", "1", "EOFacilitatorContactInfo_idFacilitatorContactInfo", "4"
+
+
+Når data indlæses starter vi med at slette alt data i databasen.
+Derefter tjekkes der for om den første linie i det første felt er EOEXPORT - Ellers er det ikke en EOEXPORT CSV fil.
+Derefter for hver linie kigger vi på værdien i det første felt, ud fra det opretter vi så et objekt af den type og opretter det i databasen.
