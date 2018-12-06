@@ -6,9 +6,9 @@ public class Link implements EOCSVInterface
    String table;
    String type;
    String identifier1;
-   int value1;
+   int    value1;
    String identifier2;
-   int value2;
+   int    value2;
    
    public Link(String table, String identifer1, int value1, String identifier2, int value2)
    {

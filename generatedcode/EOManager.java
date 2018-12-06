@@ -39,7 +39,7 @@ public class EOManager {
             break;
          case STARTSHOWALL:
                     
-            EOOperation.STARTSHOWALL.setData(db.getEOArrangements(true));         
+            EOOperation.STARTSHOWALL.setData(db.getEOArrangements(true));
             if(gui != null)
             {
                gui.getBreadcrumb().reset();
