@@ -11,6 +11,7 @@ public class EOPanelStartMenu extends EOPanel {
    EOGUI gui = null;
    EOGUIBreadcrumb breadcrumb;
    EOGUIArrangementTable arrangementtable;
+   JCheckBox showallcheckbox = null;
    
    public EOPanelStartMenu(EOGUI gui)
    {
@@ -95,7 +96,7 @@ public class EOPanelStartMenu extends EOPanel {
       arrangementLabel.setFont(gui.getFontbig());
       this.add(arrangementLabel);
    
-      JCheckBox showallcheckbox = new JCheckBox("Vis kun ikke afholdte");
+      showallcheckbox = new JCheckBox("Vis kun ikke afholdte");
       showallcheckbox.setBounds(this.gui.getWidth()-170, 70, 150, 30);
       showallcheckbox.setSelected(true);
       showallcheckbox.addActionListener(
@@ -135,6 +136,10 @@ public class EOPanelStartMenu extends EOPanel {
       else
       {
          arrangementtable.setArrangements(null);
+      }
+      if(currentEOOperation == EOOperation.START && showallcheckbox != null)
+      {
+         showallcheckbox.setSelected(true);
       }
       super.setVisible(visible, currentEOOperation);
    }
