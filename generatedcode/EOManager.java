@@ -17,7 +17,7 @@ public class EOManager {
    }
 	/**
 	 * 
-	 * The main metode in EOManager, all operations from the GUI is ran through this metode. The metode return the operation that it wishes the GUI to execute (which panel it needs to show, with what data).
+	 * The main metode in EOManager, all operations from the GUI is ran through this metode. The method return the operation that it wishes the GUI to execute (which panel it needs to show, with what data).
 	 */
    public EOOperation runCommand(EOOperation operation) {
       //Test data

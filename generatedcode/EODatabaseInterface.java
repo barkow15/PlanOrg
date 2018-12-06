@@ -835,10 +835,14 @@ public class EODatabaseInterface {
         // HENT SENESTE ID TIL VIDERE BYGNING AF SQL STATEMENTS
         int id = this.getLastId("EOArrangements", "idEOArrangements");
 
-        //BYG SQL INSERT STATEMENTS FOR RESTEN SOM ER FORBUNDET TIL ARRANGEMENT
-        SQLEOArrangements_has_EOContactInfo  = "INSERT INTO EOArrangements_has_EOContactInfo ";
-        SQLEOArrangements_has_EOContactInfo += "(EOArrangements_idEOArrangements, EOCustomerContactInfo_idCustomerContactInfo) ";
-        SQLEOArrangements_has_EOContactInfo += "VALUES (" + id + ", " + aObj.getCustomer().getId()  + ");";
+       // LAV INSERT I KRYDSTABEL
+        this.createLink(
+                "EOArrangements_has_EOContactInfo",
+               "EOArrangements_idEOArrangements",
+                id,
+               "EOCustomerContactInfo_idCustomerContactInfo",
+                aObj.getCustomer().getId()
+        );
 
         // BYG OG EKSEKVER EVENTS FORBUNDET TIL ARRANGEMENT
         for(int i = 0; i < eventsArrSize; i++){
@@ -846,9 +850,14 @@ public class EODatabaseInterface {
                 //System.out.println(eventsArr[i].getPrice());
                 SQLEOArrangements_has_EOEventsStatus = false;
 
-                SQLEOArrangements_has_EOEvents       = "INSERT INTO EOArrangements_has_EOEvents ";
-                SQLEOArrangements_has_EOEvents      += "(EOArrangements_idEOArrangements, EOEvents_idEOEvents) ";
-                SQLEOArrangements_has_EOEvents      += "VALUES (" + id + ", " + eventsArr[i].getId() + ");";
+               // LAV INSERT I KRYDSTABEL
+                this.createLink(
+                 "EOArrangements_has_EOEvents",
+                 "EOArrangements_idEOArrangements",
+                        id,
+                 "EOEvents_idEOEvents",
+                        eventsArr[i].getId()
+                );
                 if(executeSql(SQLEOArrangements_has_EOEvents) == 1) SQLEOArrangements_has_EOEventsStatus = true;
             }
         }
@@ -858,9 +867,14 @@ public class EODatabaseInterface {
                 //System.out.println(eventsArr[i].getPrice());
                 SQLEOArrangements_has_EOFacilitatorContactInfoStatus = false;
 
-                SQLEOArrangements_has_EOFacilitatorContactInfo  = "INSERT INTO EOArrangements_has_EOFacilitatorContactInfo ";
-                SQLEOArrangements_has_EOFacilitatorContactInfo += "(EOArrangements_idEOArrangements, EOFacilitatorContactInfo_idFacilitatorContactInfo) ";
-                SQLEOArrangements_has_EOFacilitatorContactInfo += "VALUES (" + id + ", " + facilArr[i].getId() + ");";
+                // LAV INSERT I KRYDSTABEL
+                this.createLink(
+                        "EOArrangements_has_EOFacilitatorContactInfo",
+                        "EOArrangements_idEOArrangements",
+                        id,
+                        "EOFacilitatorContactInfo_idFacilitatorContactInfo",
+                        facilArr[i].getId()
+                );
                 if(executeSql(SQLEOArrangements_has_EOFacilitatorContactInfo) == 1) SQLEOArrangements_has_EOFacilitatorContactInfoStatus = true;
             }
         }
@@ -880,14 +894,8 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param arrangementid
-	 * @param events
-	 * @param customer
-	 * @param name
-	 * @param description
-	 * @param datetimestart
-	 * @param datetimeend
-	 * @param price
+	 * @param arrangement
+     *
 	 */
    public void updateEOArrangement(EOArrangement arrangement) {
    	//We start by deleting all EOEvents that are part of the arrangement
@@ -988,11 +996,9 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param eventtypes
-	 * @param datetimestart
-	 * @param datetimeend
-	 * @param price
-	 * @param description
+	 * @param event
+     *
+     *
 	 */
    public void createEOEvent(EOEvent event) {
    	// TODO - implement EODatabaseInterface.createEOEvent
@@ -1001,12 +1007,8 @@ public class EODatabaseInterface {
 
 	/**
 	 * 
-	 * @param eventid
-	 * @param eventtypes
-	 * @param datetimestart
-	 * @param datetimeend
-	 * @param price
-	 * @param description
+	 * @param event
+     *
 	 */
    public void updateEOEvent(EOEvent event) {
       String eventid = Integer.toString(event.getId());
@@ -1852,7 +1854,7 @@ public class EODatabaseInterface {
 
 	  try
 	  {
-		 conn = DriverManager.getConnection(this.dbPathRelative);
+		 conn = DriverManager.getConnection(this.dbPathAbsolute);
 		 if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 		 pstmt = conn.prepareStatement(sql);
@@ -1889,7 +1891,7 @@ public class EODatabaseInterface {
 		try
 		{
 			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-			conn = DriverManager.getConnection(this.dbPathRelative);
+			conn = DriverManager.getConnection(this.dbPathAbsolute);
 			if(this.debug) System.out.println("DB CONNECTION OPENED");
 
 			pstmt = conn.prepareStatement(sql);
