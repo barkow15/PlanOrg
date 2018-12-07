@@ -85,6 +85,9 @@ public class EOPanelADMFacilitator extends EOPanel {
    
    
       notesText = new JTextArea();
+      notesText.setLineWrap(true);
+      notesText.setWrapStyleWord(true);
+      notesText.setBorder(gui.getDefaultBorder());
       notesText.setBounds(450,350,300,150);
       this.add(notesText);
    

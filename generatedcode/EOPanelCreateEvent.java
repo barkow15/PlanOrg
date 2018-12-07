@@ -173,7 +173,9 @@ public class EOPanelCreateEvent extends EOPanel {
       beskrivelsenoterLabel.setFont(gui.getFontsmall());
       this.add(beskrivelsenoterLabel);
    
-      beskrivelsenoterTextArea = new JTextArea();
+      beskrivelsenoterTextArea = new JTextArea();    
+      beskrivelsenoterTextArea.setLineWrap(true);
+      beskrivelsenoterTextArea.setWrapStyleWord(true);
       beskrivelsenoterTextArea.setBounds(650, 380, 300, 240);
       beskrivelsenoterTextArea.setBorder(gui.getDefaultBorder());
       beskrivelsenoterTextArea.setFont(gui.getFontsmall());

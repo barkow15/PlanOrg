@@ -1,0 +1,22 @@
+/**
+The EODisplayType is used by the EOGUI to select which Panel to show to the user.
+*/
+
+public enum EODisplayType {
+   START,
+   CREATEARRANGEMENT,
+   UPDATEARRANGEMENT,
+   DELETEARRANGEMENT,
+   OPENARRANGEMENT,
+   CREATEEVENT,
+   UPDATEEVENT,
+   DELETEEVENT, 
+   OPENEVENT,  
+   EXPORT,
+   IMPORT,
+   ADMFACILITATOR,
+   OPENFACILITATOR,
+   ERROR,
+   ADMEVENTTYPE,
+   OPENEVENTTYPE;
+}

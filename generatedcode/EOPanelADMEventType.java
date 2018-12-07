@@ -159,6 +159,8 @@ public class EOPanelADMEventType extends EOPanel {
    
    
       notejtextarea = new JTextArea();
+      notejtextarea.setLineWrap(true);
+      notejtextarea.setWrapStyleWord(true);
       notejtextarea.setBounds(330, 260, 300, 200);
       notejtextarea.setBorder(gui.getDefaultBorder());           
       notejtextarea.setFont(this.gui.getFontsmall());
@@ -249,6 +251,8 @@ public class EOPanelADMEventType extends EOPanel {
    
    
       externalcontactenotejtextarea = new JTextArea();
+      externalcontactenotejtextarea.setLineWrap(true);
+      externalcontactenotejtextarea.setWrapStyleWord(true);
       externalcontactenotejtextarea.setBounds(650, 220, 300, 200);
       externalcontactenotejtextarea.setFont(this.gui.getFontsmall());
       externalcontactenotejtextarea.setBorder(gui.getDefaultBorder());

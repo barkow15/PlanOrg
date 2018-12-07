@@ -123,6 +123,8 @@ public class EOPanelCreateArrangement extends EOPanel {
    
       descriptionjtextarea=new JTextArea();
       descriptionjtextarea.setBounds(650, 180, 300, 170);
+      descriptionjtextarea.setLineWrap(true);
+      descriptionjtextarea.setWrapStyleWord(true);
       descriptionjtextarea.setBorder(gui.getDefaultBorder());
       descriptionjtextarea.setFont(this.gui.getFontsmall());
       this.add(descriptionjtextarea);
@@ -255,6 +257,8 @@ public class EOPanelCreateArrangement extends EOPanel {
       
       customerinfojtextarea=new JTextArea();
       customerinfojtextarea.setBounds(970, 510, 300, 130);
+      customerinfojtextarea.setLineWrap(true);
+      customerinfojtextarea.setWrapStyleWord(true);
       customerinfojtextarea.setBorder(gui.getDefaultBorder());
       customerinfojtextarea.setFont(this.gui.getFontsmall());
       this.add(customerinfojtextarea);     

@@ -121,6 +121,8 @@ public class EOPanelUpdateArrangement extends EOPanel {
       this.add(descriptionlabel);
    
       descriptionjtextarea=new JTextArea();
+      descriptionjtextarea.setLineWrap(true);
+      descriptionjtextarea.setWrapStyleWord(true);
       descriptionjtextarea.setBounds(650, 180, 300, 170);
       descriptionjtextarea.setBorder(gui.getDefaultBorder());
       descriptionjtextarea.setFont(this.gui.getFontsmall());
