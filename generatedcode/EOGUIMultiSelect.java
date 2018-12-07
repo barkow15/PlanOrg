@@ -28,7 +28,7 @@ public class EOGUIMultiSelect extends JPanel
    
    public EOGUIMultiSelect(EOGUIMultiSelectInterface[] options, Dimension size, int selectionmode)
    {
-      this(options, new Dimension(300, 200), ListSelectionModel.MULTIPLE_INTERVAL_SELECTION, BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+      this(options, new Dimension(300, 200), selectionmode, BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
    }
 
    
@@ -48,7 +48,8 @@ public class EOGUIMultiSelect extends JPanel
          }
       }
    
-      list = new JList<>(model);        
+      list = new JList<>(model);  
+      list.setSelectionMode(selectionmode);
       //list.setPreferredSize(size);
        
       list.setCellRenderer(

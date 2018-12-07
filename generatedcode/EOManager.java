@@ -55,6 +55,7 @@ public class EOManager {
                EOCSV eocsv = (EOCSV)EOOperation.IMPORTCSV.getData();
                eocsv.setDB(db);
                eocsv.importCSV();
+               EOOperation.START.setData(db.getEOArrangements(false));
                operation = EOOperation.START;
             }
             catch(Exception e)

@@ -23,7 +23,7 @@ public class Link implements EOCSVInterface
    public String exportCSV()
    {
       System.out.println("Link.exportCSV()");
-      return(EOCSV.formatField(type) + ", " + EOCSV.formatField(identifier1) + ", " + EOCSV.formatField(value1) + ", " + EOCSV.formatField(identifier2) + ", " + EOCSV.formatField(value2) + "\n");
+      return(EOCSV.formatField(type) + ", " + EOCSV.formatField(table) + ", " + EOCSV.formatField(identifier1) + ", " + EOCSV.formatField(value1) + ", " + EOCSV.formatField(identifier2) + ", " + EOCSV.formatField(value2) + "\n");
    }
    
    public String getTable(){

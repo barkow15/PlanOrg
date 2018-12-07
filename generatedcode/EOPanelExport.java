@@ -83,7 +83,7 @@ public class EOPanelExport extends EOPanel {
       //Example data, here we need to load data from database
    
                         
-      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
+      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
       facilitatormultiselect.setBounds(330, 60, 300, 240);
       this.add(facilitatormultiselect);
    
@@ -149,7 +149,7 @@ public class EOPanelExport extends EOPanel {
       exportarrangementlabel.setFont(this.gui.getFontsmall());
       this.add(exportarrangementlabel);
       
-      arrangementmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240), ListSelectionModel.SINGLE_SELECTION);
+      arrangementmultiselect = new EOGUIMultiSelect(null, new Dimension(300, 240));
       arrangementmultiselect.setBounds(650, 60, 300, 240);
       this.add(arrangementmultiselect);
        

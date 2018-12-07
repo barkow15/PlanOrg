@@ -73,7 +73,7 @@ public class EOCSV
          return(false);
       }
       db.truncateDB();
-      
+
       //WE know that the line is "value", "value", "value"\n
       //So before the " it must be either nothing or empty space,
       //The end " must be followed by either , or \n
@@ -181,12 +181,10 @@ public class EOCSV
       {
          case "EOArrangement":
             System.out.println("Insert: EOArrangement");
-            new EOArrangement(Integer.parseInt(strarray[1]), strarray[2], strarray[3], getLocalDateTime(strarray[4]), getLocalDateTime(strarray[5]), Double.parseDouble(strarray[6]), Boolean.parseBoolean(strarray[7]), Boolean.parseBoolean(strarray[8]), null, null, null);
-            break;
+            return db.createEOArrangement(new EOArrangement(Integer.parseInt(strarray[1]), strarray[2], strarray[3], getLocalDateTime(strarray[4]), getLocalDateTime(strarray[5]), Double.parseDouble(strarray[6]), Boolean.parseBoolean(strarray[7]), Boolean.parseBoolean(strarray[8]), null, null, null));
          case "EOEvent":
             System.out.println("Insert: EOEvent");
-            new EOEvent(Integer.parseInt(strarray[1]), strarray[2], getLocalDateTime(strarray[3]), getLocalDateTime(strarray[4]), Double.parseDouble(strarray[5]), null, null);
-            break;
+            return db.createEOEvent(new EOEvent(Integer.parseInt(strarray[1]), strarray[2], getLocalDateTime(strarray[3]), getLocalDateTime(strarray[4]), Double.parseDouble(strarray[5]), null, null));
          case "EOEventType":
             System.out.println("Insert: EOEventType");
             return db.createEOEvenType(new EOEventType(Integer.parseInt(strarray[1]), strarray[2], strarray[3], strarray[4], strarray[5], Integer.parseInt(strarray[6]), Double.parseDouble(strarray[7]), null));
@@ -202,13 +200,11 @@ public class EOCSV
             return(true);
          case "Link":
             System.out.println("Insert: Link");
-            new Link(strarray[1], strarray[2], Integer.parseInt(strarray[3]), strarray[4], Integer.parseInt(strarray[5]));
-            break;
+            return db.createLink(new Link(strarray[1], strarray[2], Integer.parseInt(strarray[3]), strarray[4], Integer.parseInt(strarray[5])));
          default:
             System.out.println("Unknown key: " + key);
             return(false);
       }
-      return(true);
    }
 
    /**
@@ -454,7 +450,7 @@ public class EOCSV
       {
          return("\"\"");
       }   
-      return("\"" + field.format(DateTimeFormatter.ofPattern("w/M y k:mm")) + "\"");
+      return("\"" + field.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\"");
    }         
 
    /**
@@ -470,7 +466,7 @@ public class EOCSV
    */      
    private static LocalDateTime getLocalDateTime(String str)
    {
-      return(LocalDateTime.parse(str, (DateTimeFormatter.ofPattern("w/M y k:mm"))));  
+      return(LocalDateTime.parse(str, (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));  
    }
    
    private static String removeFormat(String field)
