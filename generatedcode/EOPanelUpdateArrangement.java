@@ -131,7 +131,7 @@ public class EOPanelUpdateArrangement extends EOPanel {
       facilitatorlabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorlabel);
    
-      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160), ListSelectionModel.SINGLE_SELECTION);
+      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160));
       facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);
       facilitatormultiselect.setBounds(650, 380, 300, 160);
       this.add(facilitatormultiselect);
@@ -317,17 +317,17 @@ public class EOPanelUpdateArrangement extends EOPanel {
    */
    private void updateArrangementObj()
    {
-   System.out.println("1");
+      System.out.println("1");
       if(EOOperation.UPDATEARRANGEMENT.getData().getClass().isArray())
       {
-    System.out.println("2");     
+         System.out.println("2");     
          Object[] obj = (Object[])EOOperation.UPDATEARRANGEMENT.getData();
          if(obj.length == 2)
          {
-      System.out.println("3");      
+            System.out.println("3");      
             if(obj[1] instanceof EOArrangement && obj[1] != null)
             {
-       System.out.println("4");        
+               System.out.println("4");        
                EOArrangement arrangement = (EOArrangement) obj[1];
                if(eventmultiselect.getList() != null && eventmultiselect.getList().length > 0)
                {

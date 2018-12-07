@@ -132,7 +132,7 @@ public class EOPanelCreateArrangement extends EOPanel {
       facilitatorlabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorlabel);
    
-      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160), ListSelectionModel.SINGLE_SELECTION);
+      facilitatormultiselect = new EOGUIMultiSelect(null, new Dimension(300, 160));
       facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);
       facilitatormultiselect.setBounds(650, 380, 300, 160);
       this.add(facilitatormultiselect);
