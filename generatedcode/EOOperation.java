@@ -21,7 +21,7 @@ public enum EOOperation {
       
    IMPORT (null, "Importer", EODisplayType.IMPORT), //Martin - DONE
    IMPORTCSV (null, "Importer", EODisplayType.START), //Faelles  
-   EXPORT (null, "Exporter", EODisplayType.EXPORT), //Martin - DONE
+   EXPORT (null, "Eksporter", EODisplayType.EXPORT), //Martin - DONE
    SAVECSV (null, "Gem CSV", EODisplayType.START), //Faelles 
    
    ADMFACILITATOR (null, "Administrer Facilitatorer", EODisplayType.ADMFACILITATOR), //Frederik

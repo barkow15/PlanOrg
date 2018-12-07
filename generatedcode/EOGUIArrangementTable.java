@@ -58,9 +58,15 @@ public class EOGUIArrangementTable extends JPanel
          {
             public void mouseClicked(java.awt.event.MouseEvent e)
             {
-               int row=table.rowAtPoint(e.getPoint());
-               int col=table.columnAtPoint(e.getPoint());
-               int id = Integer.parseInt((String)table.getValueAt(row,0));
+               int row=0;
+               int col=0;
+               int id=0;
+               try
+               {
+                  row=table.rowAtPoint(e.getPoint());
+                  col=table.columnAtPoint(e.getPoint());
+                  id = Integer.parseInt((String)table.getValueAt(row,0));
+               }catch(Exception epoint){}
             //Row 7 = Open
                if(col == 7)
                { 
@@ -157,7 +163,7 @@ public class EOGUIArrangementTable extends JPanel
                   facilitators, 
                   ispayed, 
                   isdone, 
-                  "Aaben", "Rediger", "Slet"};
+                  "Åben", "Rediger", "Slet"};
                try
                {
                   dm.addRow(s);
@@ -175,7 +181,7 @@ public class EOGUIArrangementTable extends JPanel
                   facilitators, 
                   ispayed, 
                   isdone, 
-                  "Aaben"};
+                  "Åben"};
                try
                {
                   dm.addRow(s);

@@ -224,8 +224,9 @@ class EOGUIDateTimePicker extends JPanel
       if(datetime != null)
       {
          this.datetime = datetime;
-         selecteddate = datetime.toLocalDate();
-         selectedtime = datetime.toLocalTime();
+         this.selecteddate = datetime.toLocalDate();
+         this.selectedtime = datetime.toLocalTime();
+         timetext.setText( selectedtime.format(DateTimeFormatter.ofPattern("k:mm")));
          paint(this.datetime);   
       }   
    }

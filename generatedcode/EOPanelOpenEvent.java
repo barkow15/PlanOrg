@@ -86,7 +86,7 @@ public class EOPanelOpenEvent extends EOPanel {
       eventtypemultiselect.setBounds(650, 60, 300, 240);
       this.add(eventtypemultiselect);
    
-      JLabel eventtypehelpLabel = new JLabel("* Hoejre klik for at se info.");
+      JLabel eventtypehelpLabel = new JLabel("* Højre klik for at se info.");
       eventtypehelpLabel.setBounds(650, 300, 250, 20);
       eventtypehelpLabel.setFont(gui.getFontsmall());
       this.add(eventtypehelpLabel);
@@ -124,7 +124,7 @@ public class EOPanelOpenEvent extends EOPanel {
       facilitatormultiselect.setBounds(970, 60, 300, 240);
       this.add(facilitatormultiselect);
    
-      JLabel addfacilitatorhelpLabel = new JLabel("* Hoejreklik for at se info");
+      JLabel addfacilitatorhelpLabel = new JLabel("* Højreklik for at se info");
       addfacilitatorhelpLabel.setBounds(970, 300, 350, 20);
       addfacilitatorhelpLabel.setFont(gui.getFontsmall());
       this.add(addfacilitatorhelpLabel);

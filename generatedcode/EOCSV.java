@@ -73,7 +73,7 @@ public class EOCSV
          return(false);
       }
       db.truncateDB();
-
+   
       //WE know that the line is "value", "value", "value"\n
       //So before the " it must be either nothing or empty space,
       //The end " must be followed by either , or \n
@@ -422,7 +422,7 @@ public class EOCSV
       {
          return("\"\"");
       }
-      return("\"" + field.replace("\"", "\"\"") + "\"");
+      return("\"" + field.replace("\"", "\"\"").replace("\n", "######") + "\"");
    }
 
    /**
@@ -471,7 +471,7 @@ public class EOCSV
    
    private static String removeFormat(String field)
    {
-      return(field.replace("\"\"", "\""));
+      return(field.replace("\"\"", "\"").replace("######", "\n"));
    }
   
 }

@@ -126,7 +126,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       facilitatormultiselect.addMouseListener(gui, EOOperation.OPENFACILITATOR);
       this.add(facilitatormultiselect);
    
-      JLabel facilitatorhelplabel=new JLabel("* Hoejre klik for at se info");
+      JLabel facilitatorhelplabel=new JLabel("* Højre klik for at se info");
       facilitatorhelplabel.setBounds(650, 540, 200, 20);
       facilitatorhelplabel.setFont(this.gui.getFontsmall());
       this.add(facilitatorhelplabel);
@@ -142,7 +142,7 @@ public class EOPanelOpenArrangement extends EOPanel {
       eventmultiselect.addMouseListener(gui, EOOperation.OPENEVENT);      
       this.add(eventmultiselect);
       
-      JLabel eventhelplabel=new JLabel("* Hoejre klik for at se info");
+      JLabel eventhelplabel=new JLabel("* Højre klik for at se info");
       eventhelplabel.setBounds(970, 300, 200, 20);
       eventhelplabel.setFont(this.gui.getFontsmall());
       this.add(eventhelplabel);

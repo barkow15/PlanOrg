@@ -13,7 +13,7 @@ public class EODatabaseInterface {
    Connection conn = null;
    private boolean debug = true;
    String dbPathAbsolute = "jdbc:sqlite:/Users/philipbarkow/Library/Mobile Documents/com~apple~CloudDocs/Datamatiker/1. semester/PlanOrg/generatedcode/finaldb.db";
-   String dbPathRelative = "jdbc:sqlite:finaldb.db";
+   String dbPathRelative = "jdbc:sqlite:EODatabase.db";
  
    public void truncateDB()
    {
@@ -115,7 +115,7 @@ public class EODatabaseInterface {
          
          for(int i = 0; rs.next(); i++)
          {
-               arrangements[i] = new EOArrangement(
+            arrangements[i] = new EOArrangement(
                rs.getInt("idEOArrangements"), 
                rs.getString("name"), 
                rs.getString("description"), 
@@ -127,7 +127,7 @@ public class EODatabaseInterface {
                getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
                getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
-            );
+               );
          }
       }
       catch(Exception e)
@@ -166,7 +166,7 @@ public class EODatabaseInterface {
          
          for(int i = 0; rs.next(); i++)
          {
-               arrangements[i] = new EOArrangement(
+            arrangements[i] = new EOArrangement(
                rs.getInt("idEOArrangements"), 
                rs.getString("name"), 
                rs.getString("description"), 
@@ -178,7 +178,7 @@ public class EODatabaseInterface {
                getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
                getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
-            );
+               );
          }
       }
       catch(Exception e)
@@ -199,7 +199,7 @@ public class EODatabaseInterface {
 	 */
 
    public EOArrangement[] getEOArrangements(boolean includeIsDone) {
-   	System.out.println("DB method \"Test\" running...");
+      System.out.println("DB method \"Test\" running...");
       
       ResultSet rs = null;
       String sql = null;
@@ -214,8 +214,8 @@ public class EODatabaseInterface {
          sql = "SELECT * FROM EOArrangements WHERE isdone = '3'";
          rows = numRows("SELECT count(*) FROM EOArrangements WHERE isdone = '3'");
       }
-
-
+   
+   
       if(rows == 0)
       {
          return(null);
@@ -232,7 +232,7 @@ public class EODatabaseInterface {
          
          for(int i = 0; rs.next(); i++)
          {
-               arrangements[i] = new EOArrangement(
+            arrangements[i] = new EOArrangement(
                rs.getInt("idEOArrangements"), 
                rs.getString("name"), 
                rs.getString("description"), 
@@ -244,7 +244,7 @@ public class EODatabaseInterface {
                getFacilitatorContactInfoFromEOArrangement(rs.getInt("idEOArrangements")), 
                getEOEvents(rs.getInt("idEOArrangements")), 
                getCustomerContactInfoFromEOArrangement(rs.getInt("idEOArrangements"))
-            );
+               );
          }
       }
       catch(Exception e)
@@ -272,8 +272,8 @@ public class EODatabaseInterface {
    private static LocalDateTime getLocalDateTime(String str)
    {
       if(str == null)
-	   {
-	      return(null);
+      {
+         return(null);
       }
       System.out.println("FOUND DATE = " + str);
       return(LocalDateTime.parse(str, (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));  
@@ -312,18 +312,18 @@ public class EODatabaseInterface {
       {
          facilitators[i] = null;
       }   
-
+   
       try
       {
          for(int i = 0; rs.next(); i++)
          {        
-               facilitators[i] = new FacilitatorContactInfo(
+            facilitators[i] = new FacilitatorContactInfo(
                rs.getInt("idEOContactInfo"), 
                rs.getString("name"), 
                rs.getString("phone"), 
                rs.getString("email"), 
                rs.getString("info")
-            );
+               );
          }
       }
       catch(Exception e)
@@ -358,7 +358,7 @@ public class EODatabaseInterface {
       {
          facilitators[i] = null;
       }   
-
+   
       try
       {
          for(int i = 0; rs.next(); i++)
@@ -464,10 +464,10 @@ public class EODatabaseInterface {
    public FacilitatorContactInfo[] getFacilitatorsContactInfo(int arrangementid) {
       FacilitatorContactInfo[] facilArr = null;
       int rowCount;
-
+   
       rowCount 	 = 0;
       rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
-
+   
       String sql =
          "SELECT EOF.* " +
          "FROM EOArrangements_has_EOFacilitatorContactInfo EOF_h_EOF " +
@@ -475,14 +475,14 @@ public class EODatabaseInterface {
          "EOFacilitatorContactInfo EOF ON EOF.idEOContactInfo = EOF_h_EOF.EOFacilitatorContactInfo_idFacilitatorContactInfo " +
          "WHERE EOF_h_EOF.EOArrangements_idEOArrangements = " + arrangementid;
       ResultSet rs = this.querySql(sql);
-
+   
       try
       {
       	// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
          if(rowCount != 0){
          	// Initialisere array facilArr på størrelsen defineret i "rowCount"
             facilArr = new FacilitatorContactInfo[rowCount];
-
+         
             int i = 0;
             while(rs.next()){
                facilArr[i] = new FacilitatorContactInfo(
@@ -557,7 +557,7 @@ public class EODatabaseInterface {
       {
          events[i] = null;
       }   
-
+   
       try
       {
          for(int i = 0; rs.next(); i++)
@@ -608,7 +608,7 @@ public class EODatabaseInterface {
       {
          events[i] = null;
       }   
-
+   
       try
       {
          for(int i = 0; rs.next(); i++)
@@ -659,7 +659,7 @@ public class EODatabaseInterface {
       {
          eventtypes[i] = null;
       }   
-
+   
       try
       {
          for(int i = 0; rs.next(); i++)
@@ -702,7 +702,7 @@ public class EODatabaseInterface {
       {
          eventtypes[i] = null;
       }   
-
+   
       try
       {
          for(int i = 0; rs.next(); i++)
@@ -734,163 +734,163 @@ public class EODatabaseInterface {
 	 * @param aObj
 	 *
 	 */
-	public boolean createEOArrangement(EOArrangement aObj) {
-         if(debug) System.out.println("createEOArrangement: Start");
-		/* Variabler initialisering start */
-			EOArrangement a 		  = aObj;
-			boolean  returnvalue 	  = false;
-            int      id             = aObj.getId();
-            String 	deletedStatus	  = "2";
-            String 	name 			  = a.getName();
-            String	desc			  = a.getDescription();
-            String	dateStart		  =  formatLocalDateTime(a.getDateTimeStart());
-            String	dateEnd			  = formatLocalDateTime(a.getDateTimeEnd());
-            String  price 			  = Double.toString(a.getPrice());
-            boolean doneStatus		  = a.isDone();
-            int 	doneStatusInt	  = 0;
-            boolean payedStatus		  = a.isPayed();
-            int 	payedStatusInt	  = 0;
-
-			String	 SQLEOArrangements= "";
-			boolean  SQLEOArrangementsStatus = false;
-
-			String   SQLEOArrangements_has_EOContactInfo = "";
-			boolean  SQLEOArrangements_has_EOContactInfoStatus = false;
-
-			String   SQLEOArrangements_has_EOEvents = "";
-			boolean  SQLEOArrangements_has_EOEventsStatus = true;
-
-			String   SQLEOArrangements_has_EOFacilitatorContactInfo = "";
-            boolean  SQLEOArrangements_has_EOFacilitatorContactInfoStatus = true;
-
-			if(doneStatus){
-				// Får værdien 2 hvis den arrangementet er afholdt
-				doneStatusInt = 2;
-			}else{
-				// Får værdien 3 hvis arrangementet IKKE er afholdt
-				doneStatusInt = 3;
-			}
-			if(payedStatus){
-				// Får værdien 2 hvis arrangementet er betalt
-				payedStatusInt = 2;
-			}else{
-				// Får værdien 3 hvis arrangementet IKKE er betalt
-				payedStatusInt = 3;
-			}
-		/* Variable initialisering slut */
-
-
-
-
-		/* Array variables initialisering slut */
-
-		/* Konsol test facilitatorsarray */
-		/*
-			for(int i = 0; i < facilArrSize; i++){
-				if(facilArr[i] != null){
-					System.out.println(facilArr[i].getInfo());
-				}
-			}
-		*/
+   public boolean createEOArrangement(EOArrangement aObj) {
+      if(debug) System.out.println("createEOArrangement: Start");
+   	/* Variabler initialisering start */
+      EOArrangement a 		  = aObj;
+      boolean  returnvalue 	  = false;
+      int      id             = aObj.getId();
+      String 	deletedStatus	  = "2";
+      String 	name 			  = a.getName();
+      String	desc			  = a.getDescription();
+      String	dateStart		  =  formatLocalDateTime(a.getDateTimeStart());
+      String	dateEnd			  = formatLocalDateTime(a.getDateTimeEnd());
+      String  price 			  = Double.toString(a.getPrice());
+      boolean doneStatus		  = a.isDone();
+      int 	doneStatusInt	  = 0;
+      boolean payedStatus		  = a.isPayed();
+      int 	payedStatusInt	  = 0;
+   
+      String	 SQLEOArrangements= "";
+      boolean  SQLEOArrangementsStatus = false;
+   
+      String   SQLEOArrangements_has_EOContactInfo = "";
+      boolean  SQLEOArrangements_has_EOContactInfoStatus = false;
+   
+      String   SQLEOArrangements_has_EOEvents = "";
+      boolean  SQLEOArrangements_has_EOEventsStatus = true;
+   
+      String   SQLEOArrangements_has_EOFacilitatorContactInfo = "";
+      boolean  SQLEOArrangements_has_EOFacilitatorContactInfoStatus = true;
+   
+      if(doneStatus){
+      		// Får værdien 2 hvis den arrangementet er afholdt
+         doneStatusInt = 2;
+      }else{
+      		// Får værdien 3 hvis arrangementet IKKE er afholdt
+         doneStatusInt = 3;
+      }
+      if(payedStatus){
+      		// Får værdien 2 hvis arrangementet er betalt
+         payedStatusInt = 2;
+      }else{
+      		// Får værdien 3 hvis arrangementet IKKE er betalt
+         payedStatusInt = 3;
+      }
+   	/* Variable initialisering slut */
+   
+   
+   
+   
+   	/* Array variables initialisering slut */
+   
+   	/* Konsol test facilitatorsarray */
+   	/*
+   		for(int i = 0; i < facilArrSize; i++){
+   			if(facilArr[i] != null){
+   				System.out.println(facilArr[i].getInfo());
+   			}
+   		}
+   	*/
         // BYG SQL INSERT STATEMENT FOR ARRANGEMENT
-        if(id == -1)
-        {
-           SQLEOArrangements                    = "INSERT INTO EOArrangements ";
-           SQLEOArrangements                   += "(name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) ";
-           SQLEOArrangements                   += "VALUES ('"+name+"', '"+desc+"', '" + dateStart + "',  '" + dateEnd + "', "+price+", " + Integer.toString(payedStatusInt) +", " + Integer.toString(doneStatusInt) +");";
-        }
-        else
-        {
-           SQLEOArrangements                    = "INSERT INTO EOArrangements ";
-           SQLEOArrangements                   += "(idEOArrangements, name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) ";
-           SQLEOArrangements                   += "VALUES (" + Integer.toString(id) + ", '"+name+"', '"+desc+"', '" + dateStart + "',  '" + dateEnd + "', "+price+", " + Integer.toString(payedStatusInt) +", " + Integer.toString(doneStatusInt) +");";
-        }
+      if(id == -1)
+      {
+         SQLEOArrangements                    = "INSERT INTO EOArrangements ";
+         SQLEOArrangements                   += "(name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) ";
+         SQLEOArrangements                   += "VALUES ('"+name+"', '"+desc+"', '" + dateStart + "',  '" + dateEnd + "', "+price+", " + Integer.toString(payedStatusInt) +", " + Integer.toString(doneStatusInt) +");";
+      }
+      else
+      {
+         SQLEOArrangements                    = "INSERT INTO EOArrangements ";
+         SQLEOArrangements                   += "(idEOArrangements, name, description, dateTimeStart, dateTimeEnd, price, ispayed, isdone) ";
+         SQLEOArrangements                   += "VALUES (" + Integer.toString(id) + ", '"+name+"', '"+desc+"', '" + dateStart + "',  '" + dateEnd + "', "+price+", " + Integer.toString(payedStatusInt) +", " + Integer.toString(doneStatusInt) +");";
+      }
         // EKSEKVER SQL STATEMENT FOR ARRANGEMENT
-        if(executeSql(SQLEOArrangements) == 1) SQLEOArrangementsStatus = true;
-        if(debug == true) System.out.println("Created Arrangement");
-
+      if(executeSql(SQLEOArrangements) == 1) SQLEOArrangementsStatus = true;
+      if(debug == true) System.out.println("Created Arrangement");
+   
         // HENT SENESTE ID TIL VIDERE BYGNING AF SQL STATEMENTS
-        if(id == -1) id = this.getLastId("EOArrangements", "idEOArrangements");
-        if(aObj.getCustomer() != null)
-        {
-            this.createCustomerContactInfo(aObj.getCustomer());
-        }
-        if(debug == true) System.out.println("Created CustomerContactInfo");
-        int custID = this.getLastId("EOCustomerContactInfo", "idEOContactInfo");
-
+      if(id == -1) id = this.getLastId("EOArrangements", "idEOArrangements");
+      if(aObj.getCustomer() != null)
+      {
+         this.createCustomerContactInfo(aObj.getCustomer());
+      }
+      if(debug == true) System.out.println("Created CustomerContactInfo");
+      int custID = this.getLastId("EOCustomerContactInfo", "idEOContactInfo");
+   
        // LAV INSERT I KRYDSTABEL
-       SQLEOArrangements_has_EOContactInfoStatus = this.createLink(
+      SQLEOArrangements_has_EOContactInfoStatus = this.createLink(
                 "EOArrangements_has_EOContactInfo",
                "EOArrangements_idEOArrangements",
                 id,
                "EOCustomerContactInfo_idCustomerContactInfo",
                 custID
-        );
-       if(debug == true) System.out.println("Created Link: EOArrangements_has_EOContactInfo");
-
-
-		/* Array variables initialisering start */
-			System.out.println("+++++++++++++++++++++++createEOArrangement");
-         EOEvent[] eventsArr		  = aObj.getEvents();
-         if(eventsArr != null)
-         {
-			System.out.println("+++++++++++++++++++++++createEOArrangement 1");
-			   int eventsArrSize 		  = eventsArr.length;
+         );
+      if(debug == true) System.out.println("Created Link: EOArrangements_has_EOContactInfo");
+   
+   
+   	/* Array variables initialisering start */
+      System.out.println("+++++++++++++++++++++++createEOArrangement");
+      EOEvent[] eventsArr		  = aObj.getEvents();
+      if(eventsArr != null)
+      {
+         System.out.println("+++++++++++++++++++++++createEOArrangement 1");
+         int eventsArrSize 		  = eventsArr.length;
               // BYG OG EKSEKVER EVENTS FORBUNDET TIL ARRANGEMENT
-              for(int i = 0; i < eventsArrSize; i++){
-              System.out.println("+++");
-                  if(eventsArr[i] != null){
+         for(int i = 0; i < eventsArrSize; i++){
+            System.out.println("+++");
+            if(eventsArr[i] != null){
                      //System.out.println(eventsArr[i].getPrice());
-                     SQLEOArrangements_has_EOEventsStatus = false;
-      
+               SQLEOArrangements_has_EOEventsStatus = false;
+            
                      // LAV EVENT
-                     this.createEOEvent(eventsArr[i]);
+               this.createEOEvent(eventsArr[i]);
                      // HENT SENESTE EVENT ID
-                     System.out.println("this.getLastId(");
-                     int eventID = this.getLastId("EOEvents", "idEOEvents");
+               System.out.println("this.getLastId(");
+               int eventID = this.getLastId("EOEvents", "idEOEvents");
                      // LAV INSERT I KRYDSTABEL
-                     SQLEOArrangements_has_EOEventsStatus = this.createLink(
+               SQLEOArrangements_has_EOEventsStatus = this.createLink(
                        "EOArrangements_has_EOEvents",
                        "EOArrangements_idEOArrangements",
                               id,
                        "EOEvents_idEOEvents",
                              eventID
                      ) && SQLEOArrangements_has_EOEventsStatus;
-                     System.out.println("LINK CREATED" + Integer.toString(id) + " " + Integer.toString(eventID));
-      
-                     if(debug == true) System.out.println("Created Link: EOArrangements_has_EOEvents");
-                  }
-              }
-			System.out.println("+++++++++++++++++++++++createEOArrangement 2");
+               System.out.println("LINK CREATED" + Integer.toString(id) + " " + Integer.toString(eventID));
+            
+               if(debug == true) System.out.println("Created Link: EOArrangements_has_EOEvents");
+            }
          }
-
-			FacilitatorContactInfo[] facilArr = aObj.getFacilitators();
-         if(facilArr != null)
-         {
-			   int facilArrSize = facilArr.length;
+         System.out.println("+++++++++++++++++++++++createEOArrangement 2");
+      }
+   
+      FacilitatorContactInfo[] facilArr = aObj.getFacilitators();
+      if(facilArr != null)
+      {
+         int facilArrSize = facilArr.length;
               // BYG OG EKSEKVER FACILITAORCONTACTINFO FORBUNDET TIL ARRANGEMENT
-              for(int i = 0; i < facilArrSize; i++){
-                  if(facilArr[i] != null){
-      
+         for(int i = 0; i < facilArrSize; i++){
+            if(facilArr[i] != null){
+            
                       // LAV INSERT I KRYDSTABEL
-                     SQLEOArrangements_has_EOFacilitatorContactInfoStatus = SQLEOArrangements_has_EOFacilitatorContactInfoStatus && this.createLink(
+               SQLEOArrangements_has_EOFacilitatorContactInfoStatus = SQLEOArrangements_has_EOFacilitatorContactInfoStatus && this.createLink(
                               "EOArrangements_has_EOFacilitatorContactInfo",
                               "EOArrangements_idEOArrangements",
                               id,
                               "EOFacilitatorContactInfo_idFacilitatorContactInfo",
                               facilArr[i].getId()
                       );
-      
-                      if(debug == true) System.out.println("Created Link: EOArrangements_has_EOFacilitatorContactInfo");
-                  }
-              }
+            
+               if(debug == true) System.out.println("Created Link: EOArrangements_has_EOFacilitatorContactInfo");
+            }
          }
-
-
-         if(debug) System.out.println("createEOArrangement: End");
+      }
+   
+   
+      if(debug) System.out.println("createEOArrangement: End");
         // Sammenlæg alle SQLExecutes boolean værdier og set returnvalue herefter. Oversat: Hvis alle SQLExecutes er korrekt eksekveret sættes den returnvalue til true;
-        return SQLEOArrangementsStatus && SQLEOArrangements_has_EOContactInfoStatus && SQLEOArrangements_has_EOEventsStatus && SQLEOArrangements_has_EOFacilitatorContactInfoStatus;
-	}
+      return SQLEOArrangementsStatus && SQLEOArrangements_has_EOContactInfoStatus && SQLEOArrangements_has_EOEventsStatus && SQLEOArrangements_has_EOFacilitatorContactInfoStatus;
+   }
 
 
 	/**
@@ -995,7 +995,7 @@ public class EODatabaseInterface {
       //We also delete the customercontact info, since one cannot exist without an arrangement
       if(arrangement.getCustomer() != null)
       {
-          deleteCustomerContactInfo(arrangement.getCustomer());
+         deleteCustomerContactInfo(arrangement.getCustomer());
       }
       
       return(executeSql("DELETE FROM EOArrangements WHERE EOArrangements.idEOArrangements = " + arrangementid) == 1 && 
@@ -1009,89 +1009,89 @@ public class EODatabaseInterface {
      *
      *
 	 */
-      public boolean createEOEvent(EOEvent event) {
-         if(debug) System.out.println("createEOEvent: Start");
-         boolean  eventSQLExe = false;
-         int eventID          = event.getId();
-         boolean SQLEOEvents_has_EOEventTypessStatus       = true;
-         boolean SQLEOEvents_has_EOEFacilitatorContactInfo = true;
-
-         String   eventSQL    = "";
-         if(eventID == -1)
-         {
-            eventSQL  = "INSERT INTO EOEvents ";
-            eventSQL += "(description, price, dateTimeStart, dateTimeEnd) ";
-            eventSQL += "VALUES ('"+ event.getDescription() +"',"+ event.getPrice() + ", '" + this.formatLocalDateTime(event.getDateTimeStart()) + "', '" + this.formatLocalDateTime(event.getDateTimeStart()) + "');";
-         }
-         else
-         {
-            eventSQL  = "INSERT INTO EOEvents ";
-            eventSQL += "(idEOEvents, description, price, dateTimeStart, dateTimeEnd) ";
-            eventSQL += "VALUES ("+ Integer.toString(eventID) +", '"+ event.getDescription() +"',"+ event.getPrice() + ", '" + this.formatLocalDateTime(event.getDateTimeStart()) + "', '" + this.formatLocalDateTime(event.getDateTimeStart()) + "');";
-         }
-
-         if(executeSql(eventSQL) == 1) eventSQLExe = true;
-         if(eventID == -1) eventID = this.getLastId("EOEvents", "idEOEvents");
-
-         EOEventType[] eventTypesArr  = event.getEventTypes();
-         System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 1");
-         if(eventTypesArr != null)
-         {
-                  System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 2");
-            int eventTypesArrSize = eventTypesArr.length;
-            if(this.debug) System.out.print("Eventtypes array size: " + eventTypesArrSize);
-
-            // BYG OG EKSEKVER EVENTS FORBUNDET TIL ARRANGEMENT
-            for(int i = 0; i < eventTypesArrSize; i++){
-                     System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 3");
-               if(eventTypesArr[i] != null){
-                        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 4");
-                  //System.out.println(eventsArr[i].getPrice());
-                  SQLEOEvents_has_EOEventTypessStatus = false;
+   public boolean createEOEvent(EOEvent event) {
+      if(debug) System.out.println("createEOEvent: Start");
+      boolean  eventSQLExe = false;
+      int eventID          = event.getId();
+      boolean SQLEOEvents_has_EOEventTypessStatus       = true;
+      boolean SQLEOEvents_has_EOEFacilitatorContactInfo = true;
    
+      String   eventSQL    = "";
+      if(eventID == -1)
+      {
+         eventSQL  = "INSERT INTO EOEvents ";
+         eventSQL += "(description, price, dateTimeStart, dateTimeEnd) ";
+         eventSQL += "VALUES ('"+ event.getDescription() +"',"+ event.getPrice() + ", '" + this.formatLocalDateTime(event.getDateTimeStart()) + "', '" + this.formatLocalDateTime(event.getDateTimeStart()) + "');";
+      }
+      else
+      {
+         eventSQL  = "INSERT INTO EOEvents ";
+         eventSQL += "(idEOEvents, description, price, dateTimeStart, dateTimeEnd) ";
+         eventSQL += "VALUES ("+ Integer.toString(eventID) +", '"+ event.getDescription() +"',"+ event.getPrice() + ", '" + this.formatLocalDateTime(event.getDateTimeStart()) + "', '" + this.formatLocalDateTime(event.getDateTimeStart()) + "');";
+      }
+   
+      if(executeSql(eventSQL) == 1) eventSQLExe = true;
+      if(eventID == -1) eventID = this.getLastId("EOEvents", "idEOEvents");
+   
+      EOEventType[] eventTypesArr  = event.getEventTypes();
+      System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 1");
+      if(eventTypesArr != null)
+      {
+         System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 2");
+         int eventTypesArrSize = eventTypesArr.length;
+         if(this.debug) System.out.print("Eventtypes array size: " + eventTypesArrSize);
+      
+            // BYG OG EKSEKVER EVENTS FORBUNDET TIL ARRANGEMENT
+         for(int i = 0; i < eventTypesArrSize; i++){
+            System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 3");
+            if(eventTypesArr[i] != null){
+               System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEVENTTYPE 4");
+                  //System.out.println(eventsArr[i].getPrice());
+               SQLEOEvents_has_EOEventTypessStatus = false;
+            
                   // LAV INSERT I KRYDSTABEL
-                  SQLEOEvents_has_EOEventTypessStatus = this.createLink(
+               SQLEOEvents_has_EOEventTypessStatus = this.createLink(
                           "EOEvents_has_EOEventtypes",
                           "EOEvents_idEOEvents",
                           eventID,
                           "EOEventtypes_idEOEventtypes",
                           eventTypesArr[i].getId()
                   ) && SQLEOEvents_has_EOEventTypessStatus;
-   
-                  if(debug == true) System.out.println("Created Link: EOEvents_has_EOEventtypes");
-               }
+            
+               if(debug == true) System.out.println("Created Link: EOEvents_has_EOEventtypes");
             }
          }
+      }
          
-
-         FacilitatorContactInfo[] facilArr  = event.getFacilitators();
-         if(facilArr != null)
-         {
-            int facilArrSize = facilArr.length;
+   
+      FacilitatorContactInfo[] facilArr  = event.getFacilitators();
+      if(facilArr != null)
+      {
+         int facilArrSize = facilArr.length;
             // Hvis der er 0 eventttyper på eventet sættes eventTypesArrSize til null
-            if(facilArrSize == 0){
-               facilArr = null;
-            }
+         if(facilArrSize == 0){
+            facilArr = null;
+         }
             // BYG OG EKSEKVER EVENTS FORBUNDET TIL ARRANGEMENT
-            for(int i = 0; i < facilArrSize; i++){
-               if(facilArr[i] != null){   
+         for(int i = 0; i < facilArrSize; i++){
+            if(facilArr[i] != null){   
                   // LAV INSERT I KRYDSTABEL
-                  SQLEOEvents_has_EOEFacilitatorContactInfo = this.createLink(
+               SQLEOEvents_has_EOEFacilitatorContactInfo = this.createLink(
                           "EOEvents_has_EOFacilitatorContactInfo",
                           "EOEvents_idEOEvents",
                           eventID,
                           "EOFacilitatorContactInfo_idEOFacilitatorContactInfo",
                           facilArr[i].getId()
                   ) && SQLEOEvents_has_EOEFacilitatorContactInfo;
-   
-                  if(debug == true) System.out.println("Created Link: EOEvents_has_EOFacilitatorContactInfo");
-               }
+            
+               if(debug == true) System.out.println("Created Link: EOEvents_has_EOFacilitatorContactInfo");
             }
          }
-
-         if(debug) System.out.println("createEOEvent: End");
-         return eventSQLExe && SQLEOEvents_has_EOEFacilitatorContactInfo && SQLEOEvents_has_EOEventTypessStatus;
       }
+   
+      if(debug) System.out.println("createEOEvent: End");
+      return eventSQLExe && SQLEOEvents_has_EOEFacilitatorContactInfo && SQLEOEvents_has_EOEventTypessStatus;
+   }
 
 	/**
 	 * 
@@ -1133,9 +1133,9 @@ public class EODatabaseInterface {
 	 */
    public void deleteEOEvent(int eventid) {
       boolean status = executeSql("DELETE FROM EOEvents WHERE idEOEvents = " + Integer.toString(eventid)) == 1 &&
-      executeSql("DELETE FROM EOArrangements_has_EOEvents WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1 &&
-      executeSql("DELETE FROM EOEvents_has_EOEventtypes WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1 &&
-      executeSql("DELETE FROM EOEvents_has_EOFacilitatorContactInfo WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1;
+         executeSql("DELETE FROM EOArrangements_has_EOEvents WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1 &&
+         executeSql("DELETE FROM EOEvents_has_EOEventtypes WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1 &&
+         executeSql("DELETE FROM EOEvents_has_EOFacilitatorContactInfo WHERE EOEvents_idEOEvents = " + Integer.toString(eventid)) == 1;
    }
 
 	/**
@@ -1145,7 +1145,7 @@ public class EODatabaseInterface {
 	 */
    public boolean createEOEvenType(EOEventType eventtype) {
       boolean  returnvalue 	= false;
-
+   
       int      id            = eventtype.getId();
       String 	deletedStatus = "2";
       String 	name 			  = eventtype.getName();
@@ -1179,7 +1179,7 @@ public class EODatabaseInterface {
          SQL += "'" + time 			+ "',";
          SQL += "'" + price 			+ "')";
       }
-
+   
       
       if(executeSql(SQL) == 1)
       {
@@ -1200,7 +1200,7 @@ public class EODatabaseInterface {
             }
          }
       }
-
+   
       return returnvalue;
    }
    
@@ -1221,7 +1221,7 @@ public class EODatabaseInterface {
 	 */
    public boolean updateEOEvenType(EOEventType eventtype) {
       boolean  returnvalue 	= false;
-
+   
       String 	name 			  = eventtype.getName();
       String	description   = eventtype.getDescription();
       String	locationStart = eventtype.getLocationStart();
@@ -1230,7 +1230,7 @@ public class EODatabaseInterface {
       String   price         = Double.toString(eventtype.getPrice());
       String   id            = Integer.toString(eventtype.getId());
       String	SQL			  = "";
-
+   
       SQL = "UPDATE 'EOEventTypes' SET ";
       SQL += "name='" + name 			+ "',";
       SQL += "description='" + description 			+ "',";
@@ -1239,9 +1239,9 @@ public class EODatabaseInterface {
       SQL += "time='" + time 			+ "',";
       SQL += "price='" + price 			+ "' ";
       SQL += "WHERE idEOEventtypes = " + id ;
-
-
-
+   
+   
+   
       if(executeSql(SQL) == 1){
          returnvalue = true;
          if(eventtype.getExternalContactInfo() != null)
@@ -1262,7 +1262,7 @@ public class EODatabaseInterface {
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1283,7 +1283,7 @@ public class EODatabaseInterface {
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1292,10 +1292,10 @@ public class EODatabaseInterface {
 	 * @param fCIObj
 	 */
    public boolean createFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
-
+   
       FacilitatorContactInfo f = fCIObj;
       boolean  returnvalue 	= false;
-
+   
       int      id          = f.getId();
       String 	deletedStatus	= "2";
       String 	name 			= f.getName();
@@ -1303,7 +1303,7 @@ public class EODatabaseInterface {
       String	email			= f.getEmail();
       String	info			= f.getInfo();
       String	SQL				= "";
-
+   
       if(id == -1)
       {
          SQL += "INSERT INTO 'EOFacilitatorContactInfo' (deletedStatus, name, phone, email, info) VALUES (";
@@ -1323,15 +1323,15 @@ public class EODatabaseInterface {
          SQL += "'" + email 			+ "',";
          SQL += "'" + info 			+ "')";
       }
-
-
-
+   
+   
+   
       if(executeSql(SQL) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1343,17 +1343,17 @@ public class EODatabaseInterface {
       int 	id 			= fCIObj.getId();
       boolean returnvalue = false;
       String 	sql 		= "";
-
+   
       sql += "UPDATE ";
       sql += "'EOFacilitatorContactInfo' SET deletedStatus = '3'";
       sql += " WHERE idEOContactInfo = " + id;
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1365,19 +1365,19 @@ public class EODatabaseInterface {
    public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
       boolean 	returnvalue = false;
       String 	sql 		= "";
-
+   
       sql +=	"UPDATE 'EOFacilitatorContactInfo' SET ";
       sql +=	"name = '" 	+ fCIObj.getName() + "',";
       sql +=	"phone = '"	+ fCIObj.getPhone() + "',";
       sql +=	"email = '"	+ fCIObj.getEmail() + "' ";
       sql +=	"WHERE idEOContactInfo =" + fCIObj.getId();
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1394,7 +1394,7 @@ public class EODatabaseInterface {
          	null,
          	null
          );
-
+   
       return this.getFacilitatorContactInfo(fCIObj);
    }
 
@@ -1405,12 +1405,12 @@ public class EODatabaseInterface {
    public FacilitatorContactInfo getFacilitatorContactInfo(FacilitatorContactInfo fCIObj) {
       FacilitatorContactInfo contactInfo = null;
       String sql = "";
-
+   
       sql += "SELECT * FROM EOFacilitatorContactInfo WHERE idEOContactInfo =";
       sql += fCIObj.getId() + " AND deletedStatus = 2";
-
+   
       ResultSet rs = this.querySql(sql);
-
+   
       try
       {
       	// Iterate through ResultSet
@@ -1426,7 +1426,7 @@ public class EODatabaseInterface {
          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
-
+   
    	// Return CustomerContactInfo
       return contactInfo;
    }
@@ -1437,20 +1437,20 @@ public class EODatabaseInterface {
    public FacilitatorContactInfo[] getAllFacilitatorContactInfo() {
       FacilitatorContactInfo[] facilArr = null;
       int rowCount;
-
+   
       rowCount 	 = 0;
       rowCount 	 = getNotDeletedRowCountFromTable("EOFacilitatorContactInfo");
-
+   
       String sql = "SELECT * FROM EOFacilitatorContactInfo WHERE deletedStatus = 2";
       ResultSet rs = this.querySql(sql);
-
+   
       try
       {
       	// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
          if(rowCount != 0){
          	// Initialisere array facilArr på størrelsen defineret i "rowCount"
             facilArr = new FacilitatorContactInfo[rowCount];
-
+         
             int i = 0;
             while(rs.next()){
                facilArr[i] = new FacilitatorContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"));
@@ -1485,23 +1485,23 @@ public class EODatabaseInterface {
    public boolean updateFacilitatorContactInfo(FacilitatorContactInfo fCIObj, boolean printSqlStatment) {
       boolean 	returnvalue = false;
       String 	sql 		= "";
-
+   
       sql +=	"UPDATE 'EOFacilitatorContactInfo' SET ";
       sql +=	"name = '" 	+ fCIObj.getName() + "',";
       sql +=	"phone = '"	+ fCIObj.getPhone() + "',";
       sql +=	"email = '"	+ fCIObj.getEmail() + "' ";
       sql +=	"WHERE idEOContactInfo =" + fCIObj.getId();
-
+   
       if(printSqlStatment == true){
          System.out.println(sql);
       }
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1513,7 +1513,7 @@ public class EODatabaseInterface {
    public int createExternalContactInfo(ExternalContactInfo cECObj) {
       ExternalContactInfo e 	= cECObj;
       int  returnvalue 	= -1;
-
+   
       String 	deletedStatus	= "2";
       int      id          = e.getId();
       String 	name 			= e.getName();
@@ -1522,7 +1522,7 @@ public class EODatabaseInterface {
       String	info			= e.getInfo();
       String 	company 		= e.getCompany();
       String	SQL				= "";
-
+   
       if(id == -1)
       {
          SQL += "INSERT INTO 'EOExternalContactInfo' (deletedStatus, name, phone, email, info, company) VALUES (";
@@ -1544,13 +1544,13 @@ public class EODatabaseInterface {
          SQL += "'" + info 			+ "',";
          SQL += "'" + company			+ "')";
       }
-
-
+   
+   
       if(executeSql(SQL) == 1)
       {
          returnvalue = getLastId("EOExternalContactInfo", "idEOContactInfo");
       }
-
+   
       return returnvalue;
    }
 
@@ -1562,17 +1562,17 @@ public class EODatabaseInterface {
       int 		id 			= eCIObj.getId();
       boolean 	returnvalue = false;
       String 	sql 		= "";
-
+   
       sql += "UPDATE ";
       sql += "'EOExternalContactInfo' SET deletedStatus = '3'";
       sql += " WHERE idEOContactInfo = " + id;
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1584,19 +1584,19 @@ public class EODatabaseInterface {
    public boolean updateExternalContactInfo(ExternalContactInfo eCIObj) {
       boolean returnvalue = false;
       String sql = "";
-
+   
       sql +=	"UPDATE 'EOExternalContactInfo' SET ";
       sql +=	"name = '" 	+ eCIObj.getName() + "',";
       sql +=	"phone = '"	+ eCIObj.getPhone() + "',";
       sql +=	"email = '"	+ eCIObj.getEmail() + "' ";
       sql +=	"WHERE idEOContactInfo =" + eCIObj.getId();
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 	/**
@@ -1613,7 +1613,7 @@ public class EODatabaseInterface {
          	null,
          	null
          );
-
+   
       return this.getExternalContactInfo(eCIObj);
    }
 	/**
@@ -1623,12 +1623,12 @@ public class EODatabaseInterface {
    public ExternalContactInfo getExternalContactInfo(ExternalContactInfo eCIObj) {
       int id = eCIObj.getId();
       String sql = "";
-
+   
       sql += "SELECT * FROM 'EOExternalContactInfo'";
       sql += "WHERE idEOContactInfo=" + id + " ";
       sql += "AND deletedStatus=2";
    	//System.out.println(sql);
-
+   
       ResultSet rs = this.querySql(sql);
       ExternalContactInfo contactInfo = null;
       try
@@ -1646,7 +1646,7 @@ public class EODatabaseInterface {
          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
-
+   
    	// Return CustomerContactInfo
       return contactInfo;
    }
@@ -1660,20 +1660,20 @@ public class EODatabaseInterface {
    public ExternalContactInfo[] getAllExternalContactInfo() {
       ExternalContactInfo[] extArr = null;
       int rowCount;
-
+   
       rowCount 	 = 0;
       rowCount 	 = getNotDeletedRowCountFromTable("EOExternalContactInfo");
-
+   
       String sql = "SELECT * FROM EOExternalContactInfo WHERE deletedStatus = 2";
       ResultSet rs = this.querySql(sql);
-
+   
       try
       {
       	// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
          if(rowCount != 0){
          	// Initialisere array facilArr på størrelsen defineret i "rowCount"
             extArr = new ExternalContactInfo[rowCount];
-
+         
             int i = 0;
             while(rs.next()){
                extArr[i] = new ExternalContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
@@ -1704,7 +1704,7 @@ public class EODatabaseInterface {
       CustomerContactInfo c 	= cCIObj;
       boolean  returnvalue 	= false;
       String	SQL				= "";
-
+   
       int 	   id	         = c.getId();
       String 	deletedStatus	= "2";
       String 	name 			= c.getName();
@@ -1712,7 +1712,7 @@ public class EODatabaseInterface {
       String	email			= c.getEmail();
       String	company			= c.getCompany();
       String	info			= c.getInfo();
-
+   
       if(id == -1)
       {
          SQL += "INSERT INTO 'EOCustomerContactInfo' (deletedStatus, name, phone, email, company, info) VALUES (";
@@ -1734,14 +1734,14 @@ public class EODatabaseInterface {
          SQL += "'" + company 		+ "',";
          SQL += "'" + info 			+ "')";
       }
-
-
+   
+   
       if(executeSql(SQL) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1753,17 +1753,17 @@ public class EODatabaseInterface {
       int 		id 			= cCIObj.getId();
       boolean 	returnvalue = false;
       String 	sql 		= "";
-
+   
       sql += "UPDATE ";
       sql += "'EOCustomerContactInfo' SET deletedStatus = '3'";
       sql += " WHERE idEOContactInfo = " + id;
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 
@@ -1773,7 +1773,7 @@ public class EODatabaseInterface {
    public boolean updateCustomerContactInfo(CustomerContactInfo cCIObj) {
       boolean 	returnvalue = false;
       String 	sql 		= "";
-
+   
       sql +=	"UPDATE 'EOCustomerContactInfo' SET ";
       sql +=	"name = '" 	+ cCIObj.getName() + "',";
       sql +=	"phone = '"	+ cCIObj.getPhone() + "',";
@@ -1781,13 +1781,13 @@ public class EODatabaseInterface {
       sql +=	"company = '"	+ cCIObj.getCompany() + "', ";
       sql +=	"info = '"	+ cCIObj.getInfo() + "' ";
       sql +=	"WHERE idEOContactInfo =" + cCIObj.getId();
-
+   
       if(this.executeSql(sql) == 1){
          returnvalue = true;
       }else{
          returnvalue = false;
       }
-
+   
       return returnvalue;
    }
 	/**
@@ -1804,7 +1804,7 @@ public class EODatabaseInterface {
          null,
          null
          );
-
+   
       return this.getCustomerContactInfo(cCIObj);
    }
 	/**
@@ -1814,17 +1814,17 @@ public class EODatabaseInterface {
    public CustomerContactInfo getCustomerContactInfo(CustomerContactInfo cCIObj) {
       String sql  = "";
       int id 		= cCIObj.getId();
-
+   
       sql += "SELECT * FROM 'EOCustomerContactInfo'";
       sql += "WHERE idEOContactInfo=" + id + " ";
       sql += "AND deletedStatus=2";
-
+   
       ResultSet rs = this.querySql(sql);
-
+   
       CustomerContactInfo contactInfo = null;
       try
       {
-
+      
       	// Iterate through ResultSet
          while(rs.next())
          {
@@ -1838,7 +1838,7 @@ public class EODatabaseInterface {
          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
          System.exit(0);
       }
-
+   
    	// Return CustomerContactInfo
       return contactInfo;
    }
@@ -1850,20 +1850,20 @@ public class EODatabaseInterface {
    public CustomerContactInfo[] getAllCustomerContactInfo() {
       CustomerContactInfo[] extArr = null;
       int rowCount;
-
+   
       rowCount 	 = 0;
       rowCount 	 = getNotDeletedRowCountFromTable("EOCustomerContactInfo");
-
+   
       String sql = "SELECT * FROM EOCustomerContactInfo WHERE deletedStatus = 2";
       ResultSet rs = this.querySql(sql);
-
+   
       try
       {
       	// Hvis der IKKE returneres 0 rækker (Hvis tabellen ikke er tom)
          if(rowCount != 0){
          	// Initialisere array facilArr på størrelsen defineret i "rowCount"
             extArr = new CustomerContactInfo[rowCount];
-
+         
             int i = 0;
             while(rs.next()){
                extArr[i] = new CustomerContactInfo(rs.getInt("idEOContactInfo"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("info"), rs.getString("company"));
@@ -1903,11 +1903,11 @@ public class EODatabaseInterface {
       catch (Exception e)
       {
          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-
+      
       	//System.exit(0);
       }
       this.closeConnection(rs);
-
+   
       return rowCount;
    }
 
@@ -1935,67 +1935,67 @@ public class EODatabaseInterface {
       return(returnvalue);
    }
 
-	private int executeSql(String sql)
-	{
-	  int returnvalue = -1;
-	  PreparedStatement pstmt = null;
+   private int executeSql(String sql)
+   {
+      int returnvalue = -1;
+      PreparedStatement pstmt = null;
+   
+      try
+      {
+         conn = DriverManager.getConnection(this.dbPathRelative);
+         if(this.debug) System.out.println("DB CONNECTION OPENED");
+      
+         pstmt = conn.prepareStatement(sql);
+      
+         if(this.debug) System.out.println("executeSql: EXECUTING SQL ... " + sql);
+         returnvalue = pstmt.executeUpdate();
+      
+         if(this.debug) System.out.println("SQL SUCCESS: " + returnvalue);
+       //System.out.println(returnvalue);
+         if(this.debug) System.out.println("CLOSING DB CONNECTION ...");
+      
+         if(conn != null)
+         {
+            conn.close();
+            if(this.debug) System.out.println("DB CONNECTION CLOSED");
+         }
+      
+      }
+      catch (Exception e)
+      {
+         System.err.println("executeSql: " + e.getClass().getName() + ": " + e.getMessage() + " Sql: " + sql);
+      
+         returnvalue = -1;
+       //System.exit(0);
+      }
+      return(returnvalue);
+   }
 
-	  try
-	  {
-		 conn = DriverManager.getConnection(this.dbPathRelative);
-		 if(this.debug) System.out.println("DB CONNECTION OPENED");
-
-		 pstmt = conn.prepareStatement(sql);
-
-		 if(this.debug) System.out.println("executeSql: EXECUTING SQL ... " + sql);
-		 returnvalue = pstmt.executeUpdate();
-
-		 if(this.debug) System.out.println("SQL SUCCESS: " + returnvalue);
-		 //System.out.println(returnvalue);
-		 if(this.debug) System.out.println("CLOSING DB CONNECTION ...");
-
-		  if(conn != null)
-		  {
-			  conn.close();
-			  if(this.debug) System.out.println("DB CONNECTION CLOSED");
-		  }
-
-	  }
-	  catch (Exception e)
-	  {
-		 System.err.println("executeSql: " + e.getClass().getName() + ": " + e.getMessage() + " Sql: " + sql);
-
-		  returnvalue = -1;
-		 //System.exit(0);
-	  }
-	  return(returnvalue);
-	}
-
-    private ResultSet querySql(String sql)
-    {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try
-		{
-			//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-			conn = DriverManager.getConnection(this.dbPathRelative);
-			if(this.debug) System.out.println("DB CONNECTION OPENED");
-
-			pstmt = conn.prepareStatement(sql);
-
-			if(this.debug) System.out.println("querySql EXECUTING SQL QUERY ... " + sql);
-			rs = pstmt.executeQuery();
-
-			return rs;
-		}
-		catch (Exception e)
-		{
-			System.err.println("querySql: " + e.getClass().getName() + ": " + e.getMessage() + " Sql: " + sql);
-			System.exit(0);
-		}
-		return rs;
-    }
+   private ResultSet querySql(String sql)
+   {
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+   
+      try
+      {
+      	//conn = DriverManager.getConnection("jdbc:sqlite:database.db");
+         conn = DriverManager.getConnection(this.dbPathRelative);
+         if(this.debug) System.out.println("DB CONNECTION OPENED");
+      
+         pstmt = conn.prepareStatement(sql);
+      
+         if(this.debug) System.out.println("querySql EXECUTING SQL QUERY ... " + sql);
+         rs = pstmt.executeQuery();
+      
+         return rs;
+      }
+      catch (Exception e)
+      {
+         System.err.println("querySql: " + e.getClass().getName() + ": " + e.getMessage() + " Sql: " + sql);
+         System.exit(0);
+      }
+      return rs;
+   }
 
    private void closeConnection(ResultSet rs)
    {

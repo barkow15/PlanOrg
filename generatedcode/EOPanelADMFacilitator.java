@@ -151,9 +151,9 @@ public class EOPanelADMFacilitator extends EOPanel {
    
       //ADM Facilitator text
       JTextArea admFacilitatorTextArea = new JTextArea(
-              "Tryk paa en Facalitator fra listen for at redigere eller slette oprettede facilitatorer.\n\n"+
-                      "Tryk paa Gem Redigering, naar du er slut med at redigereen facilitator for at gemme updateringen.\n\n"+
-                      "Ellers kan kan man oprette en ny facilitater ved at udfylde felterne, og trykke paa Opret Ny Facilitator.");
+              "Tryk på en Facilitator fra listen for at redigere eller slette oprettede facilitatorer.\n\n"+
+                      "Tryk på Gem Redigering, når du er færdig med at redigere facilitatoren.\n\n"+
+                      "Ellers kan kan man oprette en ny facilitater ved at udfylde felterne, og trykke på Opret Ny Facilitator.");
       admFacilitatorTextArea.setFont(this.gui.getFontsmall());
       admFacilitatorTextArea.setLineWrap(true);
       admFacilitatorTextArea.setWrapStyleWord(true);
@@ -217,15 +217,10 @@ public class EOPanelADMFacilitator extends EOPanel {
             }
          
          }
-      
-      
-         System.out.println("1");
          if(facilitatorEnum == EOOperation.ADMFACILITATOR)
          {
-            System.out.println("2"+EOOperation.ADMFACILITATOR.getData());
             if(EOOperation.ADMFACILITATOR.getData() instanceof FacilitatorContactInfo[])
             {
-               System.out.println("3");
                admFacilitatorMultiselect.setList((FacilitatorContactInfo[])EOOperation.ADMFACILITATOR.getData());
             }
          }

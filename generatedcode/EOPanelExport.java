@@ -97,7 +97,7 @@ public class EOPanelExport extends EOPanel {
       exportdone.setBounds(330, 320, 150, 20);
    //      this.add(exportdone);
       
-      JButton exportfacilitatorarrangementbutton = new JButton("<html>Eksporter de arangementer som den/de<br/>valgte facilitatorer er tilknyttet</html>");
+      JButton exportfacilitatorarrangementbutton = new JButton("<html>Eksporter de arangementer som den<br/>valgte facilitatorer er tilknyttet</html>");
       exportfacilitatorarrangementbutton.setBounds(330, 300, 300, 60);
       exportfacilitatorarrangementbutton.addActionListener(
                new ActionListener()
