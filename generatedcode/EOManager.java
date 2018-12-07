@@ -121,6 +121,15 @@ public class EOManager {
             gui.getBreadcrumb().reset();
             gui.getBreadcrumb().push(EOOperation.CREATEARRANGEMENT);
             break;
+         case SAVECREATEARRANGMENT:
+            if(EOOperation.SAVECREATEARRANGMENT.getData() instanceof EOArrangement)
+            {
+               db.createEOArrangement((EOArrangement) EOOperation.SAVECREATEARRANGMENT.getData());
+               EOOperation.START.setData(db.getEOArrangements(false));
+               operation = EOOperation.START;
+               gui.getBreadcrumb().reset();
+            }
+            break;
          case SAVEUPDATEARRANGEMENT:
             if(EOOperation.SAVEUPDATEARRANGEMENT.getData() instanceof EOArrangement)
             {

@@ -58,7 +58,9 @@ public class EOPanelCreateArrangement extends EOPanel {
                {
                   public void actionPerformed(ActionEvent e)
                   {
-                     gui.runCommand(EOOperation.START);
+                     updateArrangementObj();
+                     EOOperation.SAVECREATEARRANGMENT.setData(getCurrentArrangement());
+                     gui.runCommand(EOOperation.SAVECREATEARRANGMENT);
                   }
                });
       this.add(createbutton);
@@ -163,7 +165,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                      }
                      else
                      {
-                        gui.dialogbox("Du skal vælge en begivenhed for at kunne slette den.");
+                        gui.dialogbox("Du skal vï¿½lge en begivenhed for at kunne slette den.");
                      }
                   }
                });
@@ -184,7 +186,7 @@ public class EOPanelCreateArrangement extends EOPanel {
                      }
                      else
                      {
-                        gui.dialogbox("Du skal vælge en begivenhed for at kunne opdatere den.");
+                        gui.dialogbox("Du skal vï¿½lge en begivenhed for at kunne opdatere den.");
                      }
                   }
                });

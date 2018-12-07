@@ -7,6 +7,7 @@ public enum EOOperation {
    
    CREATEARRANGEMENT (null, "Opret Arrangement", EODisplayType.CREATEARRANGEMENT), //Marcus
    UPDATEARRANGEMENT (null, "Opdater Arrangement", EODisplayType.UPDATEARRANGEMENT), //Marcus
+   SAVECREATEARRANGMENT(null, "Opret Arrangement", EODisplayType.START), // Philip
    SAVEUPDATEARRANGEMENT (null, "Opdater Arrangement", EODisplayType.START), //Marcus
    DELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT), //Marcus
    SAVEDELETEARRANGEMENT (null, "Slet Arrangement", EODisplayType.DELETEARRANGEMENT), //Marcus
