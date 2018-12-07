@@ -111,4 +111,9 @@ public class EOEventType implements EOCSVInterface, EOGUIMultiSelectInterface {
       return(returnvar || super.equals(obj));
    }   
 
+   @Override      
+   public int hashCode()
+   {
+      return(getId()+1500000001);
+   }   
 }

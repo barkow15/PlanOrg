@@ -128,5 +128,10 @@ public abstract class ContactInfo implements EOGUIMultiSelectInterface, EOCSVInt
          }
       }
       return(returnvar || super.equals(obj));
-   }    
+   }
+   
+   public int hashCode()
+   {
+      return(getId()+1);
+   }
 }

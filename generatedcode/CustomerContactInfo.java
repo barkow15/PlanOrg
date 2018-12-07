@@ -24,5 +24,27 @@ public class CustomerContactInfo extends ContactInfo  {
    {
       System.out.println("CustomerContactInfo.exportCSV()");
       return(super.exportCSV("CustomerContactInfo") + ", " + EOCSV.formatField(getCompany()) + "\n");
+   }
+
+   @Override   
+   public boolean equals(Object obj)
+   {
+      boolean returnvar = false;
+      //Ref: https://stackoverflow.com/questions/6304056/does-instanceof-return-true-if-instance-of-a-parent
+      if(obj instanceof CustomerContactInfo)
+      {
+         ContactInfo f = (ContactInfo) obj;
+         if(this.getId() != -1 && f.getId() == this.getId())
+         {
+            returnvar = true;
+         }
+      }
+      return(returnvar || super.equals(obj));
+   }
+
+   @Override      
+   public int hashCode()
+   {
+      return(getId()+250000001);
    }   
 }

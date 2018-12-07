@@ -254,7 +254,13 @@ public class EOArrangement implements EOCSVInterface, EOGUIMultiSelectInterface 
       }
       return(returnvar || super.equals(obj));
    }
-   
+
+   @Override      
+   public int hashCode()
+   {
+      return(getId()+1000000001);
+   }   
+
    public void addEvent(EOEvent event)
    {
       if(this.events == null)

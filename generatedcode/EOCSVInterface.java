@@ -8,5 +8,7 @@ public interface EOCSVInterface {
    Returns a CSV line with the different fields in the object.
    */
    String exportCSV();
+   int hashCode();
+   boolean equals(Object obj);
 
 }
