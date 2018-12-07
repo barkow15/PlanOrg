@@ -111,6 +111,8 @@ public class EOPanelOpenArrangement extends EOPanel {
       
       descriptionjtextarea=new JTextArea();
       descriptionjtextarea.setEditable(false);  
+      descriptionjtextarea.setLineWrap(true);
+      descriptionjtextarea.setWrapStyleWord(true);
       descriptionjtextarea.setBounds(650, 180, 300, 170);
       descriptionjtextarea.setBorder(gui.getDefaultBorder());
       descriptionjtextarea.setFont(this.gui.getFontsmall());
@@ -197,7 +199,9 @@ public class EOPanelOpenArrangement extends EOPanel {
       this.add(customerinfolabel);
       
       customerinfojtextarea=new JTextArea();
-      customerinfojtextarea.setEditable(false);  
+      customerinfojtextarea.setEditable(false);
+      customerinfojtextarea.setLineWrap(true);
+      customerinfojtextarea.setWrapStyleWord(true);
       customerinfojtextarea.setBounds(970, 510, 300, 130);
       customerinfojtextarea.setBorder(gui.getDefaultBorder());
       customerinfojtextarea.setFont(this.gui.getFontsmall());
@@ -230,16 +234,31 @@ public class EOPanelOpenArrangement extends EOPanel {
                customerfirmtextfield.setText(arrangement.getCustomer().getCompany());
                customerinfojtextarea.setText(arrangement.getCustomer().getInfo());
             }
+            else
+            {
+               customertextfield.setText("");
+               customeremailtextfield.setText("");
+               customerphonenumertextfield.setText("");
+               customerfirmtextfield.setText("");
+               customerinfojtextarea.setText("");
+            }
             descriptionjtextarea.setText(arrangement.getDescription());
             if(arrangement.getFacilitators() != null)
             {
                facilitatormultiselect.setList(arrangement.getFacilitators());
             }
+            else
+            {
+               facilitatormultiselect.setList(null);
+            }
             if(arrangement.getEvents() != null)
             {
                eventmultiselect.setList(arrangement.getEvents());
             }
-         
+            else
+            {
+               eventmultiselect.setList(null);
+            }
          
          }
       }

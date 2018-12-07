@@ -814,18 +814,19 @@ public class EODatabaseInterface {
       if(aObj.getCustomer() != null)
       {
          this.createCustomerContactInfo(aObj.getCustomer());
+         if(debug == true) System.out.println("Created CustomerContactInfo");
+         int custID = this.getLastId("EOCustomerContactInfo", "idEOContactInfo");
+      
+          // LAV INSERT I KRYDSTABEL
+         SQLEOArrangements_has_EOContactInfoStatus = this.createLink(
+                   "EOArrangements_has_EOContactInfo",
+                  "EOArrangements_idEOArrangements",
+                   id,
+                  "EOCustomerContactInfo_idCustomerContactInfo",
+                   custID
+            );
       }
-      if(debug == true) System.out.println("Created CustomerContactInfo");
-      int custID = this.getLastId("EOCustomerContactInfo", "idEOContactInfo");
-   
-       // LAV INSERT I KRYDSTABEL
-      SQLEOArrangements_has_EOContactInfoStatus = this.createLink(
-                "EOArrangements_has_EOContactInfo",
-               "EOArrangements_idEOArrangements",
-                id,
-               "EOCustomerContactInfo_idCustomerContactInfo",
-                custID
-         );
+
       if(debug == true) System.out.println("Created Link: EOArrangements_has_EOContactInfo");
    
    

@@ -127,6 +127,7 @@ public class EOManager {
             {
                db.createEOArrangement((EOArrangement) EOOperation.SAVECREATEARRANGMENT.getData());
                EOOperation.START.setData(db.getEOArrangements(false));
+               EOOperation.CREATEARRANGEMENT.setData(null);
                operation = EOOperation.START;
                gui.getBreadcrumb().reset();
             }

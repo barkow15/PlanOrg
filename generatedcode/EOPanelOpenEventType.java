@@ -160,6 +160,8 @@ public class EOPanelOpenEventType extends EOPanel {
    
    
       externalcontactenotejtextarea = new JTextArea();
+      externalcontactenotejtextarea.setLineWrap(true);
+      externalcontactenotejtextarea.setWrapStyleWord(true);
       externalcontactenotejtextarea.setBounds(650, 220, 300, 200);
       externalcontactenotejtextarea.setFont(this.gui.getFontsmall());
       externalcontactenotejtextarea.setBorder(gui.getDefaultBorder());

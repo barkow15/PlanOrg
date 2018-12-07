@@ -83,6 +83,8 @@ public class EOPanelOpenFacilitator extends EOPanel {
    
    
       notesText = new JTextArea();
+      notesText.setLineWrap(true);
+      notesText.setWrapStyleWord(true);
       notesText.setEditable(false);          
       notesText.setBounds(450,350,300,150);
       this.add(notesText);
