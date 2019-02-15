@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 * It gets the data from the user interface, and translate this into data that is handed over to the database.
 */
 public class EOManager {
-   EOGUI               gui;
-   EODatabaseInterface db;
+   EOGUI                gui;
+   LogicDBInterface     db;
    
    public EOManager()
    {
